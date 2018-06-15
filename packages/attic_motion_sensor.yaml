@@ -31,7 +31,7 @@ motion_sensor_attic_package:
   binary_sensor:
     - platform: template
       sensors:
-        front_door_motion:
+        motion_sensor_attic_motion:
           value_template: "{{ is_state(' sensor.motion_sensor_attic_burglar', '8') }}"
           friendly_name: "Attic Multisensor Motion"
           device_class: motion
@@ -88,25 +88,25 @@ motion_sensor_attic_package:
       binary_sensor.motion_sensor_attic_tamper:
         friendly_name: Tamper
 		
-      binary_sensor.front_door_motion:
+      binary_sensor.motion_sensor_attic_motion:
         friendly_name: Basement Hall Motion
         group:
           group.motion_sensor_attic:  
             friendly_name: Motion
           group.motionsensors:  
-            friendly_name: Basement Hall
+            friendly_name: Attic
 
       group.motion_sensor_attic:
         group:
           group.motion_sensors:
-            friendly_name: Basement Hall Alarm
+            friendly_name: Attic Alarm
 
   group:
     motion_sensor_attic:
       name: Basement Hall MultiSensor
       control: hidden
       entities:
-        - binary_sensor.front_door_motion
+        - binary_sensor.motion_sensor_attic_motion
         - binary_sensor.motion_sensor_attic_tamper
         - sensor.motion_sensor_attic_luminance
         - sensor.motion_sensor_attic_relative_humidity
