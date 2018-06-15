@@ -805,7 +805,10 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   - condition: state
-    entity_id: binary_sensor.people_home
+    entity_id: input_boolean.guests_present
+    state: 'on'
+  - condition: state
+    entity_id: group.primary_presence
     state: 'off'
   action:
   - service: notify.pushbullet_notifications
