@@ -95,11 +95,11 @@
           {{ ( t.hour + t.minute / 60 ) > ( 8.33 - states.sensor.time_to_navy_base.state | int / 60) }}
         friendly_name: 'Time to leave for Navy Base'
 
-      battery_front_door_motion:
-        value_template: '{{ states.zwave.motion_sensor_front_door.attributes.battery_level|default(0) }}'
-        friendly_name: "Front Door Motion Motion Sensor Battery Level"
-        entity_id:  zwave.motion_sensor_front_door
-        unit_of_measurement: '%'
+#      battery_front_door_motion:
+#        value_template: '{{ states.zwave.motion_sensor_front_door.attributes.battery_level|default(0) }}'
+#        friendly_name: "Front Door Motion Motion Sensor Battery Level"
+#        entity_id:  zwave.motion_sensor_front_door
+#        unit_of_measurement: '%'
 #        icon_template: >
 #          {% set battery_level = states.zwave.motion_sensor_front_door.attributes.battery_level | default(0) | int %}
 #          {% set battery_round = (battery_level / 10) |int * 10 %}
