@@ -4,7 +4,7 @@ motion_sensor_front_door_package:
     - platform: template
       sensors:
         motion_sensor_front_door_battery:
-          friendly_name: "Basement Hall Multisensor Battery"
+          friendly_name: "Front Door Multisensor Battery"
           value_template: "{% if states.zwave.motion_sensor_front_door %}
               {{ states.zwave.motion_sensor_front_door.attributes.battery_level }}
             {% else %}
@@ -33,13 +33,13 @@ motion_sensor_front_door_package:
       sensors:
         motion_sensor_front_door_motion:
           value_template: "{{ is_state(' sensor.motion_sensor_front_door_burglar', '8') }}"
-          friendly_name: "Attic Multisensor Motion"
+          friendly_name: "Front Door Multisensor Motion"
           device_class: motion
           # entity_id:  sensor.motion_sensor_front_door_burglar
 
         motion_sensor_front_door_tamper:
           value_template: "{{ is_state(' sensor.motion_sensor_front_door_burglar', '3') }}"
-          friendly_name: "Attic Multisensor Tamper"
+          friendly_name: "Front Door Multisensor Tamper"
           device_class: safety
           # entity_id:  sensor.motion_sensor_front_door_burglar
    
@@ -77,33 +77,32 @@ motion_sensor_front_door_package:
         friendly_name: Temperature
         icon: mdi:temperature-fahrenheit
       sensor.motion_sensor_front_door_battery:
-        custom_ui_state_card: state-card-custom-ui
-        friendly_name: Basement Hall Multisensor Battery
+        friendly_name: Front Door Multisensor Battery
         group:
           group.motion_sensor_front_door:  
             friendly_name: Battery
           group.battery_group:  
-            friendly_name: Basement Hall Multi
+            friendly_name: Front Door Multi
 
       binary_sensor.motion_sensor_front_door_tamper:
         friendly_name: Tamper
-		
+
       binary_sensor.motion_sensor_front_door_motion:
-        friendly_name: Basement Hall Motion
+        friendly_name: Front Door Motion
         group:
           group.motion_sensor_front_door:  
             friendly_name: Motion
           group.motionsensors:  
-            friendly_name: Attic
+            friendly_name: Front Door Motion
 
       group.motion_sensor_front_door:
         group:
           group.motion_sensors:
-            friendly_name: Attic Alarm
+            friendly_name: Front Door Alarm
 
   group:
     motion_sensor_front_door:
-      name: Basement Hall MultiSensor
+      name: Front Door MultiSensor
       control: hidden
       entities:
         - binary_sensor.motion_sensor_front_door_motion
