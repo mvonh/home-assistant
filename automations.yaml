@@ -815,10 +815,7 @@
       - !secret pauls_secret_email
       - !secret tracys_secret_email
       title: >
-        {% set mapper = { 'sensor.frontdoor_action': 'states.sensor.frontdoor_code',
-                          'sensor.backdoor_action' : 'states.sensor.backdoor_code',
-                          'sensor.garagedoor_code' : 'states.sensor.garagedoor_code' } %}
-         {{ trigger.to_state.attributes.friendly_name }} locked by {{ states(mapper[trigger.entity_id]) }}
+        {{ trigger.to_state.attributes.friendly_name }} locked by {{ states('input_text.last_person_to_unlock') }}
   - service: input_boolean.turn_off
     entity_id: input_boolean.guests_present
 

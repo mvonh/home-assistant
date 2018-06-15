@@ -2,8 +2,8 @@ homeassistant:
   # Name of the location where Home Assistant is running
   name: Beach House
   # Location required to calculate the time the sun rises and sets
-  latitude: 36.852009
-  longitude: -75.980347
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
   # metric for Metric, imperial for Imperial
@@ -28,37 +28,6 @@ timer:
   tracy_just_arrived:
     duration: '00:07:00'
 
-#Zones
-zone:
-  - name: Avis
-    latitude: 36.828902
-    longitude: -76.137087
-    radius: 300
-    icon: mdi:domain
-
-  - name: CACI
-    latitude: 36.768627
-    longitude: -76.234493
-    icon: mdi:domain
-    radius: 200
-
-  - name: NavyBase
-    latitude: 36.920547
-    longitude: -76.300262
-    icon: mdi:ferry
-    radius: 200
-
-  - name: Barre
-    latitude: 36.8522829
-    longitude: -76.0243934
-    icon: mdi:human-greeting
-
-  - name: Home
-    latitude: 36.852009
-    longitude: -75.980347
-    radius: 65
-    icon: mdi:account-multiple
- 
 # Zigbee
 zha:
   usb_path: /dev/ttyUSB1
@@ -169,15 +138,13 @@ frontend:
 config:
 
 http:
-  # Secrets are defined in the file secrets.yaml
   api_password: !secret http_password
-  ssl_certificate: /home/homeassistant/dehydrated/certs/dalenberg.duckdns.org/fullchain.pem
-  ssl_key: /home/homeassistant/dehydrated/certs/dalenberg.duckdns.org/privkey.pem
-  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-  base_url: dalenberg.duckdns.org:8123
+  ssl_certificate: !secret ssl_certificate_path
+  ssl_key: !secret ssl_certificate_key_path
+  base_url: !secret base_ha_url
 
 duckdns:
-  domain: dalenberg
+  domain: !secret ha_domain_name
   access_token: !secret duckdns_access_token
 
 # Checks for available updates
@@ -191,12 +158,6 @@ discovery:
   ignore:
     - songpal
     - apple_tv
-
-#hue:
-#  bridges:
-#    - host: 192.168.1.121
-# Allows you to issue voice commands from the frontend in enabled browsers
-#conversation:
 
 # Record events
 recorder:
@@ -219,7 +180,7 @@ ios:
 # Device Trackers
 device_tracker:
   - platform: asuswrt
-    host: 192.168.1.1
+    host: !secret router_ip
     username: !secret router_user
     password: !secret router_password
     protocol: ssh
@@ -287,7 +248,7 @@ emulated_roku:
     - 8060
 # View all events in a logbook
 logbook: !include logbook.yaml
-
+zone: !include zones.yaml
 binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml
 input_select: !include input_selects.yaml
