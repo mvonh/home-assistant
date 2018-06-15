@@ -84,15 +84,6 @@ automation_view:
     - group.all_automations
     - group.all_scripts
 
-locks:
-  name: Door Locks
-  view: no
-  icon: mdi:lock-smart
-  entities:
-    - lock.lock_back_door_lock
-    - lock.lock_garage_door_lock
-    - lock.lock_front_door_lock
-
 garage_door:
   name: Garage Door
   view: No
