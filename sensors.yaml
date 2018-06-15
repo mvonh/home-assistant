@@ -111,11 +111,11 @@
 #            mdi:battery-alert
 #          {% endif %}
         
-      battery_attic_motion:
-        value_template: "{{ states.zwave.motion_sensor_attic.attributes.battery_level }}"
-        friendly_name: "Attic Motion Sensor Battery Level"
-        entity_id:  zwave.motion_sensor_attic
-        unit_of_measurement: '%'
+#      battery_attic_motion:
+#        value_template: "{{ states.zwave.motion_sensor_attic.attributes.battery_level }}"
+#        friendly_name: "Attic Motion Sensor Battery Level"
+#        entity_id:  zwave.motion_sensor_attic
+#        unit_of_measurement: '%'
 
       battery_attic_water_sensor:
         value_template: "{{ states.zwave.water_sensor_attic.attributes.battery_level }}"
