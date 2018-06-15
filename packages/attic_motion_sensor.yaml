@@ -4,7 +4,7 @@ motion_sensor_attic_package:
     - platform: template
       sensors:
         motion_sensor_attic_battery:
-          friendly_name: "Basement Hall Multisensor Battery"
+          friendly_name: "Attic Multisensor Battery"
           value_template: "{% if states.zwave.motion_sensor_attic %}
               {{ states.zwave.motion_sensor_attic.attributes.battery_level }}
             {% else %}
@@ -42,7 +42,7 @@ motion_sensor_attic_package:
           friendly_name: "Attic Multisensor Tamper"
           device_class: safety
           # entity_id:  sensor.motion_sensor_attic_burglar
-   
+
 
   homeassistant:
     customize:
@@ -77,19 +77,18 @@ motion_sensor_attic_package:
         friendly_name: Temperature
         icon: mdi:temperature-fahrenheit
       sensor.motion_sensor_attic_battery:
-        custom_ui_state_card: state-card-custom-ui
-        friendly_name: Basement Hall Multisensor Battery
+        friendly_name: Attic Multisensor Battery
         group:
           group.motion_sensor_attic:  
             friendly_name: Battery
           group.battery_group:  
-            friendly_name: Basement Hall Multi
+            friendly_name: Attic Multi
 
       binary_sensor.motion_sensor_attic_tamper:
         friendly_name: Tamper
-		
+
       binary_sensor.motion_sensor_attic_motion:
-        friendly_name: Basement Hall Motion
+        friendly_name: Attic Motion
         group:
           group.motion_sensor_attic:  
             friendly_name: Motion
@@ -103,7 +102,7 @@ motion_sensor_attic_package:
 
   group:
     motion_sensor_attic:
-      name: Basement Hall MultiSensor
+      name: Attic MultiSensor
       control: hidden
       entities:
         - binary_sensor.motion_sensor_attic_motion
