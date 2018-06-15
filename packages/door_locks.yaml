@@ -605,7 +605,11 @@ automation:
     - service: input_text.set_value
       data_template:
         entity_id: input_text.last_person_to_unlock
-        value: '{{ states(mapper[trigger.entity_id]) }}'      
+        value: >
+          {% set mapper = { 'sensor.frontdoor_action' : 'sensor.frontdoor_code',
+                            'sensor.backdoor_action' : 'sensor.backdoor_code',
+                            'sensor.garagedoor_code' : 'sensor.garagedoor_code' } %}
+          {{ states(mapper[trigger.entity_id]) }}
 
 group:
 # you can choose to hide your main entry codes so they will not show in the UI, but, they are still visible in the States
