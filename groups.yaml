@@ -80,6 +80,8 @@ automation_view:
     - group.door_open_close_sensors
     - group.indoor_motion_sensors
     - group.motion_sensors_temp_output
+    - group.motion_sensor_front_door
+    - group.motion_sensor_attic
     - group.all_presence_sensors
     - group.all_automations
     - group.all_scripts
