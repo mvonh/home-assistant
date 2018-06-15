@@ -1,0 +1,302 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Beach House
+  # Location required to calculate the time the sun rises and sets
+  latitude: 36.852009
+  longitude: -75.980347
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York 
+  # Customization file
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
+  whitelist_external_dirs:
+    - '/home/homeassistant/.homeassistant/scripts/cameraimages'
+    - '/tmp'
+
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+timer:
+  someone_just_arrived:
+    duration: '00:04:00'
+  paul_just_arrived:
+    duration: '00:07:00'
+  tracy_just_arrived:
+    duration: '00:07:00'
+
+#Zones
+zone:
+  - name: Avis
+    latitude: 36.828902
+    longitude: -76.137087
+    radius: 300
+    icon: mdi:domain
+
+  - name: CACI
+    latitude: 36.768627
+    longitude: -76.234493
+    icon: mdi:domain
+    radius: 200
+
+  - name: NavyBase
+    latitude: 36.920547
+    longitude: -76.300262
+    icon: mdi:ferry
+    radius: 200
+
+  - name: Barre
+    latitude: 36.8522829
+    longitude: -76.0243934
+    icon: mdi:human-greeting
+
+  - name: Home
+    latitude: 36.852009
+    longitude: -75.980347
+    radius: 65
+    icon: mdi:account-multiple
+ 
+# Zigbee
+zha:
+  usb_path: /dev/ttyUSB1
+  database_path: /home/homeassistant/.homeassistant/zigbee.db
+
+# Zwave
+zwave:
+  usb_path: /dev/ttyUSB0
+  network_key: !secret zwave_network_key
+  polling_interval: 30000
+  device_config:
+    light.ashleys_room_lamp:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.bedroom_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.frog_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.frog_fan_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.kitchen_counter_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.kitchen_island_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.living_room_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.living_room_fan_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    switch.fireplace:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 2
+
+cover:
+  platform: zwave
+
+# Ecobee Components    
+ecobee:
+  api_key: !secret ecobee_api_key
+  
+# Cloud
+cloud:
+  alexa:
+    filter:
+      include_entities:
+        - cover.garage_door_opener
+        - fan.frog_fan
+        - fan.living_room_fan
+        - light.ashleys_room_lamp
+        - light.bedroom_ceiling_light
+        - light.frog_ceiling_light 
+        - light.frog_fan_light
+        - light.guest_bedroom_lamp
+        - light.kitchen_counter_light
+        - light.kitchen_island_light
+        - light.living_room_ceiling_light
+        - light.living_room_fan_light
+        - lock.lock_front_door_lock
+        - lock.lock_back_door_lock 
+        - lock.lock_garage_door_lock
+        - switch.back_porch_light
+        - switch.bedroom_fan
+        - switch.fireplace
+        - switch.front_porch_light
+        - switch.garage_light_indoor
+        - switch.garage_light_outdoor
+        - switch.lamp_post
+        - switch.lava_lamp_plug
+        - switch.lava_lamp_two
+        - switch.living_room_plug_one
+        - switch.living_room_plug_three
+        - switch.living_room_plug_two
+        - switch.office_lamp_one
+        - switch.rope_lights
+        - switch.stairwell_light
+        - automation.motion_lighting_in_the_kitchen
+        - automation.motion_lighting_in_the_Office
+        - automation.motion_lighting_in_the_garage
+        - automation.driveway_line_crossing_alerts
+        - input_boolean.goodnight_switch
+
+homekit:
+  filter:
+    include_entities:
+      - input_boolean.paul_present
+      - input_boolean.tracy_present
+
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  ssl_certificate: /home/homeassistant/dehydrated/certs/dalenberg.duckdns.org/fullchain.pem
+  ssl_key: /home/homeassistant/dehydrated/certs/dalenberg.duckdns.org/privkey.pem
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  base_url: dalenberg.duckdns.org:8123
+
+duckdns:
+  domain: dalenberg
+  access_token: !secret duckdns_access_token
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - songpal
+    - apple_tv
+
+#hue:
+#  bridges:
+#    - host: 192.168.1.121
+# Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+# Record events
+recorder:
+  purge_interval: 1
+  purge_keep_days: 5
+  
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  - platform: google
+
+# iOS Additions
+ios:
+
+# Device Trackers
+device_tracker:
+  - platform: asuswrt
+    host: 192.168.1.1
+    username: !secret router_user
+    password: !secret router_password
+    protocol: ssh
+    interval_seconds: 15
+    consider_home: 60
+    track_new_devices: yes
+
+notify:
+  - platform: ios
+  - name: Pushover_Notifications
+    platform: pushover
+    api_key: !secret pushover_api_key
+    user_key: !secret pushover_user_key
+  - name: PushBullet_Notifications
+    platform: pushbullet
+    api_key: !secret pushbullet_api_key
+  - platform: nfandroidtv
+    name: Sony TV
+    host: 192.168.1.80
+
+ifttt:
+  key: !secret ifttt_key 
+
+input_number:
+  commute_start_time:
+    name: Commute Start Time
+    min: 0
+    max: 100000000000
+
+switch:
+  - platform: command_line
+    switches:
+      save_driveway1:
+        command_on: "python /home/homeassistant/.homeassistant/scripts/driveway1.py"
+        command_off: ""  
+  - platform: command_line
+    switches:
+      save_driveway2:
+        command_on: "python /home/homeassistant/.homeassistant/scripts/driveway2.py"
+        command_off: ""
+  - platform: command_line
+    switches:
+      save_backgate:
+        command_on: "python /home/homeassistant/.homeassistant/scripts/backgate.py"
+        command_off: ""
+  - platform: command_line
+    switches:
+      save_sideyard:
+        command_on: "python /home/homeassistant/.homeassistant/scripts/sideyard.py"
+        command_off: ""
+ 
+remote:
+  - platform: harmony
+    host: 192.168.1.51
+    name: Living Room Harmony Hub
+  - platform: harmony
+    host: 192.168.1.50
+    name: Theater Room Harmony Hub 
+
+emulated_roku:
+#  SN - sSMJFc3BXnTfjPAPHiY5gb 
+  host_ip: 192.168.1.15 # should be set to Home Assistant's address
+  upnp_bind_multicast: True # optional, defaults to True
+  listen_ports:
+    - 8060
+# View all events in a logbook
+logbook: !include logbook.yaml
+
+binary_sensor: !include binary_sensors.yaml
+sensor: !include sensors.yaml
+input_select: !include input_selects.yaml
+input_text: !include input_texts.yaml
+input_datetime: !include input_datetimes.yaml
+input_boolean: !include input_booleans.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+alert: !include alerts.yaml
+history: !include history.yaml
+camera: !include cameras.yaml

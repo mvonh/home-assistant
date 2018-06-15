@@ -1,0 +1,840 @@
+binary_sensor.backyard_field_detection:
+  name:
+  platform: hikvision
+  unique_id: d1c36280-c20d-11b2-80d1-c056e3fd77df.Field Detection.1
+binary_sensor.backyard_motion:
+  name:
+  platform: hikvision
+  unique_id: d1c36280-c20d-11b2-80d1-c056e3fd77df.Motion.1
+binary_sensor.backyard_tamper_detection:
+  name:
+  platform: hikvision
+  unique_id: d1c36280-c20d-11b2-80d1-c056e3fd77df.Tamper Detection.1
+binary_sensor.backyard_line_crossing:
+  name:
+  platform: hikvision
+  unique_id: d1c36280-c20d-11b2-80d1-c056e3fd77df.Line Crossing.1
+binary_sensor.sideyard_tamper_detection:
+  name:
+  platform: hikvision
+  unique_id: 5a920508-4962-11b4-82c3-bcad28bf6100.Tamper Detection.1
+binary_sensor.sideyard_field_detection:
+  name:
+  platform: hikvision
+  unique_id: 5a920508-4962-11b4-82c3-bcad28bf6100.Field Detection.1
+binary_sensor.sideyard_motion:
+  name:
+  platform: hikvision
+  unique_id: 5a920508-4962-11b4-82c3-bcad28bf6100.Motion.1
+binary_sensor.sideyard_line_crossing:
+  name:
+  platform: hikvision
+  unique_id: 5a920508-4962-11b4-82c3-bcad28bf6100.Line Crossing.1
+binary_sensor.driveway_1_line_crossing:
+  name:
+  platform: hikvision
+  unique_id: 5a9204fb-4962-11b4-82c3-bcad28bf60f3.Line Crossing.1
+binary_sensor.driveway_1_motion:
+  name:
+  platform: hikvision
+  unique_id: 5a9204fb-4962-11b4-82c3-bcad28bf60f3.Motion.1
+binary_sensor.driveway_1_field_detection:
+  name:
+  platform: hikvision
+  unique_id: 5a9204fb-4962-11b4-82c3-bcad28bf60f3.Field Detection.1
+binary_sensor.driveway_1_tamper_detection:
+  name:
+  platform: hikvision
+  unique_id: 5a9204fb-4962-11b4-82c3-bcad28bf60f3.Tamper Detection.1
+binary_sensor.driveway_2_line_crossing:
+  name:
+  platform: hikvision
+  unique_id: 5a92051d-4962-11b4-82c3-bcad28bf6115.Line Crossing.1
+binary_sensor.driveway_2_motion:
+  name:
+  platform: hikvision
+  unique_id: 5a92051d-4962-11b4-82c3-bcad28bf6115.Motion.1
+binary_sensor.driveway_2_field_detection:
+  name:
+  platform: hikvision
+  unique_id: 5a92051d-4962-11b4-82c3-bcad28bf6115.Field Detection.1
+binary_sensor.driveway_2_tamper_detection:
+  name:
+  platform: hikvision
+  unique_id: 5a92051d-4962-11b4-82c3-bcad28bf6115.Tamper Detection.1
+sensor.motion_sensor_hallway_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9c:c9-1-1026
+binary_sensor.motion_sensor_hallway_motion:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9c:c9-1-1280
+sensor.motion_sensor_office_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9e:d5-1-1026
+binary_sensor.motion_sensor_office_motion:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9e:d5-1-1280
+sensor.motion_sensor_kitchen_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:c4:6e-1-1026
+binary_sensor.motion_sensor_kitchen_motion:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:c4:6e-1-1280
+sensor.open_close_sensor_front_door_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:ca-1-1026
+binary_sensor.open_close_sensor_front_door:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:ca-1-1280
+sensor.temp_garage_fridge:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1026
+binary_sensor.open_close_sensor_garage_fridge_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1280
+sensor.motion_sensor_garage_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:02:f1:34:45-1-1026
+binary_sensor.motion_sensor_garage_motion:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:02:f1:34:45-1-1280
+sensor.open_close_sensor_garage_door_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:d4-1-1026
+binary_sensor.open_close_sensor_garage_door:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:d4-1-1280
+sensor.open_close_sensor_back_door_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b8:fd-1-1026
+binary_sensor.open_close_sensor_back_door:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b8:fd-1-1280
+sensor.motion_sensor_living_room_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:a6:66-1-1026
+binary_sensor.motion_sensor_living_room_motion:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:a6:66-1-1280
+light.zigbee_plug_one:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0b:2d:06:b5-1
+sensor.pauls_iphone_battery_state:
+  name:
+  platform: ios
+  unique_id: state_pauls_iphone
+sensor.pauls_iphone_battery_level:
+  name:
+  platform: ios
+  unique_id: level_pauls_iphone
+zwave.sigma_designs_uzb_zwave_usb_adapter:
+  name:
+  platform: zwave
+  unique_id: node-1
+zwave.office_lamp_one:
+  name:
+  platform: zwave
+  unique_id: node-2
+switch.office_lamp_one:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076282880
+sensor.office_lamp_one_power:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076479554
+sensor.office_lamp_one_energy:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495874
+sensor.office_lamp_one_previous_reading:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495890
+sensor.office_lamp_one_interval:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495907
+sensor.office_lamp_one_exporting:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496384
+zwave.kitchen_island_light:
+  name:
+  platform: zwave
+  unique_id: node-4
+light.kitchen_island_light:
+  name:
+  platform: zwave
+  unique_id: 4-72057594109853697
+zwave.kitchen_counter_light:
+  name:
+  platform: zwave
+  unique_id: node-6
+light.kitchen_counter_light:
+  name:
+  platform: zwave
+  unique_id: 6-72057594143408129
+zwave.lock_garage_door_lock:
+  name:
+  platform: zwave
+  unique_id: node-12
+lock.lock_garage_door_lock:
+  name:
+  platform: zwave
+  unique_id: 12-72057594245054464
+sensor.lock_garage_door_lock_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 12-72057594245300225
+sensor.lock_garage_door_lock_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 12-72057594245300241
+zwave.living_room_ceiling_light:
+  name:
+  platform: zwave
+  unique_id: node-13
+light.living_room_ceiling_light:
+  name:
+  platform: zwave
+  unique_id: 13-72057594260848641
+zwave.living_room_fan_light:
+  name:
+  platform: zwave
+  unique_id: node-14
+light.living_room_fan_light:
+  name:
+  platform: zwave
+  unique_id: 14-72057594277625857
+zwave.living_room_fan:
+  name:
+  platform: zwave
+  unique_id: node-15
+fan.living_room_fan:
+  name:
+  platform: zwave
+  unique_id: 15-72057594294403073
+zwave.back_porch_light:
+  name:
+  platform: zwave
+  unique_id: node-18
+switch.back_porch_light:
+  name:
+  platform: zwave
+  unique_id: 18-72057594344718336
+zwave.rope_lights:
+  name:
+  platform: zwave
+  unique_id: node-19
+switch.rope_lights:
+  name:
+  platform: zwave
+  unique_id: 19-72057594361495552
+zwave.garage_light_indoor:
+  name:
+  platform: zwave
+  unique_id: node-20
+switch.garage_light_indoor:
+  name:
+  platform: zwave
+  unique_id: 20-72057594378272768
+zwave.garage_light_outdoor:
+  name:
+  platform: zwave
+  unique_id: node-21
+switch.garage_light_outdoor:
+  name:
+  platform: zwave
+  unique_id: 21-72057594395049984
+zwave.front_porch_light:
+  name:
+  platform: zwave
+  unique_id: node-22
+switch.front_porch_light:
+  name:
+  platform: zwave
+  unique_id: 22-72057594411827200
+zwave.lamp_post:
+  name:
+  platform: zwave
+  unique_id: node-23
+switch.lamp_post:
+  name:
+  platform: zwave
+  unique_id: 23-72057594428604416
+zwave.bedroom_fan:
+  name:
+  platform: zwave
+  unique_id: node-24
+zwave.bedroom_ceiling_light:
+  name:
+  platform: zwave
+  unique_id: node-25
+switch.bedroom_fan:
+  name:
+  platform: zwave
+  unique_id: 24-72057594445381632
+zwave.ashleys_room_lamp:
+  name:
+  platform: zwave
+  unique_id: node-27
+light.bedroom_ceiling_light:
+  name:
+  platform: zwave
+  unique_id: 25-72057594462175233
+light.ashleys_room_lamp:
+  name:
+  platform: zwave
+  unique_id: 27-72057594495729665
+zwave.frog_fan_light:
+  name:
+  platform: zwave
+  unique_id: node-29
+zwave.frog_fan:
+  name:
+  platform: zwave
+  unique_id: node-30
+light.frog_fan_light:
+  name:
+  platform: zwave
+  unique_id: 29-72057594529284097
+zwave.stairwell_light:
+  name:
+  platform: zwave
+  unique_id: node-31
+fan.frog_fan:
+  name:
+  platform: zwave
+  unique_id: 30-72057594546061313
+zwave.remotec_zfm80:
+  name:
+  platform: zwave
+  unique_id: node-34
+switch.stairwell_light:
+  name:
+  platform: zwave
+  unique_id: 31-72057594562822144
+zwave.living_room_plug_one:
+  name:
+  platform: zwave
+  unique_id: node-37
+switch.fireplace:
+  name:
+  platform: zwave
+  unique_id: 34-72057594613153792
+zwave.living_room_plug_two:
+  name:
+  platform: zwave
+  unique_id: node-38
+switch.living_room_plug_one:
+  name:
+  platform: zwave
+  unique_id: 37-72057594663485440
+zwave.living_room_plug_three:
+  name:
+  platform: zwave
+  unique_id: node-39
+switch.living_room_plug_two:
+  name:
+  platform: zwave
+  unique_id: 38-72057594680262656
+zwave.lava_lamp_plug:
+  name:
+  platform: zwave
+  unique_id: node-42
+switch.living_room_plug_three:
+  name:
+  platform: zwave
+  unique_id: 39-72057594697039872
+zwave.lava_lamp_two:
+  name:
+  platform: zwave
+  unique_id: node-44
+switch.lava_lamp_plug:
+  name:
+  platform: zwave
+  unique_id: 42-72057594747371520
+zwave.garage_door_opener_remote_controller:
+  name:
+  platform: zwave
+  unique_id: node-61
+switch.lava_lamp_two:
+  name:
+  platform: zwave
+  unique_id: 44-72057594780925952
+sensor.lava_lamp_two_power:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781122626
+sensor.lava_lamp_two_energy:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781138946
+sensor.lava_lamp_two_previous_reading:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781138962
+sensor.lava_lamp_two_interval:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781138979
+sensor.lava_lamp_two_exporting:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139456
+zwave.frog_ceiling_light:
+  name:
+  platform: zwave
+  unique_id: node-76
+binary_sensor.garage_door_opener_remote_controller_sensor:
+  name:
+  platform: zwave
+  unique_id: 61-72057595066318848
+cover.garage_door_opener:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067203604
+sensor.garage_door_opener_remote_controller_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383809
+sensor.garage_door_opener_remote_controller_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383825
+sensor.garage_door_opener_remote_controller_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383841
+sensor.garage_door_opener_remote_controller_access_control:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383953
+sensor.garage_door_opener_remote_controller_burglar:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383969
+binary_sensor.water_sensor_attic:
+  name:
+  platform: zwave
+  unique_id: 67-72057595166982144
+light.frog_ceiling_light:
+  name:
+  platform: zwave
+  unique_id: 76-72057595317813249
+binary_sensor.sensor_2:
+  name:
+  platform: zwave
+  unique_id: 77-72057595334754304
+binary_sensor.sensor_3:
+  name:
+  platform: zwave
+  unique_id: 78-72057595351531520
+zwave.lock_front_door_deadbolt:
+  name:
+  platform: zwave
+  unique_id: node-82
+lock.lock_front_door_lock:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419459584
+sensor.lock_front_door_deadbolt_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705345
+sensor.lock_front_door_deadbolt_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705361
+sensor.lock_front_door_deadbolt_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705377
+sensor.lock_front_door_deadbolt_access_control:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705489
+sensor.lock_front_door_deadbolt_burglar:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705505
+sensor.lock_front_door_deadbolt_power_management:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705521
+sensor.lock_front_door_deadbolt_system:
+  name:
+  platform: zwave
+  unique_id: 82-72057595419705537
+media_player.theater_room_tv:
+  name:
+  platform: cast
+  unique_id: 9f4204a3-7570-455e-4bdb-9e551416d838
+media_player.xbr65x900e:
+  name:
+  platform: cast
+  unique_id: 9e57e702-768c-5ee4-01a8-0fa1d86246a5
+media_player.living_room:
+  name:
+  platform: sonos
+  unique_id: RINCON_5CAAFDA640F201400
+zwave.linear_wadwaz1_doorwindow_sensor:
+  name:
+  platform: zwave
+  unique_id: node-77
+sensor.linear_wadwaz1_doorwindow_sensor_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819265
+sensor.linear_wadwaz1_doorwindow_sensor_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819281
+sensor.linear_wadwaz1_doorwindow_sensor_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819297
+sensor.linear_wadwaz1_doorwindow_sensor_burglar:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819425
+light.bedroom_lamp_two:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:03:5c:15:13-0b
+light.guest_bedroom_lamp:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:fe:ea:4f-0b
+light.left_shelf_lights:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:01:1e:8c:26-0b
+light.living_room_lamp_one:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:c8:1c:a8-0b
+light.kitchen_cabinet_tops:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:16:ad:83-0b
+light.kitchen_cabinet_bottoms:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:01:1a:f1:d8-0b
+light.living_room_lamp_two:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:c8:1c:fe-0b
+light.office_lamp_two:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:cd:a9:00-0b
+light.right_shelf_lights:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:01:1c:7f:69-0b
+light.alcove_light:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:25:d0:d4-0b
+light.bedroom_lamp_one:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:03:5c:1e:da-0b
+light.tv_backlights:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:01:1a:3f:15-0b
+zwave.linear_wadwaz1_doorwindow_sensor_2:
+  name:
+  platform: zwave
+  unique_id: node-78
+sensor.linear_wadwaz1_doorwindow_sensor_sourcenodeid_2:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596513
+sensor.linear_wadwaz1_doorwindow_sensor_burglar_2:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596641
+sensor.linear_wadwaz1_doorwindow_sensor_alarm_type_2:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596481
+sensor.linear_wadwaz1_doorwindow_sensor_alarm_level_2:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596497
+zwave.water_sensor_attic:
+  name:
+  platform: zwave
+  unique_id: node-67
+sensor.water_sensor_attic_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047137
+sensor.water_sensor_attic_flood:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047233
+sensor.water_sensor_attic_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047105
+sensor.water_sensor_attic_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047121
+zwave.motion_sensor_front_door:
+  name:
+  platform: zwave
+  unique_id: node-89
+sensor.motion_sensor_front_door_temperature:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536097298
+sensor.motion_sensor_front_door_luminance:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536097330
+sensor.motion_sensor_front_door_relative_humidity:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536097362
+sensor.motion_sensor_front_door_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537145889
+sensor.motion_sensor_front_door_burglar:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146017
+sensor.motion_sensor_front_door_power_management:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146033
+sensor.motion_sensor_front_door_system:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146049
+sensor.motion_sensor_front_door_emergency:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146065
+sensor.motion_sensor_front_door_appliance:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146097
+sensor.motion_sensor_front_door_homehealth:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146113
+sensor.motion_sensor_front_door_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537145857
+sensor.motion_sensor_front_door_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537145873
+zwave.motion_sensor_attic:
+  name:
+  platform: zwave
+  unique_id: node-91
+sensor.motion_sensor_attic_temperature:
+  name:
+  platform: zwave
+  unique_id: 91-72057595569651730
+sensor.motion_sensor_attic_luminance:
+  name:
+  platform: zwave
+  unique_id: 91-72057595569651762
+sensor.motion_sensor_attic_relative_humidity:
+  name:
+  platform: zwave
+  unique_id: 91-72057595569651794
+sensor.motion_sensor_attic_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700321
+sensor.motion_sensor_attic_burglar:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700449
+sensor.motion_sensor_attic_power_management:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700465
+sensor.motion_sensor_attic_system:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700481
+sensor.motion_sensor_attic_clock:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700513
+sensor.motion_sensor_attic_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700289
+sensor.motion_sensor_attic_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 91-72057595570700305
+binary_sensor.motion_sensor_front_door_sensor:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536080896
+binary_sensor.motion_sensor_attic_sensor:
+  name:
+  platform: zwave
+  unique_id: 91-72057595569635328
+media_player.pauls_iphone:
+  name:
+  platform: plex
+  unique_id: 6FA85A27-D0E5-4C23-B1D6-7DB2005283E6
+media_player.apple_tv:
+  name:
+  platform: plex
+  unique_id: 4D896668-3E30-45D9-B0E7-85726383006F
+media_player.bravia_4k_gb:
+  name:
+  platform: plex
+  unique_id: ac2d2970f3c851a7-com-plexapp-android
+zwave.smoke_detector_downstairs:
+  name:
+  platform: zwave
+  unique_id: node-92
+sensor.smoke_detector_downstairs_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 92-72057595587477505
+sensor.smoke_detector_downstairs_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 92-72057595587477521
+media_player.unnamed_device:
+  name:
+  platform: plex
+  unique_id: d1g13yxc5zb3e7khkpc1h5mi
+zwave.aeotec_minimote_1:
+  name:
+  platform: zwave
+  unique_id: node-93
+zwave.aeotec_minimote_2:
+  name:
+  platform: zwave
+  unique_id: node-94
+sensor.water_sensor_kitchen_temp:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:26:48:78-1-1026
+binary_sensor.water_sensor_kitchen:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:26:48:78-1-1280
+zwave.enerwave_zwnsc7_7button_scene_controller:
+  name:
+  platform: zwave
+  unique_id: node-97
+sensor.tracys_iphone_battery_state:
+  name:
+  platform: ios
+  unique_id: state_tracys_iphone
+sensor.tracys_iphone_battery_level:
+  name:
+  platform: ios
+  unique_id: level_tracys_iphone
+media_player.microsoft_edge:
+  name:
+  platform: plex
+  unique_id: mzflp69otaty886e8o25122f
+sensor.office_lamp_one_power_2:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496002
+sensor.office_lamp_one_previous_reading_2:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496018
+sensor.office_lamp_one_interval_2:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496035
+sensor.lava_lamp_two_power_2:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139074
+sensor.lava_lamp_two_previous_reading_2:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139090
+sensor.lava_lamp_two_interval_2:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139107
+sensor.centralite_3210l_0b2d06b5_1_2820:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0b:2d:06:b5-1-2820
+sensor.lock_back_door_deadbolt_alarm_type:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918017
+sensor.lock_back_door_deadbolt_alarm_level:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918033
+zwave.lock_back_door_deadbolt:
+  name:
+  platform: zwave
+  unique_id: node-99
+lock.lock_back_door_lock:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704672256
+sensor.lock_back_door_deadbolt_sourcenodeid:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918049
+sensor.lock_back_door_deadbolt_access_control:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918161
+sensor.lock_back_door_deadbolt_burglar:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918177
+sensor.lock_back_door_deadbolt_power_management:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918193
+sensor.lock_back_door_deadbolt_system:
+  name:
+  platform: zwave
+  unique_id: 99-72057595704918209
+media_player.fire_tv:
+  name:
+  platform: plex
+  unique_id: 935364258caf83b3-com-plexapp-android

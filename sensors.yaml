@@ -1,0 +1,148 @@
+  - platform: yr
+  
+  - platform: uptime
+    name: "HA runtime in minutes"
+    unit_of_measurement: minutes
+
+# Time-Date Sensor
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'time_date'
+
+  # Pauls commute to home
+  - platform: google_travel_time
+    name: Pauls Time to Home
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.pauls_iphone
+    destination: zone.home
+  
+  # Tracys commute to Home
+  - platform: google_travel_time
+    name: Tracy's Time to Home
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.tracys_iphone
+    destination: zone.home 
+  
+  # Commute to CACI
+  - platform: google_travel_time
+    name: Time to CACI
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.pauls_iphone
+    destination: zone.caci   
+  
+  #   Commute to Navy Base
+  - platform: google_travel_time
+    name: Time to Navy Base
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.pauls_iphone
+    destination: zone.navybase
+  
+  #   Commute to AVIS
+  - platform: google_travel_time
+    name: Time to AVIS Tracy
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.tracys_iphone
+    destination: zone.avis
+
+  - platform: template
+    sensors:
+      security_system_state:
+        value_template: '{{ states.input_select.security_system.state }}'
+        friendly_name: 'Security System'
+        icon_template: >
+            {%- if is_state("input_select.security_system", "Disarmed") -%}
+                mdi:home-lock-open
+            {%- elif is_state("input_select.security_system", "Armed (Home)") -%}
+                mdi:home-lock
+            {%- elif is_state("input_select.security_system", "Armed (Away)") -%}
+                mdi:security-lock
+            {%- else -%}
+                mdi:help
+            {%- endif -%}
+
+      house_mode:
+        value_template: '{{ states.input_select.house_mode.state }}'
+        friendly_name: 'House Mode'
+        icon_template: >
+            {%- if is_state('input_select.house_mode', 'Home') -%}
+                mdi:home-account
+            {%- elif is_state('input_select.house_mode', 'Away') -%}
+                mdi:run-fast
+            {%- elif is_state('input_select.house_mode', 'Night') -%}
+                mdi:weather-night
+            {%- else -%}
+                mdi:help
+            {%- endif -%}
+            
+      time_to_leave_for_caci:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( 8.33 - states.sensor.time_to_caci.state | int / 60) }}
+        friendly_name: 'Time to Leave for CACI'
+
+      time_to_leave_for_avis:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( 7.33 - states.sensor.time_to_avis_tracy.state | int / 60) }}
+        friendly_name: 'Time to Leave for Avis'
+
+      time_to_leave_for_navy_base:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( 8.33 - states.sensor.time_to_navy_base.state | int / 60) }}
+        friendly_name: 'Time to leave for Navy Base'
+
+      battery_front_door_motion:
+        value_template: '{{ states.zwave.motion_sensor_front_door.attributes.battery_level|default(0) }}'
+        friendly_name: "Front Door Motion Motion Sensor Battery Level"
+        entity_id:  zwave.motion_sensor_front_door
+        unit_of_measurement: '%'
+#        icon_template: >
+#          {% set battery_level = states.zwave.motion_sensor_front_door.attributes.battery_level | default(0) | int %}
+#          {% set battery_round = (battery_level / 10) |int * 10 %}
+#          {% if battery_round >= 100 %}
+#            mdi:battery
+#          {% elif battery_round > 0 %}
+#            mdi:battery-{{ battery_round }}
+#          {% else %}
+#            mdi:battery-alert
+#          {% endif %}
+        
+      battery_attic_motion:
+        value_template: "{{ states.zwave.motion_sensor_attic.attributes.battery_level }}"
+        friendly_name: "Attic Motion Sensor Battery Level"
+        entity_id:  zwave.motion_sensor_attic
+        unit_of_measurement: '%'
+
+      battery_attic_water_sensor:
+        value_template: "{{ states.zwave.water_sensor_attic.attributes.battery_level }}"
+        friendly_name: "Attic Water Detector Battery Level"
+        entity_id:  zwave.water_sensor_attic
+        unit_of_measurement: '%'
+
+      battery_smoke_detector:
+        value_template: "{{ states.zwave.smoke_detector_downstairs.attributes.battery_level }}"
+        friendly_name: "Downstairs Smoke Detector Battery Level"
+        entity_id:  zwave.smoke_detector_downstairs
+        unit_of_measurement: '%'        
+          
+      downstairs_smoke_detector:
+        value_template: '{%- if is_state("sensor.smoke_detector_downstairs_alarm_type", "0") %}
+                          Idle
+                          {%else%}
+                            {%- if is_state("sensor.smoke_detector_downstairs_alarm_type", "1") %}
+                            Fire
+                            {%- elif is_state("sensor.smoke_detector_downstairs_alarm_type", "2") %}
+                            C02
+                            {%- elif is_state("sensor.smoke_detector_downstairs_alarm_type", "12") %}
+                            Testing
+                            {%- elif is_state("sensor.smoke_detector_downstairs_alarm_type", "13") %}
+                            Idle
+                            {% else %}
+                            Unknown
+                            {%- endif %}
+                          {%endif%}'
+        friendly_name: 'Downstairs Smoke Alarm'

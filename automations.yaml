@@ -1,0 +1,1350 @@
+- alias: 'Phone Charging Test'
+  trigger:
+  - platform: state
+    entity_id: sensor.pauls_iphone_battery_state
+    to: 'Charging'
+  - platform: state
+    entity_id: sensor.tracys_iphone_battery_state
+    to: 'Charging'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "One or both phones are on the charger"
+      target:
+      - !secret pauls_secret_email
+      title: "Testing of iPhone Charging"
+
+#############################################
+## 4 Button Controller #1 Buttons Settings ##
+#############################################
+- alias: 'Minimote Button Pressed or Held'
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeotec_minimote_1
+  action:
+  - service: homeassistant.toggle
+    data_template:
+      entity_id: >
+        {% set map = {1: 'light.bedroom_lamp_one',
+                      2: 'light.bedroom_lamp_one',
+                      3: 'light.bedroom_lamp_two',
+                      4: 'light.bedroom_lamp_two',
+                      5: 'light.bedroom_ceiling_light',
+                      6: 'light.bedroom_ceiling_light',
+                      7: 'switch.bedroom_fan',
+                      9: 'switch.bedroom_fan'} %}
+        {{ map[trigger.event.data.scene_id|int] }}
+
+#############################################
+## 4 Button Controller #2 Buttons Settings ##
+#############################################
+- alias: 'Minimote 2 Actions'
+  trigger:
+  - platform: event
+    event_type: zwave.scene_activated
+    event_data:
+      entity_id: zwave.aeotec_minimote_2
+  action:
+  - service: homeassistant.toggle
+    entity_id: light.guest_bedroom_lamp
+
+##########################################
+## Setting House Mode based on Presence ##
+##########################################
+- alias: Home Mode - Leaving
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.people_home
+    to: 'off'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home'   
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.house_mode
+    data:
+      option: 'Away'
+  - service: input_select.select_option
+    entity_id: input_select.security_system
+    data:
+      option: 'Armed (Away)'
+
+- alias: Home Mode - Arriving
+  trigger:
+   - platform: state
+     entity_id:
+       - input_boolean.paul_present
+       - input_boolean.tracy_present
+       - input_boolean.guests_present
+     to: 'on'
+   - platform: state
+     entity_id:
+       - device_tracker.pauls_iphone
+       - device_tracker.pauls_iphone_2
+       - device_tracker.tracys_iphone
+       - device_tracker.tracys_iphone_2
+       - group.extra_device_trackers
+     to: 'home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Away'
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.house_mode
+    data:
+      option: 'Home'
+  - service: input_select.select_option
+    entity_id: input_select.security_system
+    data:
+      option: 'Disarmed'
+
+##########################################
+## Just Arrived timers used for stuff   ##
+##########################################
+- alias: Paul Just Arrived Timer
+  trigger:
+   - platform: state
+     entity_id:
+       - input_boolean.paul_present
+     to: 'on'
+   - platform: state
+     entity_id:
+       - device_tracker.pauls_iphone
+       - device_tracker.pauls_iphone_2
+     to: 'home'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'off'   
+  action:
+  - service: timer.start
+    entity_id: timer.paul_just_arrived
+
+- alias: Tracy just Arrived Timer
+  trigger:
+   - platform: state
+     entity_id:
+       - input_boolean.tracy_present
+     to: 'on'
+   - platform: state
+     entity_id:
+       - device_tracker.tracys_iphone
+       - device_tracker.tracys_iphone_2
+     to: 'home'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.tracy_presence
+    state: 'off'        
+  action:
+  - service: timer.start
+    entity_id: timer.tracy_just_arrived
+
+##########################################
+## Update stuff when people leave       ##
+##########################################    
+- alias: 'Paul Left'
+  trigger:
+   - platform: state
+     entity_id: binary_sensor.multiple_presence_paul
+     to: 'off'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - input_boolean.paul_present
+      - input_boolean.back_door_opened_for_paul
+      - input_boolean.open_garage_for_paul
+  - service: timer.cancel
+    entity_id: timer.paul_just_arrived
+    
+- alias: 'Tracy Left'
+  trigger:
+   - platform: state
+     entity_id: binary_sensor.tracy_presence
+     to: 'off'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - input_boolean.tracy_present
+      - input_boolean.back_door_opened_for_tracy
+      - input_boolean.open_garage_for_tracy
+  - service: timer.cancel
+    entity_id: timer.tracy_just_arrived
+
+#############################################################
+## House as Extended away to be used for other automations ##
+#############################################################
+- alias: Mark house as extended away
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.people_home
+    to: 'off'
+    for:
+      hours: 24
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.house_mode
+      option: Extended Away
+
+##########################################
+## Lighting Based on states Automations ##
+##########################################     
+- alias: Motion Lighting in the Office
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_office_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.office_lights
+    state: 'off'
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+  - service: homeassistant.turn_on
+    entity_id: group.office_lights
+  - wait_template: "{{ is_state('binary_sensor.motion_sensor_office_motion', 'off') }}"
+  - condition: state
+    entity_id: group.office_lights
+    state: 'on'
+  - service: homeassistant.turn_off
+    entity_id: group.office_lights
+
+- alias: Motion Lighting in the Kitchen
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_kitchen_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.kitchen_zwave_lights
+    state: 'off'
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+  - service: homeassistant.turn_on
+    entity_id: group.kitchen_zwave_lights
+  - wait_template: "{{ is_state('binary_sensor.motion_sensor_kitchen_motion', 'off') }}"
+  - condition: state
+    entity_id: group.kitchen_zwave_lights
+    state: 'on'
+  - service: homeassistant.turn_off
+    entity_id: group.kitchen_zwave_lights
+
+- alias: 'Motion Lighting Garage turn light on'
+  trigger:
+# Garage open close sensor 
+  - platform: state
+    entity_id: binary_sensor.open_close_sensor_garage_door
+    from: 'off'
+    to: 'on'
+  - platform: state
+# Garage Motion Sensor  
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    from: 'off'
+    to: 'on'
+  action:
+  - service: homeassistant.turn_on
+    entity_id: switch.garage_light_indoor
+
+- alias: 'Motion Lighting in the Garage'
+  trigger:
+  - platform: state
+# Garage Motion Sensor  
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 1
+  - platform: state
+# Garage open close sensor
+    entity_id: binary_sensor.open_close_sensor_garage_door
+    from: 'on'
+    to: 'off' 
+  condition:
+  - condition: state
+# Garage Motion Sensor 
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    state: 'off'
+    for:
+      minutes: 1
+  action:
+  - service: homeassistant.turn_off
+    entity_id: switch.garage_light_indoor
+
+- alias: Turn on Lights in FROG after TV turns off
+  trigger:
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.turn_on_lights_in_frog_after_tv__turns_off.attributes.last_triggered) | int > 300 }}'   
+  action:
+  - service: light.turn_on
+    data:
+      entity_id:
+        - light.frog_ceiling_light
+        - light.frog_fan_light
+      brightness: 40
+  - delay:
+      seconds: 120
+  - service: light.turn_off
+    data:
+      entity_id:
+        - light.frog_ceiling_light
+        - light.frog_fan_light
+  - service: homeassistant.turn_off
+    entity_id: fan.frog_fan
+  - service: script.turn_on
+    entity_id: script.theater_room_soundbar_reset
+  - delay:
+      seconds: 90
+  - service: script.turn_on
+    entity_id: script.theater_room_harmony_hub_off
+    
+- alias: Theater Room fan on if warm
+  trigger:
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.frog_temperature
+    above: 73.0
+  action:
+  - service: fan.set_speed
+    entity_id: fan.frog_fan
+    data:
+      speed: low
+      
+##########################################
+## Lighting Based on Sunset/sunrise     ##
+##########################################
+- alias: 'Outdoor Lights at Sunset'
+  trigger:
+  - platform: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 2.0    
+  action:
+  - service: homeassistant.turn_on
+    entity_id: group.outdoor_lights_sunset
+
+- alias: 'Outdoor Lights off at sunrise'
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: "-00:20:00"
+  action:
+  - service: homeassistant.turn_off
+    entity_id: group.outdoor_lights_sunset
+  - service: homeassistant.turn_off
+    entity_id: switch.back_porch_light
+
+- alias: TV Lighting after sunset if TV is turned on
+  trigger:
+  - platform: template
+    value_template: "{{ states.sun.sun.attributes.elevation < 3 }}"
+  - platform: state
+    entity_id: remote.living_room_harmony_hub
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: remote.living_room_harmony_hub
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 3.0  
+  action:
+  - service: script.turn_on
+    entity_id: script.kitchen_tv_lights_hue_scene
+  - service: script.turn_on
+    entity_id: script.living_room_tv_lights_hue_scene
+
+- alias: TV Evening Lighting after turning TV Off
+  trigger:
+  - platform: state
+    entity_id: remote.living_room_harmony_hub
+    from: 'on'
+    to: 'off'
+  condition:
+  - condition: sun
+    after: sunset
+  action:
+  - service: script.turn_on
+    entity_id: script.kitchen_evening_lights_hue_scene
+  - service: script.turn_on
+    entity_id: script.living_room_evening_lights_hue_scene
+
+- alias: Turn on lights upon Arrival after sunset
+  trigger:
+  - platform: state
+    entity_id: input_select.house_mode
+    from: 'Away'
+  condition:
+  - condition: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 3.0  
+  action:
+  - service: script.turn_on
+    entity_id: script.kitchen_evening_lights_hue_scene
+  - service: script.turn_on
+    entity_id: script.living_room_evening_lights_hue_scene
+
+##########################################
+## Routines                             ##
+##########################################
+- alias: Goodbye Routine (Daylight)
+  trigger:
+  - platform: state
+    entity_id: input_select.house_mode
+    to: 'Away'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    above: 3.0  
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.goodbye_lights_and_switches_daytime
+  - service: lock.lock
+    entity_id: group.all_locks
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
+  - service: remote.send_command
+    data:
+      entity_id: remote.living_room_harmony_hub
+      command:
+         - PowerOff
+# sony TV
+      device: 48350995
+      delay_secs: 0.6
+  - service: remote.send_command
+    data:
+      entity_id: remote.living_room_harmony_hub
+      command:
+         - Off
+# sonos
+      device: 54465379
+      delay_secs: 0.6
+  - service: automation.turn_on
+    entity_id:
+      - automation.cameras_back_gate_picture
+  - service: notify.pushbullet_notifications
+    data:
+      message: "All lights have been turned off, garage door has closed and locks have been locked"
+      target:
+      - !secret pauls_secret_email
+      title: "Goodbye Routine has ran"
+
+- alias: Goodbye Routine (After Dark)
+  trigger:
+  - platform: state
+    entity_id: input_select.house_mode
+    to: 'Away'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 3.0  
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.goodbye_lights_and_switches_at_night
+  - service: lock.lock
+    entity_id: group.all_locks
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
+  - service: remote.send_command
+    data:
+      entity_id: remote.living_room_harmony_hub
+      command:
+         - PowerOff
+      device: 48350995
+      delay_secs: 0.6
+  - service: automation.turn_on
+    entity_id:
+      - automation.cameras_back_gate_picture
+  - service: notify.pushbullet_notifications
+    data:
+      message: "All lights have been turned off, except for night time lighting.  Garage door has closed and locks have been locked"
+      target:
+      - !secret pauls_secret_email
+      title: "Goodbye Routine has ran"
+
+- alias: Welcome Back Routine
+  trigger:
+  - platform: state
+    entity_id: input_select.house_mode
+    from: 'Away'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1  
+  action:
+  - service: lock.unlock
+    entity_id: lock.lock_garage_door_lock
+  - service: homeassistant.turn_on
+    entity_id: switch.bedroom_fan
+  - service: script.turn_on
+    entity_id: script.kitchen_evening_lights_hue_scene     
+  - service: automation.turn_off
+    entity_id:
+      - automation.cameras_back_gate_picture
+      - automation.cameras_drive_way_1_picture
+      - automation.cameras_drive_way_2_picture
+      - automation.camera_side_yard_picture
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: "Door to the garage has been unlocked, lights turned on if after dark"
+#      target:
+#      - !secret pauls_secret_email
+#      title: "Welcome Back Routine ran"
+
+- alias: 'Good Night Routine'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.goodnight_switch
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 1
+  action:
+  - service: script.turn_on
+    entity_id: script.ecobee_sleep_mode
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.good_night_lights
+      - input_boolean.goodnight_switch
+  - service: homeassistant.turn_on
+    entity_id: switch.back_porch_light    
+  - service: lock.lock
+    entity_id: group.all_locks
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.security_system
+      option: Armed (Home)
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.house_mode
+      option: Night
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Lights off, doors locked, garage closed"
+      target:
+      - !secret pauls_secret_email
+      title: "Good Night Routine Ran"
+  - delay:
+      seconds: 60
+  - service: automation.turn_on
+    entity_id:
+      - automation.cameras_back_gate_picture
+      - automation.cameras_drive_way_1_picture
+      - automation.cameras_drive_way_2_picture
+      - automation.camera_side_yard_picture
+
+- alias: 'Automatic Goodnight'
+  trigger:
+  - platform: state
+    entity_id: group.indoor_motion_sensors
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 60
+  condition:
+  - condition: state
+    entity_id: input_select.house_mode
+    state: Home
+#  - condition: state
+#    entity_id: sensor.pauls_iphone_battery_state
+#    state: Charging
+#  - condition: state
+#    entity_id: sensor.tracys_iphone_battery_state
+#    state: Charging
+  - condition: or
+    conditions:
+      - condition: time
+        before: '05:00:00'
+      - condition: time
+        after: '22:30:00'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.goodnight_switch
+
+- alias: Good Morning Routine
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_office_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_living_room_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_kitchen_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Home)'
+  - condition: time
+    after: '05:30:00'
+    before: '11:30:00'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.ecobee_resume_mode
+      - script.kitchen_evening_lights_hue_scene
+  - service: lock.unlock
+    entity_id: lock.lock_garage_door_lock
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.security_system
+      option: Disarmed
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.house_mode
+      option: Home
+  - service: automation.turn_off
+    entity_id:
+      - automation.cameras_back_gate_picture
+      - automation.cameras_drive_way_1_picture
+      - automation.cameras_drive_way_2_picture
+      - automation.camera_side_yard_picture
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: "Good Morning Routine has run based on motion.  Door to the garage has been unlocked and kitchen lights turned on"
+#      target:
+#      - !secret pauls_secret_email
+#      title: "Good Morning Ran"
+
+##########################################
+## Door Locking and Unlocking           ##
+##########################################
+- alias: 'Unlock Back Door for Paul'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.backyard_line_crossing
+    from: 'off'
+    to: 'on'    
+  condition:
+  - condition: state
+    entity_id: timer.paul_just_arrived
+    state: 'active'
+  - condition: state
+    entity_id: input_boolean.back_door_opened_for_paul
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.back_door_opened_for_paul
+  - service: lock.unlock
+    entity_id: lock.lock_back_door_lock
+
+- alias: 'Unlock Back Door for Tracy'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.backyard_line_crossing
+    from: 'off'
+    to: 'on'    
+  condition:
+  - condition: state
+    entity_id: timer.tracy_just_arrived
+    state: 'active'
+  - condition: state
+    entity_id: input_boolean.back_door_opened_for_tracy
+    state: 'off'  
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.back_door_opened_for_tracy
+  - service: lock.unlock
+    entity_id: lock.lock_back_door_lock
+
+- alias: 'Auto Lock Front Door'
+  trigger:
+  - platform: state
+    entity_id: lock.lock_front_door_lock
+    from: 'locked'
+    to: 'unlocked'
+    for:
+      minutes: 5  
+  - platform: state
+    entity_id: binary_sensor.open_close_sensor_front_door
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 5
+  condition:
+  - condition: state
+    entity_id: binary_sensor.open_close_sensor_front_door
+    state: 'off'
+    for:
+      minutes: 4
+  action:
+  - service: lock.lock
+    entity_id: lock.lock_front_door_lock
+
+##########################################
+## Security Alerts                      ##
+##########################################
+- alias: 'Security System - Armed Away Door Opened'
+  trigger:
+  - platform: state
+    entity_id: group.door_open_close_sensors
+    from: 'off'
+    to: 'on'  
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Door has opened and no one is home"
+      target:
+      - !secret pauls_secret_email
+      title: "Security Alert"
+
+- alias: 'Security System - Armed Away Motion Detected'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_office_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_living_room_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_kitchen_motion
+    from: 'off'
+    to: 'on'    
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Motion Detected indoors and no one is home"
+      target:
+      - !secret pauls_secret_email
+      title: "Security Alert"    
+      
+- alias: 'Security System - Armed Home'
+  trigger:
+  - platform: state
+    entity_id: group.door_open_close_sensors
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Home)'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Door has opened after goodnight ran."
+      target:
+      - !secret pauls_secret_email
+      title: "Security Alert"
+
+- alias: Notify who locked door with timestamp when away
+  trigger:
+  - platform: state
+    entity_id:
+      - sensor.frontdoor_action
+      - sensor.backdoor_action
+    to: 'Keypad Lock'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: binary_sensor.people_home
+    state: 'off'
+  action:
+  - service: notify.pushbullet_notifications
+    data_template:
+      message: " At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }} " 
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: >
+        {% set mapper = { 'sensor.frontdoor_action': 'states.sensor.frontdoor_code',
+                          'sensor.backdoor_action' : 'states.sensor.backdoor_code',
+                          'sensor.garagedoor_code' : 'states.sensor.garagedoor_code' } %}
+         {{ trigger.to_state.attributes.friendly_name }} locked by {{ states(mapper[trigger.entity_id]) }}
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.guests_present
+
+#- alias: 'Notify if door unlocked while away'
+#  trigger:
+#  - platform: state
+#    entity_id:
+#      - sensor.backdoor_action
+#      - sensor.frontdoor_action
+#    to: 'KeyPad Unlock'
+#  condition:
+#  - condition: state
+#    entity_id: binary_sensor.people_home
+#    state: 'off'
+#  action:
+#  - service: input_boolean.turn_on
+#    entity_id: input_boolean.guests_present
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: "Door Unlocked with code while Paul and Tracy are both away.  System Disarmed"
+#      target:
+#      - !secret pauls_secret_email
+#      - !secret tracys_secret_email
+#      title: "Door Unlocked while away"
+
+#- alias: 'Notify if door locked while away'
+#  trigger:
+#  - platform: state
+#    entity_id:
+#      - sensor.backdoor_action
+#      - sensor.frontdoor_action
+#    to: 'KeyPad Lock'
+#  condition:
+#  - condition: state
+#    entity_id: input_boolean.guests_present
+#    state: 'on'
+#  - condition: state
+#    entity_id: group.primary_presence
+#    state: 'off'
+#  action:
+#  - service: input_boolean.turn_off
+#    entity_id: input_boolean.guests_present
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: "Door Locked while Paul and Tracy are both away. System Armed"
+#      target:
+#      - !secret pauls_secret_email
+#      - !secret tracys_secret_email
+#      title: "Door Locked while away"
+      
+##########################################
+## Garage Door Automations              ##
+##########################################
+- alias: 'Garage Door For Tracy when she gets home'
+  trigger:
+   - platform: state
+     entity_id:
+       - input_boolean.tracy_present
+     to: 'on'
+   - platform: state
+     entity_id:
+       - device_tracker.tracys_iphone
+       - device_tracker.tracys_iphone_2
+     to: 'home' 
+  condition:
+  - condition: state
+    entity_id: input_boolean.open_garage_for_tracy
+    state: 'on'
+  action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.open_garage_for_tracy
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.garage_opened_for_arrival
+  - service: cover.open_cover
+    entity_id: cover.garage_door_opener
+
+- alias: 'Garage Door For Paul when he gets home'
+  trigger:
+   - platform: state
+     entity_id:
+       - input_boolean.paul_present
+     to: 'on'
+   - platform: state
+     entity_id:
+       - device_tracker.pauls_iphone
+       - device_tracker.pauls_iphone_2
+     to: 'home'  
+  condition:
+  - condition: state
+    entity_id: input_boolean.open_garage_for_paul
+    state: 'on'
+  action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.open_garage_for_paul
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.garage_opened_for_arrival
+  - service: cover.open_cover
+    entity_id: cover.garage_door_opener
+
+- alias: 'Garage Door Close with No Motion for Three Minutes'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.open_garage_for_paul
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 3
+  - platform: state
+    entity_id: input_boolean.open_garage_for_tracy
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 3
+  - platform: state
+# Garage Motion Sensor  
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 3
+  condition:
+  - condition: state
+# Garage Motion Sensor 
+    entity_id: binary_sensor.motion_sensor_garage_motion
+    state: 'off'
+    for:
+      minutes: 2
+  - condition: state
+    entity_id: input_boolean.garage_opened_for_arrival
+    state: 'on'
+  action:
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.garage_opened_for_arrival
+
+- alias: 'Garage Door opened'
+  trigger:
+  - platform: state
+    entity_id: cover.garage_door_opener
+    from: 'closed'
+    to: 'open'   
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Garage Door has Opened and nobody is home."
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: "Garage Door Status"
+      
+- alias: 'Garage Door Closed'
+  trigger:
+  - platform: state
+    entity_id: cover.garage_door_opener
+    from: 'open'
+    to: 'closed'   
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Garage Door has Closed"
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: "Garage Door Status"
+
+##########################################
+## Media Automations                    ##
+##########################################
+- alias: Reset Sonos Volume
+  trigger:
+  - platform: state
+    entity_id: remote.living_room_harmony_hub
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: remote.living_room_harmony_hub
+    to: 'off'
+  action:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.living_room
+      volume_level: 0.35
+
+##########################################
+## Alerts                               ##
+##########################################
+
+- alias: "Notify if HA Device Offline"
+  trigger:
+    - platform: state
+      entity_id:
+        - device_tracker.ecobee_downstairs
+        - device_tracker.ecobee_upstairs
+        - device_tracker.front_doorbell_camera
+        - device_tracker.harmony_hub_living_room
+        - device_tracker.harmonyhub_frog
+        - device_tracker.hue_hub
+        - device_tracker.office_pc
+        - device_tracker.plexserver
+        - device_tracker.slingbox
+        - device_tracker.sonos_sub_living_room
+        - device_tracker.sonosplaybar_living_room
+        - device_tracker.sony_tv_living_room
+        - device_tracker.tivomini_theater_room
+      from: 'home'
+      to: 'not_home'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "{{ trigger.to_state.attributes.friendly_name }} is offline"
+      target:
+      - !secret pauls_secret_email
+      title: "Device Offline"      
+
+- alias: Water Leak in Attic
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.water_sensor_attic
+    from: 'off'
+    to: 'on'
+  action:
+  - service: notify.sony_tv
+    data:
+      message: "Water Leak in Attic"
+      title: "Leak Alert"
+  - service: notify.ios_pauls_iphone
+    data:
+      message: "Water Leak in Attic"
+      title: "Leak Alert"
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Water Leak in Attic"
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email      
+      title: "Leak Alert"      
+      
+##########################################
+## Time to Leave for work Alert         ##
+##########################################
+- alias: "Notify Paul when its time to leave for work"
+  trigger:
+  - platform: state
+    entity_id: sensor.time_to_leave_for_caci
+    to: 'True' # May need to be true
+    from: 'False'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: time
+    weekday:
+      - mon
+      - wed
+      - thu
+      - fri
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
+      target:
+      - !secret pauls_secret_email
+      title: "Time to Leave for Work"      
+
+- alias: "Notify Paul when its time to leave for Navybase"
+  trigger:
+  - platform: state
+    entity_id: sensor.time_to_leave_for_navy_base
+    to: 'True' # May need to be true
+    from: 'False'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: time
+    weekday:
+      - tue
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Based on current traffic, you have 10 minutes to leave if you want to be to the NavyBase by 8:30am"
+      target:
+      - !secret pauls_secret_email
+      title: "Time to Leave for Work"
+      
+- alias: "Notify Tracy when its time to leave for work"
+  trigger:
+  - platform: state
+    entity_id: sensor.time_to_leave_for_avis
+    to: 'True' # May need to be true
+    from: 'False'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Based on current traffic, you have about 10 minutes to leave if you want to be to work by 7:30am"
+      target:
+      - !secret tracys_secret_email
+      title: "Time to Leave for Work"
+
+##########################################
+## Commute Time Logger                  ##
+##########################################
+- alias: "Leave any zone"
+  trigger:
+  - platform: state
+    entity_id: device_tracker.pauls_iphone
+    to: 'not_home'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.commute_start_time
+      value: '{{ as_timestamp(now()) }}'
+  - service: input_text.set_value
+    data_template:
+      entity_id: input_text.commute_start_zone
+      value: '{{ trigger.from_state.state }}'
+
+- alias: "Enter any zone"
+  trigger:
+  - platform: state
+    entity_id: device_tracker.pauls_iphone
+    from: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: template
+    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.pauls_iphone') }}"
+  action:
+  - service: ifttt.trigger
+    data_template:
+      event: CommuteLog
+      value1: '{{ states("input_text.commute_start_zone") }}'
+      value2: '{{ states("device_tracker.pauls_iphone") }}'
+      value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.pauls_iphone') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
+      target:
+      - !secret pauls_secret_email
+      title: "Commute Logged"
+
+- alias: "Tracy Leaving Location Alert"
+  trigger:
+  - platform: state
+    entity_id: device_tracker.tracys_iphone
+    to: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: input_text.set_value
+    data_template:
+      entity_id: input_text.commute_start_zone_tracy
+      value: '{{ trigger.from_state.state }}'
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
+      target:
+      - !secret pauls_secret_email
+      title: "Location Alert"
+
+- alias: "Tracy Arriving at Location Alert"
+  trigger:
+  - platform: state
+    entity_id: device_tracker.tracys_iphone
+    from: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "Tracy arrived at {{ states('device_tracker.tracys_iphone') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
+      target:
+      - !secret pauls_secret_email
+      title: "Location Alert"
+
+##########################################
+## Roku Key Mapping for Harmony         ##
+##########################################
+- alias: "Roku to turn on and off Fireplace with Harmony"
+  trigger:
+  - platform: event
+    event_type: roku_command
+    event_data:
+#      roku_usn: sSMJFc3BXnTfjPAPHiY5gb
+      type: keypress
+      key: Fwd
+  action:
+  - service: homeassistant.toggle
+    entity_id: switch.fireplace
+
+##########################################
+## Camera Picture Alerts                ##
+##########################################    
+- alias: 'Cameras Drive Way 1 Picture'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_1_line_crossing
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 60 }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.capture_driveway1_camera
+  - delay: '00:00:05'
+  - service: notify.pushbullet_notifications
+    data:
+      message: Drive Way Line Crossing from 24th Street
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: DRIVEWAY 1 NOTIFICATION
+      data:
+        file: "/tmp/driveway1.jpg"
+
+- alias: 'Cameras Drive Way 2 Picture'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_2_line_crossing
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 60 }}'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.capture_driveway2_camera
+  - delay: '00:00:02'
+  - service: notify.pushbullet_notifications
+    data:
+      message: Drive Way Line Crossing from the Half Street
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: DRIVEWAY 2 NOTIFICATION
+      data:
+        file: "/tmp/driveway2.jpg"
+
+- alias: 'Cameras Back Gate Picture'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.backyard_line_crossing
+    to: 'on'    
+  condition:
+  - condition: state
+# Back Door Open Close Sensor
+    entity_id: binary_sensor.open_close_sensor_back_door
+    state: 'off'
+    for:
+      minutes: 2
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_back_gate_picture.attributes.last_triggered) | int > 60 }}'      
+  action:
+  - service: script.turn_on
+    entity_id: script.capture_backgate_camera
+  - delay: '00:00:02'
+  - service: notify.pushbullet_notifications
+    data:
+      message: Backgate Line Crossing
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email      
+      title: BACKGATE NOTIFICATION
+      data:
+        file: "/tmp/backgate.jpg"
+
+- alias: 'Camera Side Yard Picture'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.sideyard_line_crossing
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_side_yard_picture.attributes.last_triggered) | int > 60 }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.capture_sideyard_camera
+  - delay: '00:00:02'
+  - service: notify.pushbullet_notifications
+    data:
+      message: Sideyard Line Crossing
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email      
+      title: SIDEYARD NOTIFICATION
+      data:
+        file: "/tmp/sideyard.jpg"
+
+- alias: Driveway Line Crossing Alerts
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_1_line_crossing
+    from: 'off'
+    to: 'on'    
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+  - service: notify.sony_tv
+    data:
+      message: "Someone has crossed the driveway coming from 24th Street"
+      title: "Driveway Crossing"

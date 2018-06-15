@@ -1,0 +1,140 @@
+group.all_automations:
+  hidden: false
+group.all_scripts:
+  hidden: false
+binary_sensor.motion_sensor_front_door_sensor:
+  hidden: true
+binary_sensor.motion_sensor_office_motion:
+  friendly_name: "Motion Sensor (Office)"
+binary_sensor.motion_sensor_kitchen_motion:
+  friendly_name: "Motion Sensor (Kitchen)"
+binary_sensor.motion_sensor_garage_motion:
+  friendly_name: "Motion Sensor (Garage)"
+binary_sensor.motion_sensor_hallway_motion:
+  friendly_name: "Motion Sensor (Hallway)"
+binary_sensor.motion_sensor_living_room_motion:
+  friendly_name: "Motion Sensor (Living Room)"
+binary_sensor.open_close_sensor_garage_door:
+  friendly_name: "Door to the Garage (Open-Close)"
+  icon: mdi:door  
+binary_sensor.open_close_sensor_front_door:
+  friendly_name: "Front Door (Open-Close)"
+  icon: mdi:door
+binary_sensor.open_close_sensor_back_door:
+  friendly_name: "Back Door (Open-Close)"
+  icon: mdi:door
+binary_sensor.open_close_sensor_garage_fridge_temp:
+  friendly_name:  "garage Fridge Sensor"
+light.zigbee_plug_one:
+  friendly_name:  "Zigbee Repeater Switch"
+sensor.temp_garage_fridge:
+  friendly_name:  "Garage Fridge Temp"
+switch.fireplace:
+  friendly_name: Fireplace
+  icon: mdi:fire
+cover.garage_door_opener:
+  friendly_name: Garage Door
+  icon: mdi:garage
+lock.lock_back_door_lock:
+  friendly_name: Back Door Lock
+  icon: mdi:lock
+lock.lock_front_door_lock:
+  friendly_name: Front Door Lock
+  icon: mdi:lock
+binary_sensor.open_close_sensor_office_window:
+  friendly_name: Office Window (Open-Close)
+  icon: mdi:window-closed
+binary_sensor.open_close_sensor_living_room_window:
+  friendly_name: Living Room Window (Open-Close)
+  icon: mdi:window-closed
+binary_sensor.water_sensor_attic:
+  friendly_name: Attic Water Leak Sensor
+  icon: mdi:water
+sensor.downstairs_temperature:
+  friendly_name: Downstairs Thermostat Temperature
+sensor.upstairs_temperature:
+  friendly_name: Upstairs Hallway Thermostat Temperature
+sensor.motion_sensor_garage_temp:
+  friendly_name: Garage Temperature
+sensor.open_close_sensor_front_door_temp:
+  friendly_name: Front Door Temperature
+sensor.open_close_sensor_garage_door_temp:
+  friendly_name: Garage Door Temperature
+sensor.open_close_sensor_back_door_temp:
+  friendly_name: Back Door Temperature
+sensor.motion_sensor_hallway_temp:
+  friendly_name: Hallway Temperature
+sensor.motion_sensor_office_temp:
+  friendly_name: Office Temperature
+sensor.motion_sensor_living_room_temp:
+  friendly_name: Living Room Temperature
+sensor.motion_sensor_kitchen_temp:
+  friendly_name: Kitchen Temperature
+device_tracker.pauls_iphone:
+  friendly_name: Paul
+device_tracker.pauls_iphone_2:
+  friendly_name: Paul Presence (Router)
+device_tracker.688470312b7a:
+  friendly_name: Lucy the Car
+device_tracker.tracys_iphone:
+  friendly_name: Tracy
+device_tracker.tracys_iphone_2:
+  friendly_name: Tracy Presence (Router)
+binary_sensor.paul_presence:
+  friendly_name: Paul Presence (Bayesian)
+binary_sensor.tracy_presence:
+  friendly_name: Tracy Presence (Bayesian)
+input_boolean.paul_present :
+  friendly_name: Paul Presence (HomeKit)
+input_boolean.tracy_present:
+  friendly_name: Tracy Presence (HomeKit)
+light.bedroom_ceiling_light:
+  friendly_name: Bedroom Ceiling Light
+switch.living_room_plug_one:
+  friendly_name: Living Room Plug One
+switch.living_room_plug_two:
+  friendly_name: Living Room Plug Two
+switch.living_room_plug_three:
+  friendly_name: Living Room Plug Three
+light.living_room_fan_light:
+  friendly_name: Living Room Fan Light
+switch.stairwell_light:
+  friendly_name: Stairwell Light
+light.frog_ceiling_light:
+  friendly_name: Frog Ceiling Light
+light.frog_fan_light:
+  friendly_name: Frog Fan Light
+fan.frog_fan:
+  friendly_name: Frog Fan
+switch.lava_lamp_two:
+  friendly_name: Lava Lamp Two
+light.ashleys_room_lamp:
+  friendly_name: Ashleys Room Lamp
+light.kitchen_counter_light:
+  friendly_name: Kitchen Counter Light
+light.kitchen_island_light:
+  friendly_name: Kitchen Island Light
+lock.lock_garage_door_lock:
+  friendly_name: Garage Door Lock
+sensor.lock_garage_door_lock_alarm_level:
+  friendly_name: Garage Door Lock
+fan.living_room_fan:
+  friendly_name: Living Room Fan
+light.living_room_ceiling_light:
+  friendly_name: Living Ceiling Light
+switch.office_lamp_one:
+  friendly_name: Office Lamp One
+switch.bedroom_fan:
+  friendly_name: Bedroom Fan
+switch.garage_light_indoor:
+  friendly_name: Garage Light (Indoor)
+switch.garage_light_outdoor: 
+  friendly_name: Garage Light (Outdoor)
+switch.rope_lights:
+  friendly_name: Rope Lights
+switch.back_porch_light:
+  friendly_name: Back Porch Light
+switch.front_porch_light:
+  friendly_name: Front Porch Light
+switch.lamp_post:
+  friendly_name: Lamp Post

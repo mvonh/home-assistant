@@ -1,0 +1,214 @@
+kitchen_tv_lights_hue_scene:
+  alias: Hue Scene TV Lights (Kitchen)
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Kitchen"
+        scene_name: "Evening TV"
+kitchen_evening_lights_hue_scene:
+  alias: Hue Scene Evening Lights (Kitchen)
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Kitchen"
+        scene_name: "Evening Lights"
+kitchen_nightlight_hue_scene:
+  alias: Hue Scene Nightlight (Kitchen)
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Kitchen"
+        scene_name: "Nightlights"
+living_room_tv_lights_hue_scene:
+  alias: Hue Scene TV Lights (Living Room)
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Living Room"
+        scene_name: "TV Lighting"
+living_room_evening_lights_hue_scene:
+  alias: Hue Scene Evening Lights (Living Room)
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Living Room"
+        scene_name: "Normal Lighting"
+living_room_nightlights_lights_hue_scene:
+  alias: Hue Scene Nightlight (Living Room)
+  sequence:
+    - service: hue.hue_activate_scene
+      data:
+        group_name: "Living Room"
+        scene_name: "Nightlight"
+theater_room_soundbar_reset:
+  alias: Theater Room Sound Bar Reset
+  sequence:
+  - service: remote.turn_on
+    entity_id: remote.theater_room_harmony_hub
+    data:
+      activity: "27555534"
+theater_room_harmony_hub_off:
+  sequence:
+  - service: remote.turn_off
+    entity_id: remote.theater_room_harmony_hub
+    
+sonos_say:
+  alias: "Sonos TTS script"
+  sequence:
+    - service: media_player.sonos_snapshot
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+    - service: media_player.sonos_unjoin
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+    - service: media_player.volume_set
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+        volume_level: "{{ volume|default(0.5) }}"
+    - service: tts.google_say
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+        message: "{{ message }}"
+    - delay: "{{ delay|default('00:00:00') }}"
+    - wait_template: "{{ is_state(sonos_entity|default('media_player.living_room'), 'playing') }}"
+      timeout: '00:00:05'
+    - wait_template: "{{ not is_state(sonos_entity|default('media_player.living_room'), 'playing') }}"
+      timeout: '00:02:00'
+    - service: media_player.sonos_restore
+      data_template:
+        entity_id: "{{ sonos_entity|default('media_player.living_room') }}"
+notificationgaragedoor:
+  alias: 'Garage Door Open'
+  sequence:
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.6
+        delay: '00:00:04'
+        message: 'Garage door is open, please check!'
+notificationleavework:
+  alias: 'Leave for Work'
+  sequence:
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.6
+        delay: '00:00:05'
+        message: 'Traffic has cleared, you can leave for work.'
+
+notificationalarm:
+  alias: 'Notify that sensors changed when nobody is home'
+  sequence:
+    - service: media_player.sonos_snapshot
+      entity_id: media_player.living_room
+    - service: media_player.volume_set
+      entity_id: media_player.living_room
+      data:
+        volume_level: .9
+    - service: media_player.play_media
+      entity_id: media_player.living_room
+      data:
+        media_content_id: 'https://dl.dropboxusercontent.com/u/7457/HASS/Burglar_Alarm.mp3'
+        media_content_type: 'music'
+    - delay: '00:01:28'
+    - service: media_player.sonos_restore
+      entity_id: media_player.living_room 
+
+toggle_cover:
+  alias: 'Garage Door Button'
+  sequence:
+    - service_template: >
+        {% if is_state('cover.garage_door_opener', 'open') %}
+          cover.close_cover
+        {% else %}
+          cover.open_cover
+        {% endif %}
+      entity_id: cover.garage_door_opener
+      
+ecobee_resume_mode:
+  alias: "Resume Ecobee mode"
+  sequence:
+    - service: climate.ecobee_resume_program
+      entity_id: climate.downstairs
+    - service: climate.ecobee_resume_program
+      entity_id: climate.upstairs
+
+ecobee_sleep_mode:
+  alias: "Ecobee Sleep mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id: climate.downstairs
+      data:
+        hold_mode: 'sleep'
+    - service: climate.set_hold_mode
+      entity_id: climate.upstairs
+      data:
+        hold_mode: 'sleep'
+
+ecobee_home_mode:
+  alias: "Ecobee Home Mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id: climate.downstairs
+      data:
+        hold_mode: 'home'
+    - service: climate.set_hold_mode
+      entity_id: climate.upstairs
+      data:
+        hold_mode: 'home'
+
+ecobee_away_mode:
+  alias: "Ecobee Away Mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id: climate.downstairs
+      data:
+        hold_mode: 'away'
+    - service: climate.set_hold_mode
+      entity_id: climate.upstairs
+      data:
+        hold_mode: 'away'
+
+ecobee_worker_mode:
+  alias: "Ecobee Worker Mode"
+  sequence:
+    - service: climate.set_hold_mode
+      entity_id: climate.downstairs
+      data:
+        hold_mode: 'worker'
+    - service: climate.set_hold_mode
+      entity_id: climate.upstairs
+      data:
+        hold_mode: 'worker'
+
+capture_driveway1_camera:
+  alias: Capture Still Image from Driveway 1 Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_driveway1
+    - service: switch.turn_off
+      entity_id: switch.save_driveway1
+
+capture_driveway2_camera:
+  alias: Capture Still Image from Driveway 2 Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_driveway2
+    - service: switch.turn_off
+      entity_id: switch.save_driveway2
+
+capture_backgate_camera:
+  alias: Capture Still Image from Backgate Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_backgate
+    - service: switch.turn_off
+      entity_id: switch.save_backgate
+
+capture_sideyard_camera:
+  alias: Capture Still Image from Sideyard Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_sideyard
+    - service: switch.turn_off
+      entity_id: switch.save_sideyard

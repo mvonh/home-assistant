@@ -1,0 +1,513 @@
+default_view:
+  name: Lights and Switches
+  view: yes
+  icon: mdi:lightbulb-outline
+  entities:
+    - group.livingroom
+    - group.kitchen
+    - group.office_lights
+    - group.master_bedroom
+    - group.upstairs_rooms
+    - group.outdoor
+
+door_ui:
+  name: Door Locks and Garage Door
+  view: Yes
+  icon: mdi:lock-outline
+  entities:
+#    - sensor.house_mode
+#    - sensor.security_system_state
+    - group.door_lock_information
+    - group.garage_door
+    - group.door_open_close_sensors
+    - group.home_mode_and_security_monitor
+    - group.garage_door_automation_status
+
+home_mode_and_presence:
+  name: Presence and Alerts
+  view: Yes
+  icon: mdi:walk
+  entities:
+    - device_tracker.pauls_iphone
+    - device_tracker.tracys_iphone
+    - device_tracker.carolsiphone
+    - sensor.pauls_time_to_home
+    - sensor.tracys_time_to_home
+    - sensor.time_to_avis_tracy
+    - sensor.time_to_caci
+    - sensor.time_to_navy_base
+    - group.alerts
+    - group.house_presence
+    - group.household_routines
+
+CCTV:
+  view: Yes
+  icon: mdi:cctv
+  entities:
+    - camera.front_door
+    - camera.back_gate
+    - camera.driveway_one
+    - camera.driveway_two
+    - camera.side_yard
+
+
+house_climate_info:
+  name: House Climate Info
+  view: Yes
+  icon: mdi:home-circle
+  entities:
+    - group.downstairs_climate_info
+    - group.upstairs_climate_info
+    - group.room_occupancy_sensors
+    - group.thermostats
+#    - weather.downstairs
+
+weather_forcast:
+  name: Dark Sky Weather Forcast
+  view: Yes
+  icon: mdi:weather-partlycloudy
+  entities:
+    - group.weather_card_forecast
+
+automation_view:
+  name: Automation
+  view: Yes
+  icon: mdi:home-automation
+  entities:
+    - group.front_door_info
+    - group.back_door_info
+    - group.garage_door_info
+    - group.door_open_close_sensors
+    - group.indoor_motion_sensors
+    - group.motion_sensors_temp_output
+    - group.all_presence_sensors
+    - group.all_automations
+    - group.all_scripts
+
+locks:
+  name: Door Locks
+  view: no
+  icon: mdi:lock-smart
+  entities:
+    - lock.lock_back_door_lock
+    - lock.lock_garage_door_lock
+    - lock.lock_front_door_lock
+
+garage_door:
+  name: Garage Door
+  view: No
+  icon: mdi:garage
+  entities:
+    - cover.garage_door_opener
+
+garage_door_automation_status:
+  name: Garage Door Automation
+  view: No
+  icon: mdi:garage-open
+  entities:
+    - input_boolean.open_garage_for_paul
+    - input_boolean.open_garage_for_tracy
+
+media_devices:
+  name: Entertainment Devices
+  view: no
+  icon: mdi:television
+  entities:
+    - remote.living_room_harmony_hub
+    - remote.theater_room_harmony_hub
+    - media_player.living_room
+    - media_player.xbr65x900e
+#    - media_player.microsoft_edge
+#    - media_player.theater_room_tv
+#    - group.router_connections
+
+alerts:
+  name: System Alerts
+  view: No
+  entities:
+    - alert.garage_door
+    - alert.garage_fridge_temp
+    - alert.water_leak_attic
+    - alert.smoke_detector_smoke
+    - alert.smoke_detector_co2
+    - alert.smoke_detector_test
+    - alert.front_door
+    - alert.back_door
+    - alert.garage_door_door
+    
+
+home_mode_and_security_monitor:
+  name: House Mode and Security Monitor
+  view: no
+  entities:
+    - input_select.security_system
+    - input_select.house_mode
+
+livingroom:
+  name: Living Room
+  view: no
+  entities:
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.left_shelf_lights
+    - light.tv_backlights
+    - light.right_shelf_lights
+    - light.living_room_ceiling_light
+    - switch.living_room_plug_one
+    - switch.living_room_plug_two
+    - switch.living_room_plug_three
+    - light.living_room_fan_light
+    - fan.living_room_fan
+    - switch.stairwell_light
+    - switch.fireplace
+ 
+kitchen:
+  name: Kitchen
+  view: no
+  entities:
+    - light.alcove_light
+    - light.kitchen_cabinet_tops
+    - light.kitchen_cabinet_bottoms
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+
+kitchen_zwave_lights:
+  name: Kitchen Dimmers
+  view: no
+  entities:
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+
+
+office_lights:
+  name: Office Lights
+  view: no
+  entities:
+    - light.office_lamp_two
+    - switch.office_lamp_one
+
+master_bedroom:
+  name: Master Bedroom
+  view: no
+  entities:
+    - light.bedroom_lamp_one
+    - light.bedroom_lamp_two
+    - light.bedroom_ceiling_light
+    - switch.bedroom_fan
+
+upstairs_rooms:
+  name: Upstairs Rooms
+  view: no
+  entities:
+    - light.frog_ceiling_light
+    - light.frog_fan_light
+    - fan.frog_fan
+    - switch.lava_lamp_plug
+    - switch.lava_lamp_two
+    - light.guest_bedroom_lamp
+    - light.ashleys_room_lamp
+
+outdoor:
+  name: Outdoor Lights
+  view: no
+  entities:
+    - switch.rope_lights
+    - switch.back_porch_light
+    - switch.garage_light_indoor
+    - switch.front_porch_light
+    - switch.garage_light_outdoor  
+    - switch.lamp_post
+
+thermostats:
+  name: Thermostats
+  view: no
+  entities:
+    - climate.downstairs
+    - climate.upstairs
+
+house_presence:
+  name: House Presence
+  icon: mdi:account-multiple
+  view: no
+  entities:
+#    - binary_sensor.people_home
+    - binary_sensor.multiple_presence_paul
+    - binary_sensor.multiple_presence_tracy
+    - device_tracker.carolsiphone
+    - input_boolean.guests_present
+
+# Add guests here who are staying over
+extra_device_trackers:
+  name: Guest Presence Sensors
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - device_tracker.carolsiphone
+
+
+# Only for Primary People (aka Paul and Tracy)
+primary_presence:
+  name: Primary Presence for Routines
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - binary_sensor.multiple_presence_paul
+    - binary_sensor.multiple_presence_tracy
+
+downstairs_climate_info:
+  name: Downstairs Room Temperatures
+  view: no
+  entities:
+    - sensor.downstairs_temperature
+    - sensor.living_room_temperature
+    - sensor.office_temperature
+    - sensor.downstairs_humidity
+
+upstairs_climate_info:
+  name: Upstairs Room Temperatures
+  view: no
+  entities:
+    - sensor.upstairs_temperature
+    - sensor.master_bedroom_temperature
+    - sensor.ashleys_room_temperature
+    - sensor.guest_room_temperature
+    - sensor.frog_temperature
+    - sensor.upstairs_humidity
+
+router_connections:
+  name: Things on the Network
+  view: no
+  icon: mdi:router-wireless
+  entities:
+    - device_tracker.pauls_iphone
+    - device_tracker.tracys_iphone 
+    - device_tracker.ecobee_downstairs
+    - device_tracker.ecobee_upstairs
+    - device_tracker.front_doorbell_camera
+    - device_tracker.harmony_hub_living_room
+    - device_tracker.harmonyhub_frog
+    - device_tracker.hue_hub
+    - device_tracker.office_pc
+    - device_tracker.plexserver
+    - device_tracker.slingbox
+    - device_tracker.sonos_sub_living_room
+    - device_tracker.sonosplaybar_living_room
+    - device_tracker.sony_tv_living_room
+
+Cameras_view:
+  name: Security Cameras
+  view: no
+  icon: mdi:cctv
+  entities:
+    - binary_sensor.ip_camera_line_crossing
+    - binary_sensor.ip_camera_motion
+    - binary_sensor.driveway_2_line_crossing
+    - binary_sensor.driveway_2_motion
+    - binary_sensor.backyard_line_crossing
+    - binary_sensor.backyard_motion
+    - binary_sensor.sideyard_line_crossing
+    - binary_sensor.sideyard_motion
+
+indoor_motion_sensors:
+  name: Motion Sensors
+  view: no
+#  icon: mdi:cctv
+  entities:
+# Garage, hallway, office, living room, kitchen, front door (in that order)
+    - binary_sensor.motion_sensor_garage_motion
+    - binary_sensor.motion_sensor_hallway_motion
+    - binary_sensor.motion_sensor_office_motion
+    - binary_sensor.motion_sensor_living_room_motion
+    - binary_sensor.motion_sensor_kitchen_motion
+    - binary_sensor.front_door_motion
+
+downstairs_motion_sensors:
+  name: Motion Sensors
+  view: no
+  entities:
+# Garage, Office, Kitchen, Living Room
+    - binary_sensor.motion_sensor_garage_motion
+    - binary_sensor.motion_sensor_office_motion
+    - binary_sensor.motion_sensor_living_room_motion
+    - binary_sensor.motion_sensor_kitchen_motion
+
+upstairs_motion_sensors:
+  name: Motion Sensors
+  view: no
+  entities:
+# Hallway
+    - binary_sensor.motion_sensor_hallway_motion
+
+room_occupancy_sensors:
+  name: Room Occupancy Sensors
+  view: no
+  entities:
+# Ecobee Sensors   
+   - binary_sensor.master_bedroom_occupancy
+   - binary_sensor.ashleys_room_occupancy
+   - binary_sensor.guest_room_occupancy   
+   - binary_sensor.frog_occupancy
+   - binary_sensor.living_room_occupancy
+   - binary_sensor.office_occupancy
+
+door_open_close_sensors:
+  name: Open Close Sensors
+  view: no
+#  icon: mdi:cctv
+  entities:
+# Door to the garage, front Door, Back Door
+  - binary_sensor.open_close_sensor_front_door
+  - binary_sensor.open_close_sensor_garage_door
+  - binary_sensor.open_close_sensor_back_door
+
+good_night_lights:
+  view: no
+  icon: mdi:home-automation
+  entities:
+    - group.livingroom
+    - group.kitchen
+    - group.office_lights
+    - group.upstairs_rooms
+    - switch.rope_lights
+
+outdoor_lights_sunset:
+  name: Outdoor Lights for sunset
+  view: no
+  entities:
+    - switch.rope_lights
+    - switch.front_porch_light
+    - switch.lamp_post
+
+outdoor_to_turn_off:
+  name: Outdoor Lights
+  view: no
+  entities:
+    - switch.back_porch_light
+    - switch.garage_light_indoor
+    - switch.garage_light_outdoor  
+
+goodbye_lights_and_switches_at_night:
+  name: Lights and switches not including night lights
+  view: no
+  icon: mdi:lightbulb-outline
+  entities:
+    - group.livingroom
+    - group.kitchen
+    - group.office_lights
+    - group.master_bedroom
+    - group.upstairs_rooms
+    - group.outdoor_to_turn_off
+    - group.all_remotes
+    - input_boolean.back_door_opened_for_paul
+    - input_boolean.back_door_opened_for_tracy
+
+goodbye_lights_and_switches_daytime:
+  name: Lights and switches 
+  view: no
+  icon: mdi:lightbulb-outline
+  entities:
+    - group.livingroom
+    - group.kitchen
+    - group.office_lights
+    - group.master_bedroom
+    - group.upstairs_rooms
+    - group.outdoor
+    - group.all_remotes
+    - input_boolean.back_door_opened_for_paul
+    - input_boolean.back_door_opened_for_tracy
+front_door_info:
+  name: Front Door Info
+  view: no
+  entities:    
+    - lock.lock_front_door_lock
+    - sensor.frontdoor_action
+    - sensor.frontdoor_code
+    - sensor.lock_front_door_deadbolt_access_control
+    - sensor.lock_front_door_deadbolt_alarm_level
+    - sensor.lock_front_door_deadbolt_alarm_type
+    - sensor.lock_front_door_deadbolt_burglar
+    - sensor.lock_front_door_deadbolt_power_management
+    - sensor.lock_front_door_deadbolt_sourcenodeid
+    - sensor.lock_front_door_deadbolt_system
+    - zwave.lock_front_door_deadbolt
+
+back_door_info:
+  name: Back Door Info
+  entities:    
+    - lock.lock_back_door_lock
+    - sensor.backdoor_action
+    - sensor.backdoor_code
+    - sensor.lock_back_door_deadbolt_access_control
+    - sensor.lock_back_door_deadbolt_alarm_level
+    - sensor.lock_back_door_deadbolt_alarm_type
+    - sensor.lock_back_door_deadbolt_burglar
+    - sensor.lock_back_door_deadbolt_power_management
+    - sensor.lock_back_door_deadbolt_sourcenodeid
+    - sensor.lock_back_door_deadbolt_system
+    - zwave.lock_front_door_deadbolt
+
+garage_door_info:
+  name: Garage Door Info
+  entities:  
+    - lock.lock_garage_door_lock
+    - sensor.garagedoor_action
+    - sensor.garagedoor_code
+    - sensor.lock_garage_door_lock_alarm_level
+    - sensor.lock_garage_doorlock_alarm_type
+    - zwave.lock_garage_door_lock
+
+motion_sensors_temp_output:
+  name: Temp info from Motion Sensors
+  view: no
+  entities:
+    - sensor.temp_garage_fridge
+    - sensor.motion_sensor_garage_temp
+    - sensor.open_close_sensor_front_door_temp
+    - sensor.open_close_sensor_garage_door_temp
+    - sensor.open_close_sensor_back_door_temp
+    - sensor.motion_sensor_hallway_temp
+    - sensor.motion_sensor_office_temp
+    - sensor.motion_sensor_living_room_temp
+    - sensor.motion_sensor_kitchen_temp
+
+household_routines:
+  name: House Routines
+  view: no
+  entities:    
+    - automation.good_morning_routine
+    - automation.good_night_routine
+    - automation.goodbye_routine_daylight
+    - automation.goodbye_routine_after_dark
+    - automation.welcome_back_routine
+
+all_presence_sensors:
+  name: Presence and status
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - binary_sensor.people_home
+    - device_tracker.pauls_iphone
+    - device_tracker.pauls_iphone_2
+    - input_boolean.paul_present     
+    - binary_sensor.multiple_presence_paul
+    - device_tracker.tracys_iphone
+    - device_tracker.tracys_iphone_2
+    - input_boolean.tracy_present     
+    - binary_sensor.multiple_presence_tracy
+    - input_boolean.guests_present
+
+tracy_iphone_presence:
+  name: Tracys Iphone Presence
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - device_tracker.tracys_iphone
+    - device_tracker.tracys_iphone_2
+
+paul_iphone_presence:
+  name: Pauls Iphone Presence
+  icon: mdi:account-multiple
+  view: no
+  entities:
+    - device_tracker.pauls_iphone
+    - device_tracker.pauls_iphone_2

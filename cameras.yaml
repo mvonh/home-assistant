@@ -1,0 +1,30 @@
+- platform: generic
+  still_image_url: http://192.168.1.101/ISAPI/Streaming/channels/101/picture
+  name: Front Door
+  username: admin
+  password: !secret camera_doorbell_password
+  authentication: basic
+- platform: generic
+  still_image_url: http://192.168.1.100:65002/ISAPI/Streaming/channels/1/picture  
+  name: Driveway One
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: generic
+  still_image_url: http://192.168.1.100:65003/ISAPI/Streaming/channels/1/picture  
+  name: Driveway Two
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: generic
+  still_image_url: http://192.168.1.100:65004/ISAPI/Streaming/channels/1/picture  
+  name: Back Gate
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
+- platform: generic
+  still_image_url: http://192.168.1.100:65005/ISAPI/Streaming/channels/1/picture  
+  name: Side Yard
+  username: hass
+  password: !secret camera_nvr_password
+  authentication: digest
