@@ -60,7 +60,7 @@ motion_sensor_attic_package:
         hidden: true
       sensor.motion_sensor_attic_system:
         hidden: true
-      sensor.basement__hall_multisensor_emergency:
+      sensor.bmotion_sensor_attic_emergency:
         hidden: true
       sensor.motion_sensor_attic_power_management:
         hidden: true
