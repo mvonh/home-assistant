@@ -2,8 +2,8 @@ group.all_automations:
   hidden: false
 group.all_scripts:
   hidden: false
-binary_sensor.motion_sensor_front_door_sensor:
-  hidden: true
+#binary_sensor.motion_sensor_front_door_sensor:
+#  hidden: true
 binary_sensor.motion_sensor_office_motion:
   friendly_name: "Motion Sensor (Office)"
 binary_sensor.motion_sensor_kitchen_motion:
@@ -138,3 +138,82 @@ switch.front_porch_light:
   friendly_name: Front Porch Light
 switch.lamp_post:
   friendly_name: Lamp Post
+sensor.motion_sensor_front_door_alarm_level:
+  hidden: true
+sensor.motion_sensor_front_door_alarm_type:
+  hidden: true
+sensor.motion_sensor_front_door_burglar:
+  hidden: true
+sensor.motion_sensor_front_door_clock:
+  hidden: true
+sensor.motion_sensor_front_door_sourcenodeid:
+  hidden: true
+binary_sensor.motion_sensor_front_door_sensor:
+  hidden: true
+sensor.motion_sensor_front_door_system:
+  hidden: true
+sensor.motion_sensor_front_door_emergency:
+  hidden: true
+sensor.motion_sensor_front_door_power_management:
+  hidden: true
+sensor.motion_sensor_front_door_homehealth:
+  hidden: true
+sensor.motion_sensor_front_door_luminance:
+  friendly_name: Luminance
+  icon: mdi:brightness-5
+sensor.motion_sensor_front_door_relative_humidity:
+  friendly_name: Humidity
+  icon: mdi:water-percent
+sensor.motion_sensor_front_door_temperature:
+  friendly_name: Temperature
+  icon: mdi:temperature-fahrenheit
+sensor.motion_sensor_front_door_battery:
+  friendly_name: Front Door Multisensor Battery
+binary_sensor.motion_sensor_front_door_tamper:
+  friendly_name: Tamper
+binary_sensor.motion_sensor_front_door_motion:
+  friendly_name: Front Door Motion
+group.motion_sensor_front_door:
+  group:
+    group.motion_sensors:
+      friendly_name: Front Door Alarm
+sensor.motion_sensor_attic_alarm_level:
+  hidden: true
+sensor.motion_sensor_attic_alarm_type:
+  hidden: true
+sensor.motion_sensor_attic_burglar:
+  hidden: true
+sensor.motion_sensor_attic_clock:
+  hidden: true
+sensor.motion_sensor_attic_sourcenodeid:
+  hidden: true
+binary_sensor.motion_sensor_attic_sensor:
+  hidden: true
+sensor.motion_sensor_attic_system:
+  hidden: true
+sensor.bmotion_sensor_attic_emergency:
+  hidden: true
+sensor.motion_sensor_attic_power_management:
+  hidden: true
+sensor.motion_sensor_attic_homehealth:
+  hidden: true        
+sensor.motion_sensor_attic_luminance:
+  friendly_name: Luminance
+  icon: mdi:brightness-5
+sensor.motion_sensor_attic_relative_humidity:
+  friendly_name: Humidity
+  icon: mdi:water-percent
+sensor.motion_sensor_attic_temperature:
+  friendly_name: Temperature
+  icon: mdi:temperature-fahrenheit
+sensor.motion_sensor_attic_battery:
+  friendly_name: Attic Multisensor Battery
+binary_sensor.motion_sensor_attic_tamper:
+  friendly_name: Tamper
+binary_sensor.motion_sensor_attic_motion:
+  friendly_name: Attic Motion
+group.motion_sensor_attic:
+  group:
+    group.motion_sensors:
+      friendly_name: Attic Alarm
+      

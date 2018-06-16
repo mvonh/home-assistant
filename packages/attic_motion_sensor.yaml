@@ -1,113 +1,53 @@
-motion_sensor_attic_package:
-
-  sensor:
-    - platform: template
-      sensors:
-        motion_sensor_attic_battery:
-          friendly_name: "Attic Multisensor Battery"
-          value_template: "{% if states.zwave.motion_sensor_attic %}
-              {{ states.zwave.motion_sensor_attic.attributes.battery_level }}
+sensor:
+  - platform: template
+    sensors:
+      motion_sensor_attic_battery:
+        friendly_name: "Attic Multisensor Battery"
+        value_template: "{% if states.zwave.motion_sensor_attic %}
+            {{ states.zwave.motion_sensor_attic.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        # entity_id: zwave.motion_sensor_attic
+        icon_template: >-
+          {% set battery_level = states('sensor.motion_sensor_attic_battery')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
             {% else %}
-              unknown
-            {% endif %}"
-          unit_of_measurement: '%'
-          # entity_id: zwave.motion_sensor_attic
-          icon_template: >-
-            {% set battery_level = states('sensor.motion_sensor_attic_battery')|int('unknown') %}
-            {% set battery_round = (battery_level|int / 10)|int * 10 %}
-            {% if battery_level == 'unknown' %}
-              mdi:battery-unknown
-            {% else %}
-              {% if battery_round >= 100 %}
-                mdi:battery
-              {% elif battery_round > 0 %}
-                mdi:battery-{{ battery_round }}
-              {% else %}
-                mdi:battery-alert
-              {% endif %}
+              mdi:battery-alert
             {% endif %}
+          {% endif %}
 
+binary_sensor:
+  - platform: template
+    sensors:
+      motion_sensor_attic_motion:
+        value_template: "{{ is_state('sensor.motion_sensor_attic_burglar', '8') }}"
+        friendly_name: "Attic Multisensor Motion"
+        device_class: motion
+        # entity_id:  sensor.motion_sensor_attic_burglar
 
-  binary_sensor:
-    - platform: template
-      sensors:
-        motion_sensor_attic_motion:
-          value_template: "{{ is_state(' sensor.motion_sensor_attic_burglar', '8') }}"
-          friendly_name: "Attic Multisensor Motion"
-          device_class: motion
-          # entity_id:  sensor.motion_sensor_attic_burglar
-
-        motion_sensor_attic_tamper:
-          value_template: "{{ is_state(' sensor.motion_sensor_attic_burglar', '3') }}"
-          friendly_name: "Attic Multisensor Tamper"
-          device_class: safety
-          # entity_id:  sensor.motion_sensor_attic_burglar
-
-
-  homeassistant:
-    customize:
-       sensor.motion_sensor_attic_alarm_level:
-        hidden: true
-      sensor.motion_sensor_attic_alarm_type:
-        hidden: true
-       sensor.motion_sensor_attic_burglar:
-        hidden: true
-      sensor.motion_sensor_attic_clock:
-        hidden: true
-      sensor.motion_sensor_attic_sourcenodeid:
-        hidden: true
-      binary_sensor.motion_sensor_attic_sensor:
-        hidden: true
-      sensor.motion_sensor_attic_system:
-        hidden: true
-      sensor.bmotion_sensor_attic_emergency:
-        hidden: true
-      sensor.motion_sensor_attic_power_management:
-        hidden: true
-      sensor.motion_sensor_attic_homehealth:
-        hidden: true        
-
-      sensor.motion_sensor_attic_luminance:
-        friendly_name: Luminance
-        icon: mdi:brightness-5
-      sensor.motion_sensor_attic_relative_humidity:
-        friendly_name: Humidity
-        icon: mdi:water-percent
-      sensor.motion_sensor_attic_temperature:
-        friendly_name: Temperature
-        icon: mdi:temperature-fahrenheit
-      sensor.motion_sensor_attic_battery:
-        friendly_name: Attic Multisensor Battery
-        group:
-          group.motion_sensor_attic:  
-            friendly_name: Battery
-          group.battery_group:  
-            friendly_name: Attic Multi
-
-      binary_sensor.motion_sensor_attic_tamper:
-        friendly_name: Tamper
-
-      binary_sensor.motion_sensor_attic_motion:
-        friendly_name: Attic Motion
-        group:
-          group.motion_sensor_attic:  
-            friendly_name: Motion
-          group.motionsensors:  
-            friendly_name: Attic
-
-      group.motion_sensor_attic:
-        group:
-          group.motion_sensors:
-            friendly_name: Attic Alarm
-
-  group:
-    motion_sensor_attic:
-      name: Attic MultiSensor
-      control: hidden
-      entities:
-        - binary_sensor.motion_sensor_attic_motion
-        - binary_sensor.motion_sensor_attic_tamper
-        - sensor.motion_sensor_attic_luminance
-        - sensor.motion_sensor_attic_relative_humidity
-        - sensor.motion_sensor_attic_temperature
-        - sensor.motion_sensor_attic_battery
+      motion_sensor_attic_tamper:
+        value_template: "{{ is_state('sensor.motion_sensor_attic_burglar', '3') }}"
+        friendly_name: "Attic Multisensor Tamper"
+        device_class: safety
+        # entity_id:  sensor.motion_sensor_attic_burglar
+      
+group:
+  motion_sensor_attic:
+    name: Attic MultiSensor
+    control: hidden
+    entities:
+      - binary_sensor.motion_sensor_attic_motion
+      - binary_sensor.motion_sensor_attic_tamper
+      - sensor.motion_sensor_attic_luminance
+      - sensor.motion_sensor_attic_relative_humidity
+      - sensor.motion_sensor_attic_temperature
+      - sensor.motion_sensor_attic_battery

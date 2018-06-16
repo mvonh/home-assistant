@@ -312,7 +312,7 @@ indoor_motion_sensors:
     - binary_sensor.motion_sensor_office_motion
     - binary_sensor.motion_sensor_living_room_motion
     - binary_sensor.motion_sensor_kitchen_motion
-    - binary_sensor.front_door_motion
+    - binary_sensor.motion_sensor_front_door_motion
 
 downstairs_motion_sensors:
   name: Motion Sensors
@@ -323,6 +323,7 @@ downstairs_motion_sensors:
     - binary_sensor.motion_sensor_office_motion
     - binary_sensor.motion_sensor_living_room_motion
     - binary_sensor.motion_sensor_kitchen_motion
+    - binary_sensor.motion_sensor_front_door_motion
 
 upstairs_motion_sensors:
   name: Motion Sensors
@@ -330,6 +331,7 @@ upstairs_motion_sensors:
   entities:
 # Hallway
     - binary_sensor.motion_sensor_hallway_motion
+    - binary_sensor.motion_sensor_attic_motion
 
 room_occupancy_sensors:
   name: Room Occupancy Sensors
