@@ -172,7 +172,7 @@ sensor.motion_sensor_front_door_battery:
 binary_sensor.motion_sensor_front_door_tamper:
   friendly_name: Tamper
 binary_sensor.motion_sensor_front_door_motion:
-  friendly_name: Front Door Motion
+  friendly_name: Motion Sensor (Front Door)
 group.motion_sensor_front_door:
   group:
     group.motion_sensors:
@@ -211,7 +211,7 @@ sensor.motion_sensor_attic_battery:
 binary_sensor.motion_sensor_attic_tamper:
   friendly_name: Tamper
 binary_sensor.motion_sensor_attic_motion:
-  friendly_name: Attic Motion
+  friendly_name: Motion Sensor (Attic)
 group.motion_sensor_attic:
   group:
     group.motion_sensors:
