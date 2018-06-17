@@ -2077,7 +2077,7 @@ sensor:
               {{ states.input_text.door_keypad_9_name.state }}
             {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '10') %}
               {{ states.input_text.door_keypad_10_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '11') %}
+            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '11') %}
               {{ states.input_text.door_keypad_11_name.state }}
             {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '12') %}
               {{ states.input_text.door_keypad_12_name.state }}
