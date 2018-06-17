@@ -583,9 +583,9 @@ automation:
     - condition: numeric_state
       entity_id: sensor.ha_runtime_in_minutes
       above: 1
-#    - condition: state
-#      entity_id: binary_sensor.people_home
-#      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.people_home
+      state: 'off'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.guests_present
