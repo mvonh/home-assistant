@@ -1,15 +1,12 @@
 - alias: 'Phone Charging Test'
   trigger:
   - platform: state
-    entity_id: sensor.pauls_iphone_battery_state
-    to: 'Charging'
-  - platform: state
     entity_id: sensor.tracys_iphone_battery_state
     to: 'Charging'
   action:
   - service: notify.pushbullet_notifications
     data:
-      message: "One or both phones are on the charger"
+      message: "Tracys phone is on the charger"
       target:
       - !secret pauls_secret_email
       title: "Testing of iPhone Charging"
@@ -130,6 +127,17 @@
   - service: timer.start
     entity_id: timer.paul_just_arrived
 
+- alias: 'Reset Door Lock for Paul'
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data: 
+      entity_id: timer.paul_just_arrived
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - input_boolean.back_door_opened_for_paul
+
 - alias: Tracy just Arrived Timer
   trigger:
    - platform: state
@@ -148,6 +156,17 @@
   action:
   - service: timer.start
     entity_id: timer.tracy_just_arrived
+
+- alias: 'Reset Door Lock for Tracy'
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data: 
+      entity_id: timer.tracy_just_arrived
+  action:
+  - service: homeassistant.turn_off
+    entity_id:
+      - input_boolean.back_door_opened_for_tracy
 
 ##########################################
 ## Update stuff when people leave       ##
@@ -169,7 +188,7 @@
       - input_boolean.open_garage_for_paul
   - service: timer.cancel
     entity_id: timer.paul_just_arrived
-    
+
 - alias: 'Tracy Left'
   trigger:
    - platform: state
@@ -363,6 +382,12 @@
     entity_id: group.outdoor_lights_sunset
   - service: homeassistant.turn_off
     entity_id: switch.back_porch_light
+  - service: automation.turn_off
+    entity_id:
+      - automation.cameras_back_gate_picture
+      - automation.cameras_drive_way_1_picture
+      - automation.cameras_drive_way_2_picture
+      - automation.camera_side_yard_picture
 
 - alias: TV Lighting after sunset if TV is turned on
   trigger:
@@ -493,7 +518,16 @@
       entity_id: remote.living_room_harmony_hub
       command:
          - PowerOff
+# sony TV
       device: 48350995
+      delay_secs: 0.6
+  - service: remote.send_command
+    data:
+      entity_id: remote.living_room_harmony_hub
+      command:
+         - Off
+# sonos
+      device: 54465379
       delay_secs: 0.6
   - service: automation.turn_on
     entity_id:
@@ -609,14 +643,6 @@
 - alias: Good Morning Routine
   trigger:
   - platform: state
-    entity_id: binary_sensor.motion_sensor_garage_motion
-    from: 'off'
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_office_motion
-    from: 'off'
-    to: 'on'
-  - platform: state
     entity_id: binary_sensor.motion_sensor_living_room_motion
     from: 'off'
     to: 'on'
@@ -646,12 +672,6 @@
     data_template:
       entity_id: input_select.house_mode
       option: Home
-  - service: automation.turn_off
-    entity_id:
-      - automation.cameras_back_gate_picture
-      - automation.cameras_drive_way_1_picture
-      - automation.cameras_drive_way_2_picture
-      - automation.camera_side_yard_picture
 #  - service: notify.pushbullet_notifications
 #    data:
 #      message: "Good Morning Routine has run based on motion.  Door to the garage has been unlocked and kitchen lights turned on"
