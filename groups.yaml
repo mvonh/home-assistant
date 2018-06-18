@@ -20,8 +20,17 @@ door_ui:
     - group.door_lock_information
     - group.garage_door
     - group.door_open_close_sensors
-    - group.home_mode_and_security_monitor
     - group.garage_door_automation_status
+
+CCTV:
+  view: Yes
+  icon: mdi:cctv
+  entities:
+    - camera.front_door
+    - camera.back_gate
+    - camera.driveway_one
+    - camera.driveway_two
+    - camera.side_yard
 
 home_mode_and_presence:
   name: Presence and Alerts
@@ -38,17 +47,8 @@ home_mode_and_presence:
     - sensor.time_to_navy_base
     - group.alerts
     - group.house_presence
+    - group.home_mode_and_security_monitor
     - group.household_routines
-
-CCTV:
-  view: Yes
-  icon: mdi:cctv
-  entities:
-    - camera.front_door
-    - camera.back_gate
-    - camera.driveway_one
-    - camera.driveway_two
-    - camera.side_yard
 
 
 house_climate_info:
@@ -56,10 +56,11 @@ house_climate_info:
   view: Yes
   icon: mdi:home-circle
   entities:
+    - group.thermostats
     - group.downstairs_climate_info
     - group.upstairs_climate_info
     - group.room_occupancy_sensors
-    - group.thermostats
+
 #    - weather.downstairs
 
 weather_forcast:
@@ -77,11 +78,10 @@ automation_view:
     - group.front_door_info
     - group.back_door_info
     - group.garage_door_info
-    - group.door_open_close_sensors
     - group.indoor_motion_sensors
-    - group.motion_sensors_temp_output
     - group.motion_sensor_front_door
     - group.motion_sensor_attic
+    - group.motion_sensors_temp_output
     - group.all_presence_sensors
     - group.all_automations
     - group.all_scripts
@@ -265,6 +265,8 @@ upstairs_climate_info:
     - sensor.ashleys_room_temperature
     - sensor.guest_room_temperature
     - sensor.frog_temperature
+    - sensor.motion_sensor_attic_temperature
+    - sensor.motion_sensor_attic_relative_humidity
     - sensor.upstairs_humidity
 
 router_connections:
