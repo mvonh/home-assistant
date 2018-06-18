@@ -201,10 +201,10 @@ sensor.motion_sensor_attic_luminance:
   friendly_name: Luminance
   icon: mdi:brightness-5
 sensor.motion_sensor_attic_relative_humidity:
-  friendly_name: Humidity
+  friendly_name: Attic Humidity
   icon: mdi:water-percent
 sensor.motion_sensor_attic_temperature:
-  friendly_name: Temperature
+  friendly_name: Attic Temperature
   icon: mdi:temperature-fahrenheit
 sensor.motion_sensor_attic_battery:
   friendly_name: Attic Multisensor Battery
@@ -216,4 +216,29 @@ group.motion_sensor_attic:
   group:
     group.motion_sensors:
       friendly_name: Attic Alarm
-      
+switch.bedroom_fan:
+  icon: mdi:fan
+switch.living_room_plug_one:
+  icon: mdi:power-socket-us
+switch.living_room_plug_three:
+  icon: mdi:power-socket-us
+switch.living_room_plug_two:
+  icon: mdi:power-socket-us
+switch.front_porch_light:
+  icon: lightbulb
+switch.garage_light_indoor:
+  icon: lightbulb
+switch.garage_light_outdoor:
+  icon: lightbulb
+switch.lamp_post:
+  icon: lightbulb
+switch.office_lamp_one:
+  icon: lightbulb
+switch.rope_lights:
+  icon: lightbulb
+switch.stairwell_light:
+  icon: lightbulb
+switch.lava_lamp_plug:
+  icon: lava-lamp
+switch.lava_lamp_two:
+  icon: lava-lamp
