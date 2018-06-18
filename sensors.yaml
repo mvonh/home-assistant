@@ -95,19 +95,19 @@
           {{ ( t.hour + t.minute / 60 ) > ( 8.33 - states.sensor.time_to_navy_base.state | int / 60) }}
         friendly_name: 'Time to leave for Navy Base'
 
-      pauls_traffic_density_to_CACI:
+      pauls_traffic_density_to_caci:
         friendly_name: Traffic to CACI
-        value_template: >-
-          {% if states("sensor.time_to_caci") | float >= 32 %}
+        value_template: >
+          {% if states("sensor.time_to_caci") | int >= 32 %}
             Heavy
-          {% elif states("sensor.time_to_caci") | float < 32 and states("sensor.time_to_caci") | float >= 26 %}
+          {% elif states("sensor.time_to_caci") | int < 32 and states("sensor.time_to_caci") | int >= 26 %}
             Moderate
-          {% elif states("sensor.time_to_caci") | float < 26 and states("sensor.time_to_caci") | float >= 10 %}
+          {% elif states("sensor.time_to_caci") | int < 26 and states("sensor.time_to_caci") | int >= 10 %}
             Normal
           {% else %}
             unknown
           {% endif %}
-      	
+          
       pauls_traffic_density_to_navybase:
         friendly_name: Traffic to NavyBase
         value_template: >-
@@ -120,7 +120,7 @@
           {% else %}
             unknown
           {% endif %}
-      	
+
       tracys_traffic_density_to_avis:
         friendly_name: Traffic to Avis
         value_template: >-
@@ -133,7 +133,7 @@
           {% else %}
             unknown
           {% endif %}
-      	
+
 #      battery_front_door_motion:
 #        value_template: '{{ states.zwave.motion_sensor_front_door.attributes.battery_level|default(0) }}'
 #        friendly_name: "Front Door Motion Motion Sensor Battery Level"
