@@ -114,28 +114,28 @@ light.living_room_ceiling_light:
   friendly_name: Living Ceiling Light
 switch.office_lamp_one:
   friendly_name: Office Lamp One
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.bedroom_fan:
   friendly_name: Bedroom Fan
   icon: mdi:fan
 switch.garage_light_indoor:
   friendly_name: Garage Light (Indoor)
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.garage_light_outdoor: 
   friendly_name: Garage Light (Outdoor)
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.rope_lights:
   friendly_name: Rope Lights
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.back_porch_light:
   friendly_name: Back Porch Light
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.front_porch_light:
   friendly_name: Front Porch Light
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.lamp_post:
   friendly_name: Lamp Post
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.living_room_plug_one:
   friendly_name: Living Room Plug One
   icon: mdi:power-socket-us
@@ -147,13 +147,13 @@ switch.living_room_plug_three:
   icon: mdi:power-socket-us
 switch.stairwell_light:
   friendly_name: Stairwell Light
-  icon: lightbulb
+  icon: mdi:lightbulb
 switch.lava_lamp_two:
   friendly_name: Lava Lamp Two
-  icon: lava-lamp
+  icon: mdi:lava-lamp
 switch.lava_lamp_plug:
   friendly_name: Lava Lamp One
-  icon: lava-lamp
+  icon: mdi:lava-lamp
 sensor.motion_sensor_front_door_alarm_level:
   hidden: true
 sensor.motion_sensor_front_door_alarm_type:
