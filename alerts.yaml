@@ -38,6 +38,18 @@
       - ios_pauls_iphone
       - sony_tv
       - pushbullet_notifications
+
+  water_leak_kitchen:
+    name: Water Sensor under the Kitchen Sing Reporting a leak
+    done_message: Kitchen Water Leak has been cleared
+    entity_id: binary_sensor.water_sensor_kitchen
+    state: 'on'
+    repeat: 5
+    can_acknowledge: True
+    notifiers:
+      - ios_pauls_iphone
+      - sony_tv
+      - pushbullet_notifications
       
   smoke_detector_smoke:
     name: Downstairs Smoke Alarm - Smoke Detected

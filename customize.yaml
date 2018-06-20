@@ -50,6 +50,9 @@ binary_sensor.open_close_sensor_living_room_window:
 binary_sensor.water_sensor_attic:
   friendly_name: Attic Water Leak Sensor
   icon: mdi:water
+binary_sensor.water_sensor_kitchen:
+  friendly_name: Kitchen Sink Water Leak Sensor
+  icon: mdi:water
 sensor.downstairs_temperature:
   friendly_name: Downstairs Thermostat Temperature
 sensor.upstairs_temperature:

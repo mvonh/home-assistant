@@ -4,6 +4,7 @@ default_view:
   icon: mdi:lightbulb-outline
   entities:
     - group.livingroom
+    - group.livingroom_plugs
     - group.kitchen
     - group.office_lights
     - group.master_bedroom
@@ -31,6 +32,10 @@ CCTV:
     - camera.driveway_one
     - camera.driveway_two
     - camera.side_yard
+    - automation.camera_side_yard_picture
+    - automation.cameras_back_gate_picture
+    - automation.cameras_drive_way_1_picture
+    - automation.cameras_drive_way_2_picture
 
 home_mode_and_presence:
   name: Presence and Alerts
@@ -121,6 +126,7 @@ alerts:
     - alert.garage_door
     - alert.garage_fridge_temp
     - alert.water_leak_attic
+    - alert.water_leak_kitchen
     - alert.smoke_detector_smoke
     - alert.smoke_detector_co2
     - alert.smoke_detector_test
@@ -139,6 +145,7 @@ home_mode_and_security_monitor:
 livingroom:
   name: Living Room
   view: no
+  control: hidden
   entities:
     - light.living_room_lamp_one
     - light.living_room_lamp_two
@@ -146,13 +153,19 @@ livingroom:
     - light.tv_backlights
     - light.right_shelf_lights
     - light.living_room_ceiling_light
-    - switch.living_room_plug_one
-    - switch.living_room_plug_two
-    - switch.living_room_plug_three
     - light.living_room_fan_light
     - fan.living_room_fan
     - switch.stairwell_light
     - switch.fireplace
+
+livingroom_plugs:
+  name: Living Room Plugs
+  view: no
+  control: hidden
+  entities:
+    - switch.living_room_plug_one
+    - switch.living_room_plug_two
+    - switch.living_room_plug_three
  
 kitchen:
   name: Kitchen
@@ -191,6 +204,7 @@ master_bedroom:
 upstairs_rooms:
   name: Upstairs Rooms
   view: no
+  control: hidden
   entities:
     - light.frog_ceiling_light
     - light.frog_fan_light
@@ -203,6 +217,7 @@ upstairs_rooms:
 outdoor:
   name: Outdoor Lights
   view: no
+  control: hidden
   entities:
     - switch.rope_lights
     - switch.back_porch_light
