@@ -319,9 +319,12 @@
     entity_id: remote.theater_room_harmony_hub
     to: 'off'
   condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.turn_on_lights_in_frog_after_tv_turns_off.attributes.last_triggered) | int > 300 }}'   
+  - condition: state
+    entity_id: timer.frog_tv_reset
+    state: 'idle'
   action:
+  - service: timer.start
+    entity_id: timer.frog_tv_reset
   - service: light.turn_on
     data:
       entity_id:
@@ -353,6 +356,8 @@
   - condition: numeric_state
     entity_id: sensor.frog_temperature
     above: 73.0
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.turn_on_lights_in_frog_after_tv_turns_off.attributes.last_triggered) | int > 300 }}'  
   action:
   - service: fan.set_speed
     entity_id: fan.frog_fan

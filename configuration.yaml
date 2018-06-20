@@ -27,6 +27,8 @@ timer:
     duration: '00:07:00'
   tracy_just_arrived:
     duration: '00:07:00'
+  frog_tv_reset:
+    duration: '00:05:00'
 
 # Zigbee
 zha:
