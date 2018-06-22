@@ -4,12 +4,12 @@ default_view:
   icon: mdi:lightbulb-outline
   entities:
     - group.livingroom
-    - group.livingroom_plugs
     - group.kitchen
     - group.office_lights
     - group.master_bedroom
     - group.upstairs_rooms
     - group.outdoor
+    - group.livingroom_plugs
 
 door_ui:
   name: Door Locks and Garage Door
