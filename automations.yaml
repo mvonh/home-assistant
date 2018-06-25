@@ -485,6 +485,8 @@
     value_template: '{{ state.attributes.elevation }}'
     above: 3.0  
   action:
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches_daytime
@@ -532,13 +534,13 @@
     value_template: '{{ state.attributes.elevation }}'
     below: 3.0  
   action:
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches_at_night
   - service: lock.lock
     entity_id: group.all_locks
-  - service: cover.close_cover
-    entity_id: cover.garage_door_opener
   - service: remote.send_command
     data:
       entity_id: remote.living_room_harmony_hub
