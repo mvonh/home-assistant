@@ -34,13 +34,10 @@ switch.fireplace:
   icon: mdi:fire
 cover.garage_door_opener:
   friendly_name: Garage Door
-  icon: mdi:garage
 lock.lock_back_door_lock:
   friendly_name: Back Door Lock
-  icon: mdi:lock
 lock.lock_front_door_lock:
   friendly_name: Front Door Lock
-  icon: mdi:lock
 binary_sensor.open_close_sensor_office_window:
   friendly_name: Office Window (Open-Close)
   icon: mdi:window-closed
