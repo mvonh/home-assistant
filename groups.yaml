@@ -157,7 +157,7 @@ livingroom:
     - switch.fireplace
 
 livingroom_hue_lights:
-  name: Living Room
+  name: Living Room Hue Lights
   view: no
   control: hidden
   entities:
@@ -166,7 +166,7 @@ livingroom_hue_lights:
     - light.left_shelf_lights
     - light.tv_backlights
     - light.right_shelf_lights
-	
+
 livingroom_zwave_devices:
   name: Living Room Zwave Devices
   view: no
@@ -187,7 +187,7 @@ livingroom_plugs:
     - switch.living_room_plug_one
     - switch.living_room_plug_two
     - switch.living_room_plug_three
- 
+
 kitchen:
   name: Kitchen
   view: no
@@ -206,7 +206,7 @@ kitchen_hue_lights:
     - light.alcove_light
     - light.kitchen_cabinet_tops
     - light.kitchen_cabinet_bottoms
-	
+
 kitchen_zwave_lights:
   name: Kitchen Dimmers
   view: no
@@ -242,7 +242,7 @@ upstairs_rooms:
     - switch.lava_lamp_two
     - light.guest_bedroom_lamp
     - light.ashleys_room_lamp
-	
+
 upstairs_hue_lights:
   name: Upstairs Hue Lights
   view: no
@@ -429,10 +429,10 @@ good_night_lights:
   entities:
     - group.livingroom_hue_lights
     - group.kitchen_hue_lights
-	- group.kitchen_zwave_lights
+    - group.kitchen_zwave_lights
     - group.livingroom_zwave_devices
     - group.livingroom_plugs
-	- group.upstairs_hue_lights
+    - group.upstairs_hue_lights
     - group.upstairs_rooms
     - switch.rope_lights
 
@@ -458,10 +458,10 @@ goodbye_lights_and_switches_at_night:
   entities:
     - group.livingroom_hue_lights
     - group.kitchen_hue_lights
-	- group.kitchen_zwave_lights
+    - group.kitchen_zwave_lights
     - group.livingroom_zwave_devices
     - group.livingroom_plugs
-	- group.upstairs_hue_lights
+    - group.upstairs_hue_lights
     - group.upstairs_zwave_devices
     - group.outdoor_to_turn_off
     - group.all_remotes
@@ -475,10 +475,10 @@ goodbye_lights_and_switches_daytime:
   entities:
     - group.livingroom_hue_lights
     - group.kitchen_hue_lights
-	- group.kitchen_zwave_lights
+    - group.kitchen_zwave_lights
     - group.livingroom_zwave_devices
     - group.livingroom_plugs
-	- group.upstairs_hue_lights
+    - group.upstairs_hue_lights
     - group.upstairs_zwave_devices
     - group.outdoor
     - group.all_remotes
@@ -514,7 +514,7 @@ back_door_info:
     - sensor.lock_back_door_deadbolt_power_management
     - sensor.lock_back_door_deadbolt_sourcenodeid
     - sensor.lock_back_door_deadbolt_system
-    - zwave.lock_front_door_deadbolt
+    - zwave.lock_back_door_deadbolt
 
 garage_door_info:
   name: Garage Door Info
