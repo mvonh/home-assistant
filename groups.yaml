@@ -87,6 +87,7 @@ automation_view:
     - group.motion_sensor_attic
     - group.motion_sensors_temp_output
     - group.all_presence_sensors
+    - group.zwave_door_lock_options
     - group.all_automations
     - group.all_scripts
 
@@ -581,3 +582,18 @@ paul_iphone_presence:
   entities:
     - device_tracker.pauls_iphone
     - device_tracker.pauls_iphone_2
+    
+zwave_door_lock_options:
+  name: zwave configs for schlages
+  view: no
+  entities:
+    - input_select.lock_zwave_option_3
+    - input_select.lock_zwave_option_4
+    - input_select.lock_zwave_option_5
+    - input_select.lock_zwave_option_7
+    - input_select.lock_zwave_option_8
+    - input_select.lock_zwave_option_9
+    - input_select.lock_zwave_option_10
+    - input_select.lock_zwave_option_11
+    - input_select.lock_zwave_option_15
+    - input_select.lock_zwave_option_16
