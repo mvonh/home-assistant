@@ -120,9 +120,13 @@
        - device_tracker.pauls_iphone_2
      to: 'home'
   condition:
-  - condition: state
-    entity_id: binary_sensor.paul_presence
-    state: 'off'   
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.paul_presence
+        state: 'off'  
+      - condition: template
+        value_template: "{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.paul_presence.last_changed)) < 60 }}"
   action:
   - service: timer.start
     entity_id: timer.paul_just_arrived
@@ -1176,13 +1180,21 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: sensor.tracys_traffic_density_to_avis
+        state: 'Moderate'
+      - condition: state
+        entity_id: sensor.tracys_traffic_density_to_avis
+        state: 'Heavy'
   action:
   - service: notify.pushbullet_notifications
     data:
       message: "Based on current traffic, you have about 10 minutes to leave if you want to be to work by 7:30am"
       target:
       - !secret tracys_secret_email
-      title: "Time to Leave for Work"
+      title: "Traffic is heavier than usual!"
 
 ##########################################
 ## Commute Time Logger                  ##
