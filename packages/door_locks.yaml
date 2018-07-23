@@ -521,7 +521,8 @@ automation:
 
   - alias: Keypad clear code after one time use code is used for 16 through 18
 # When the code from slots 16. 17 or 18 are used, the immediately run the delete script, removing the code from all doors
-# notice that the alarm level is used to determine which slot was used, make sure the names match your config 
+# notice that the alarm level is used to determine which slot was used, make sure the names match your config.  Added condition
+# for keypad unlock to keep codes from being deleted when set  (Yale Locks did this)
     trigger:
       - platform: numeric_state
         entity_id:
@@ -531,9 +532,22 @@ automation:
         above: 15
         below: 19
     condition:
-    - condition: numeric_state
-      entity_id: sensor.ha_runtime_in_minutes
-      above: 1
+    - condition: and
+        conditions:
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: sensor.frontdoor_action
+              state: 'Keypad Unlock'
+            - condition: state
+              entity_id: sensor.backdoor_action
+              state: 'Keypad Unlock'
+            - condition: state
+              entity_id: sensor.garagedoor_action
+              state: 'Keypad Unlock'
+        - condition: numeric_state
+          entity_id: sensor.ha_runtime_in_minutes
+          above: 1
     action:
 #      - service: notify.pushbullet_notifications
 #        data:
