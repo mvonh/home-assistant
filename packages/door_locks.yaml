@@ -533,7 +533,7 @@ automation:
         below: 19
     condition:
     - condition: and
-        conditions:
+      conditions:
         - condition: or
           conditions:
             - condition: state
@@ -2114,28 +2114,28 @@ sensor:
             n/a
           {% endif %}
 #  Commeneted out for me because I have a FE599 for my garage and it does not repoty alarm_type properly          
-#      garagedoor_action:
-#        friendly_name: 'Garage Door Lock'
-#        value_template: >
-#          {% if is_state('sensor.lock_garage_door_lock_alarm_type', '22') %}
-#            Manual Unlock
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '21') %}
-#            Manual Lock
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '19') %}
-#            Keypad Unlock
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '18') %}
-#            Keypad Lock
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '25') %}
-#            Wireless Unlock
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '24') %}
-#            Wireless Lock
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '9') %}
-#            Lock Jammed
-#          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '161') %}
-#            Tamper Alarm
-#          {% else %}
-#            HA Controlled
-#          {% endif %}
+      garagedoor_action:
+        friendly_name: 'Garage Door Lock'
+        value_template: >
+          {% if is_state('sensor.lock_garage_door_lock_alarm_type', '22') %}
+            Manual Unlock
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '21') %}
+            Manual Lock
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '19') %}
+            Keypad Unlock
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '18') %}
+            Keypad Lock
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '25') %}
+            Wireless Unlock
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '24') %}
+            Wireless Lock
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '9') %}
+            Lock Jammed
+          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '161') %}
+            Tamper Alarm
+          {% else %}
+            HA Controlled
+          {% endif %}
 # Schalge FE599 is slightly different for alarm Type          
       garagedoor_code:
         friendly_name: 'Garage Door Lock'
