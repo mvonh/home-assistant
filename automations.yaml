@@ -154,9 +154,13 @@
        - device_tracker.tracys_iphone_2
      to: 'home'
   condition:
-  - condition: state
-    entity_id: binary_sensor.tracy_presence
-    state: 'off'        
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.tracy_presence
+        state: 'off'  
+      - condition: template
+        value_template: "{{ (as_timestamp(now())-as_timestamp(states.binary_sensor.tracy_presence.last_changed)) < 60 }}"    
   action:
   - service: timer.start
     entity_id: timer.tracy_just_arrived

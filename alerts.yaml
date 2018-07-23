@@ -90,7 +90,7 @@
   front_door:
     name: Front Door is open
     done_message: Front Door is closed
-    entity_id: binary_sensor.centralite_3320l_0cceb5ca_1_1280
+    entity_id: binary_sensor.open_close_sensor_front_door
     state: 'on'
     repeat:
       - 5
@@ -104,7 +104,7 @@
   back_door:
     name: Back Door is open
     done_message: Back Door is closed
-    entity_id: binary_sensor.centralite_3320l_0cceb8fd_1_1280
+    entity_id: binary_sensor.open_close_sensor_back_door
     state: 'on'
     repeat:
       - 5
@@ -118,7 +118,7 @@
   garage_door_door:
     name: Door to the Garage is open
     done_message: Door to the Garage is closed
-    entity_id: binary_sensor.centralite_3320l_0cceb5d4_1_1280
+    entity_id: binary_sensor.open_close_sensor_garage_door	
     state: 'on'
     repeat:
       - 5
