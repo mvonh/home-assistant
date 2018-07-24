@@ -977,15 +977,9 @@
 - alias: 'Garage Door Close with No Motion for Three Minutes'
   trigger:
   - platform: state
-    entity_id: input_boolean.open_garage_for_paul
-    from: 'on'
-    to: 'off'
-    for:
-      minutes: 3
-  - platform: state
-    entity_id: input_boolean.open_garage_for_tracy
-    from: 'on'
-    to: 'off'
+    entity_id: input_boolean.garage_opened_for_arrival
+    from: 'off'
+    to: 'on'
     for:
       minutes: 3
   - platform: state
