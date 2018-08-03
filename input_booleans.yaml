@@ -7,7 +7,7 @@ tracy_present:
 guests_present:
   name: We have guests
   icon: mdi:account-multiple  
-garage_opened_for_arrival:
+garage_changed_with_ha:
   name: Garage opened via Automation
   icon: mdi:garage
 open_garage_for_paul:
