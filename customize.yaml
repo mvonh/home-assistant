@@ -148,6 +148,9 @@ switch.living_room_plug_three:
 switch.stairwell_light:
   friendly_name: Stairwell Light
   icon: mdi:lightbulb
+switch.sconce_light:
+  friendly_name: Sconce Light
+  icon: mdi:lightbulb
 switch.lava_lamp_two:
   friendly_name: Lava Lamp Two
   icon: mdi:lava-lamp

@@ -21,6 +21,10 @@ homeassistant:
     - '/tmp'
 auth:
 
+google:
+  client_id: !secret google_calendar_id
+  client_secret: !secret google_calendar_secret
+
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
@@ -124,6 +128,7 @@ cloud:
         - switch.office_lamp_one
         - switch.rope_lights
         - switch.stairwell_light
+        - switch.sconce_light
         - automation.motion_lighting_in_the_kitchen
         - automation.motion_lighting_in_the_Office
         - automation.motion_lighting_in_the_garage
@@ -252,6 +257,13 @@ emulated_roku:
   upnp_bind_multicast: True # optional, defaults to True
   listen_ports:
     - 8060
+
+media_player:
+  - platform: alexa
+    email: !secret amazon_id
+    password: !secret amazon_password
+    url: "amazon.com"
+    
 # View all events in a logbook
 logbook: !include logbook.yaml
 zone: !include zones.yaml
