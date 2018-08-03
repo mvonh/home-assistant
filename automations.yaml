@@ -1,3 +1,13 @@
+#############################################
+## HA Actions for health, etc              ##
+#############################################
+- alias: heal zwave network
+  trigger:
+    platform: time
+    at: '3:30:00'
+  action:
+    service: zwave.heal_network
+
 - alias: 'Phone Charging Test'
   trigger:
   - platform: state
@@ -660,12 +670,6 @@
   - condition: state
     entity_id: input_select.house_mode
     state: Home
-#  - condition: state
-#    entity_id: sensor.pauls_iphone_battery_state
-#    state: Charging
-#  - condition: state
-#    entity_id: sensor.tracys_iphone_battery_state
-#    state: Charging
   - condition: or
     conditions:
       - condition: time
@@ -878,53 +882,6 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.guests_present
 
-#- alias: 'Notify if door unlocked while away'
-#  trigger:
-#  - platform: state
-#    entity_id:
-#      - sensor.backdoor_action
-#      - sensor.frontdoor_action
-#    to: 'KeyPad Unlock'
-#  condition:
-#  - condition: state
-#    entity_id: binary_sensor.people_home
-#    state: 'off'
-#  action:
-#  - service: input_boolean.turn_on
-#    entity_id: input_boolean.guests_present
-#  - service: notify.pushbullet_notifications
-#    data:
-#      message: "Door Unlocked with code while Paul and Tracy are both away.  System Disarmed"
-#      target:
-#      - !secret pauls_secret_email
-#      - !secret tracys_secret_email
-#      title: "Door Unlocked while away"
-
-#- alias: 'Notify if door locked while away'
-#  trigger:
-#  - platform: state
-#    entity_id:
-#      - sensor.backdoor_action
-#      - sensor.frontdoor_action
-#    to: 'KeyPad Lock'
-#  condition:
-#  - condition: state
-#    entity_id: input_boolean.guests_present
-#    state: 'on'
-#  - condition: state
-#    entity_id: group.primary_presence
-#    state: 'off'
-#  action:
-#  - service: input_boolean.turn_off
-#    entity_id: input_boolean.guests_present
-#  - service: notify.pushbullet_notifications
-#    data:
-#      message: "Door Locked while Paul and Tracy are both away. System Armed"
-#      target:
-#      - !secret pauls_secret_email
-#      - !secret tracys_secret_email
-#      title: "Door Locked while away"
-      
 ##########################################
 ## Garage Door Automations              ##
 ##########################################
@@ -947,7 +904,7 @@
   - service: homeassistant.turn_off
     entity_id: input_boolean.open_garage_for_tracy
   - service: input_boolean.turn_on
-    entity_id: input_boolean.garage_opened_for_arrival
+    entity_id: input_boolean.garage_changed_with_ha
   - service: cover.open_cover
     entity_id: cover.garage_door_opener
 
@@ -970,14 +927,14 @@
   - service: homeassistant.turn_off
     entity_id: input_boolean.open_garage_for_paul
   - service: input_boolean.turn_on
-    entity_id: input_boolean.garage_opened_for_arrival
+    entity_id: input_boolean.garage_changed_with_ha
   - service: cover.open_cover
     entity_id: cover.garage_door_opener
 
 - alias: 'Garage Door Close with No Motion for Three Minutes'
   trigger:
   - platform: state
-    entity_id: input_boolean.garage_opened_for_arrival
+    entity_id: input_boolean.garage_changed_with_ha
     from: 'off'
     to: 'on'
     for:
@@ -997,13 +954,13 @@
     for:
       minutes: 2
   - condition: state
-    entity_id: input_boolean.garage_opened_for_arrival
+    entity_id: input_boolean.garage_changed_with_ha
     state: 'on'
   action:
   - service: cover.close_cover
     entity_id: cover.garage_door_opener
   - service: homeassistant.turn_off
-    entity_id: input_boolean.garage_opened_for_arrival
+    entity_id: input_boolean.garage_changed_with_ha
 
 - alias: 'Garage Door opened'
   trigger:
@@ -1031,6 +988,8 @@
     from: 'open'
     to: 'closed'   
   action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.garage_changed_with_ha
   - service: notify.pushbullet_notifications
     data:
       message: "Garage Door has Closed"
@@ -1057,6 +1016,27 @@
       entity_id: media_player.living_room
       volume_level: 0.35
 
+- alias: 'Turn off TV if left on after bed'
+  trigger:
+  - platform: state
+    entity_id: group.indoor_motion_sensors
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 30
+  condition:
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Night' 
+  - condition: or
+    conditions:
+      - condition: time
+        before: '05:00:00'
+      - condition: time
+        after: '22:30:00'
+  action:
+  - service: remote.turn_off
+    entity_id: remote.living_room_harmony_hub
 ##########################################
 ## Alerts                               ##
 ##########################################

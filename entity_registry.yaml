@@ -604,17 +604,17 @@ sensor.lock_front_door_deadbolt_system:
   platform: zwave
   unique_id: 82-72057595419705537
 media_player.theater_room_tv:
-  config_entry_id:
+  config_entry_id: b8cef0e1631d4f5d8e6e4cbb89851f74
   name:
   platform: cast
   unique_id: 9f4204a3-7570-455e-4bdb-9e551416d838
 media_player.xbr65x900e:
-  config_entry_id:
+  config_entry_id: b8cef0e1631d4f5d8e6e4cbb89851f74
   name:
   platform: cast
   unique_id: 9e57e702-768c-5ee4-01a8-0fa1d86246a5
 media_player.living_room:
-  config_entry_id:
+  config_entry_id: aa1d5b6d623748a48ff8f1a7b0a8f671
   name:
   platform: sonos
   unique_id: RINCON_5CAAFDA640F201400
@@ -644,62 +644,62 @@ sensor.linear_wadwaz1_doorwindow_sensor_burglar:
   platform: zwave
   unique_id: 77-72057595335819425
 light.bedroom_lamp_old:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:03:5c:15:13-0b
 light.guest_bedroom_lamp:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:02:fe:ea:4f-0b
 light.left_shelf_lights:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1e:8c:26-0b
 light.living_room_lamp_one:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:02:c8:1c:a8-0b
 light.kitchen_cabinet_tops:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:02:16:ad:83-0b
 light.kitchen_cabinet_bottoms:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1a:f1:d8-0b
 light.living_room_lamp_two:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:02:c8:1c:fe-0b
 light.office_lamp_two:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:02:cd:a9:00-0b
 light.right_shelf_lights:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1c:7f:69-0b
 light.alcove_light:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:02:25:d0:d4-0b
 light.ashleys_room_lamp:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:03:5c:1e:da-0b
 light.tv_backlights:
-  config_entry_id:
+  config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1a:3f:15-0b

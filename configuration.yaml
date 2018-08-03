@@ -47,6 +47,7 @@ zha:
 zwave:
   usb_path: /dev/ttyUSB0
   network_key: !secret zwave_network_key
+  autoheal: false
   polling_interval: 30000
   device_config:
     light.ashleys_room_lamp:
@@ -262,7 +263,7 @@ media_player:
   - platform: alexa
     email: !secret amazon_id
     password: !secret amazon_password
-    url: "amazon.com"
+    url: amazon.com
     
 # View all events in a logbook
 logbook: !include logbook.yaml
