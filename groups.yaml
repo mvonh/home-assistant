@@ -50,6 +50,7 @@ home_mode_and_presence:
     - sensor.time_to_avis_tracy
     - sensor.time_to_caci
     - sensor.time_to_navy_base
+    - sensor.time_to_get_to_soul_mate
     - group.alerts
     - group.house_presence
     - group.home_mode_and_security_monitor

@@ -1043,26 +1043,11 @@ media_player.fire_tv:
   name:
   platform: plex
   unique_id: 935364258caf83b3-com-plexapp-android
-media_player.living_room_2:
-  config_entry_id:
-  name:
-  platform: alexa
-  unique_id: 36c866615f3a4279ade1052ac5168bbd
-media_player.bedroom:
-  config_entry_id:
-  name:
-  platform: alexa
-  unique_id: G090LF1173641MG3
 media_player.media_room:
   config_entry_id:
   name:
   platform: alexa
   unique_id: G090LF0971130P8L
-media_player.office:
-  config_entry_id:
-  name:
-  platform: alexa
-  unique_id: 90F00716625106LB
 media_player.pauls_alexa_apps:
   config_entry_id:
   name:
@@ -1078,11 +1063,6 @@ media_player.pauls_fire_tv:
   name:
   platform: alexa
   unique_id: G070GV17703602MC
-media_player.pauls_echo_spot:
-  config_entry_id:
-  name:
-  platform: alexa
-  unique_id: G070RQ1080330GH4
 media_player.kitchen:
   config_entry_id:
   name:
@@ -1123,3 +1103,28 @@ light.bedroom_lamp_two:
   name:
   platform: hue
   unique_id: 00:17:88:01:03:b9:8f:16-0b
+media_player.garage:
+  config_entry_id:
+  name: Garage Echo
+  platform: alexa
+  unique_id: 90F00716625106LB
+media_player.office:
+  config_entry_id:
+  name: Office Echo
+  platform: alexa
+  unique_id: G090LF1173641MG3
+media_player.bedroom_spot:
+  config_entry_id:
+  name: Bedroom Echo Spot
+  platform: alexa
+  unique_id: G070RQ1080330GH4
+media_player.not_used_1:
+  config_entry_id:
+  name: Unused Echo
+  platform: alexa
+  unique_id: 36c866615f3a4279ade1052ac5168bbd
+media_player.this_device:
+  config_entry_id:
+  name:
+  platform: alexa
+  unique_id: 3B8F67DB355D4DF692184D1E38D51241

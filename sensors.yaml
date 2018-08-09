@@ -4,6 +4,13 @@
     name: "HA runtime in minutes"
     unit_of_measurement: minutes
 
+  - platform: magicseaweed
+    name: Virgia Beach Surf Report
+    api_key: !secret magicseaweed_api_key
+    spot_id: 396
+    monitored_conditions:
+      - swell_forecast
+      
 # Time-Date Sensor
   - platform: time_date
     display_options:
@@ -12,40 +19,82 @@
       - 'date_time'
       - 'time_date'
 
+#  # Pauls commute to home
+#  - platform: google_travel_time
+#    name: Pauls Time to Home
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.pauls_iphone
+#    destination: zone.home
+#  
+#  # Tracys commute to Home
+#  - platform: google_travel_time
+#    name: Tracy's Time to Home
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.tracys_iphone
+#    destination: zone.home 
+#  
+#  # Commute to CACI
+#  - platform: google_travel_time
+#    name: Time to CACI
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.pauls_iphone
+#    destination: zone.caci   
+#  
+#  #   Commute to Navy Base
+#  - platform: google_travel_time
+#    name: Time to Navy Base
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.pauls_iphone
+#    destination: zone.navybase
+#  
+#  #   Commute to AVIS
+#  - platform: google_travel_time
+#    name: Time to AVIS Tracy
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.tracys_iphone
+#    destination: zone.avis
+
   # Pauls commute to home
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Pauls Time to Home
-    api_key: !secret google_maps_api_key
     origin: device_tracker.pauls_iphone
     destination: zone.home
+    region: 'US'
   
   # Tracys commute to Home
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Tracy's Time to Home
-    api_key: !secret google_maps_api_key
     origin: device_tracker.tracys_iphone
     destination: zone.home 
+    region: 'US'
   
   # Commute to CACI
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Time to CACI
-    api_key: !secret google_maps_api_key
     origin: device_tracker.pauls_iphone
-    destination: zone.caci   
+    destination: zone.caci
+    region: 'US'
   
   #   Commute to Navy Base
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Time to Navy Base
-    api_key: !secret google_maps_api_key
     origin: device_tracker.pauls_iphone
     destination: zone.navybase
+    region: 'US'
   
   #   Commute to AVIS
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Time to AVIS Tracy
-    api_key: !secret google_maps_api_key
     origin: device_tracker.tracys_iphone
     destination: zone.avis
+    region: 'US'
+
+  #   Time to get to Soul Mate
+  - platform: waze_travel_time
+    name: Time to get to Soul Mate
+    origin: device_tracker.pauls_iphone
+    destination: device_tracker.tracys_iphone
+    region: 'US'
 
   - platform: template
     sensors:
