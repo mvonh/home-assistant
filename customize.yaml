@@ -15,16 +15,16 @@ binary_sensor.motion_sensor_hallway_motion:
 binary_sensor.motion_sensor_living_room_motion:
   friendly_name: "Motion Sensor (Living Room)"
 binary_sensor.open_close_sensor_garage_door:
-  friendly_name: "Door to the Garage (Open-Close)"
+  friendly_name: "Door to the Garage"
   icon: mdi:door  
 binary_sensor.open_close_sensor_front_door:
-  friendly_name: "Front Door (Open-Close)"
+  friendly_name: "Front Door"
   icon: mdi:door
 binary_sensor.open_close_sensor_back_door:
-  friendly_name: "Back Door (Open-Close)"
+  friendly_name: "Back Door"
   icon: mdi:door
 binary_sensor.open_close_sensor_garage_fridge_temp:
-  friendly_name:  "garage Fridge Sensor"
+  friendly_name:  "Garage Fridge Sensor"
 light.zigbee_plug_one:
   friendly_name:  "Zigbee Repeater Switch"
 sensor.temp_garage_fridge:

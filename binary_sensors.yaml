@@ -103,6 +103,20 @@
        friendly_name: "Smoke Detector - Testing"
        entity_id: sensor.smoke_detector_downstairs_alarm_type
        
+ - platform: template
+   sensors:
+     office_window_open_close:
+       value_template: "{{ is_state('sensor.office_window_sensor_alarm_level', '255') }}"
+       friendly_name: "Office Window"
+       entity_id: sensor.office_window_sensor_alarm_level
+
+ - platform: template
+   sensors:
+     living_room_window_open_close:
+       value_template: "{{ is_state('sensor.living_room_window_sensor_alarm_level', '1') }}"
+       friendly_name: "Living Room Window"
+       entity_id: sensor.living_room_window_sensor_alarm_level
+       
  - platform: workday
    country: US
    workdays: [mon, tue, wed, thu, fri]

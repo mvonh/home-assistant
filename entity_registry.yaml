@@ -623,26 +623,6 @@ zwave.linear_wadwaz1_doorwindow_sensor:
   name:
   platform: zwave
   unique_id: node-77
-sensor.linear_wadwaz1_doorwindow_sensor_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 77-72057595335819265
-sensor.linear_wadwaz1_doorwindow_sensor_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 77-72057595335819281
-sensor.linear_wadwaz1_doorwindow_sensor_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 77-72057595335819297
-sensor.linear_wadwaz1_doorwindow_sensor_burglar:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 77-72057595335819425
 light.bedroom_lamp_old:
   config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
@@ -708,26 +688,6 @@ zwave.linear_wadwaz1_doorwindow_sensor_2:
   name:
   platform: zwave
   unique_id: node-78
-sensor.linear_wadwaz1_doorwindow_sensor_sourcenodeid_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 78-72057595352596513
-sensor.linear_wadwaz1_doorwindow_sensor_burglar_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 78-72057595352596641
-sensor.linear_wadwaz1_doorwindow_sensor_alarm_type_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 78-72057595352596481
-sensor.linear_wadwaz1_doorwindow_sensor_alarm_level_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 78-72057595352596497
 zwave.water_sensor_attic:
   config_entry_id:
   name:
@@ -1128,3 +1088,43 @@ media_player.this_device:
   name:
   platform: alexa
   unique_id: 3B8F67DB355D4DF692184D1E38D51241
+sensor.office_window_sensor_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819281
+sensor.living_room_window_sensor_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596497
+sensor.office_window_sensor_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819265
+sensor.office_window_sensor_burglar:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819425
+sensor.office_window_sensor_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-72057595335819297
+sensor.living_room_window_sensor_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596481
+sensor.living_room_window_sensor_burglar:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596641
+sensor.living_room_window_sensor_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-72057595352596513

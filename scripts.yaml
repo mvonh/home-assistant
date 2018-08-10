@@ -113,6 +113,15 @@ notificationalarm:
     - delay: '00:01:28'
     - service: media_player.sonos_restore
       entity_id: media_player.living_room 
+      
+#TTS Script		
+audio_notify:
+  alias: 'Alexa TTS Script'
+  sequence: 
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.{{ mplayer }}         
+        message: "{{ tts_msg }}"
 
 toggle_cover:
   alias: 'Garage Door Button'
