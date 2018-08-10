@@ -1477,3 +1477,53 @@
         tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} leak cleared"
         mplayer: "living_room_echo"
 
+- alias: Set Ecobee to Away (Weekdays Only)
+  trigger:
+  - platform: state
+    entity_id: input_select.house_mode
+    to: 'Away'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.ecobee_away_mode
+
+- alias: Set Ecobee to Home
+  trigger:
+  - platform: state
+    entity_id: input_select.house_mode
+    to: 'Home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1  
+  action:
+  - service: script.turn_on
+    entity_id: script.ecobee_home_mode
+        
+- alias: Tracy Travel Notice
+  trigger:
+  - platform: state
+    entity_id: device_tracker.tracys_iphone
+    to: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
+  action:
+  - service: input_text.set_value
+    data_template:
+      entity_id: input_text.commute_start_zone_tracy
+      value: '{{ trigger.from_state.state }}'
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
+      mplayer: "all"
