@@ -1114,6 +1114,14 @@
       - thu
       - fri
   action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
+      mplayer: "kitchen"
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
+      mplayer: "bedroom_spot"
   - service: notify.pushbullet_notifications
     data:
       message: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
