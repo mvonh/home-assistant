@@ -679,6 +679,18 @@
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.goodnight_switch
+    
+- alias: 'Goodnight Lighting'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.goodnight_switch
+    from: 'off'
+    to: 'on'
+  action:
+  - service: light.turn_on
+    entity_id: light.hallway_light
+    data:
+      brightness: 25
 
 - alias: Good Morning Routine
   trigger:
@@ -1527,3 +1539,19 @@
     data_template:
       tts_msg: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
       mplayer: "all"
+      
+#- alias: Turn Hue Lights to Normal
+#  trigger:
+#  - platform: state
+#    entity_id: light.all_hue_lights
+#    to: 'on'
+#  condition:
+#  - condition: template
+#    value_template: "{{ states.light.all_hue_lights.attributes.rgb_color != '(255,200,118)' }}"
+#  action:
+#  - delay: 00:00:10
+#  - service: light.turn_on
+#    entity_id: light.all_hue_lights
+#    data:
+#      brightness: 254
+#      rgb_color: [255,200,118]

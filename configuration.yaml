@@ -50,15 +50,15 @@ zwave:
   autoheal: false
   polling_interval: 30000
   device_config:
-    light.ashleys_room_lamp:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
     light.bedroom_ceiling_light:
       polling_intensity: 1
       refresh_value: True
       delay: 3
     light.frog_ceiling_light:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.hallway_light:
       polling_intensity: 1
       refresh_value: True
       delay: 3
@@ -107,6 +107,7 @@ cloud:
         - light.frog_ceiling_light 
         - light.frog_fan_light
         - light.guest_bedroom_lamp
+        - light.hallway_light
         - light.kitchen_counter_light
         - light.kitchen_island_light
         - light.living_room_ceiling_light

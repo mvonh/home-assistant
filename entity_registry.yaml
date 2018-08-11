@@ -890,7 +890,7 @@ zwave.aeotec_minimote_2:
   unique_id: node-94
 sensor.water_sensor_kitchen_temp:
   config_entry_id:
-  name:
+  name: Kitchen Sink Water Leak Sensor Temp
   platform: zha
   unique_id: 00:0d:6f:00:03:26:48:78-1-1026
 binary_sensor.water_sensor_kitchen:
@@ -1128,66 +1128,91 @@ sensor.living_room_window_sensor_sourcenodeid:
   name:
   platform: zwave
   unique_id: 78-72057595352596513
-sensor.centralite_3326l_05989cc9_2_1:
+sensor.centralite_3326l_05989cc9_1_1:
   config_entry_id:
   name:
   platform: zha
-  unique_id: 00:0d:6f:00:05:98:9c:c9-2-1
-sensor.centralite_3320l_0cceb5ca_2_1:
+  unique_id: 00:0d:6f:00:05:98:9c:c9-1-1
+sensor.centralite_3326l_05989ed5_1_1:
   config_entry_id:
   name:
   platform: zha
-  unique_id: 00:0d:6f:00:0c:ce:b5:ca-2-1
+  unique_id: 00:0d:6f:00:05:98:9e:d5-1-1
+sensor.centralite_3326l_0e33c46e_1_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:c4:6e-1-1
+sensor.centralite_3320l_0cceb5ca_1_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:ca-1-1
 sensor.centralite_3300s_03fed0e3_1_1:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1
-sensor.centralite_3300s_03fed0e3_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:03:fe:d0:e3-2-1
 sensor.centralite_3305s_02f13445_1_1:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:02:f1:34:45-1-1
-sensor.centralite_3305s_02f13445_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:02:f1:34:45-2-1
 sensor.centralite_3320l_0cceb5d4_1_1:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b5:d4-1-1
+sensor.centralite_3326l_05989cc9_2_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9c:c9-2-1
+sensor.centralite_3326l_05989ed5_2_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9e:d5-2-1
+sensor.centralite_3326l_0e33c46e_2_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:c4:6e-2-1
+sensor.centralite_3320l_0cceb5ca_2_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:ca-2-1
+sensor.centralite_3300s_03fed0e3_2_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:fe:d0:e3-2-1
+sensor.centralite_3305s_02f13445_2_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:02:f1:34:45-2-1
 sensor.centralite_3320l_0cceb5d4_2_1:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b5:d4-2-1
-sensor.centralite_3320l_0cceb8fd_1_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0c:ce:b8:fd-1-1
 sensor.centralite_3320l_0cceb8fd_2_1:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b8:fd-2-1
-sensor.centralite_3326l_0e33a666_1_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0e:33:a6:66-1-1
 sensor.centralite_3326l_0e33a666_2_1:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0e:33:a6:66-2-1
+sensor.centralite_3326l_0e33a666_1_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:a6:66-1-1
 sensor.centralite_3315s_03264878_1_1:
   config_entry_id:
   name:
@@ -1198,33 +1223,18 @@ sensor.centralite_3315s_03264878_2_1:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:03:26:48:78-2-1
-sensor.centralite_3320l_0cceb5ca_1_1:
+sensor.centralite_3320l_0cceb8fd_1_1:
   config_entry_id:
   name:
   platform: zha
-  unique_id: 00:0d:6f:00:0c:ce:b5:ca-1-1
-sensor.centralite_3326l_05989cc9_1_1:
+  unique_id: 00:0d:6f:00:0c:ce:b8:fd-1-1
+zwave.hallway_light:
   config_entry_id:
   name:
-  platform: zha
-  unique_id: 00:0d:6f:00:05:98:9c:c9-1-1
-sensor.centralite_3326l_0e33c46e_1_1:
+  platform: zwave
+  unique_id: node-101
+light.hallway_light:
   config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0e:33:c4:6e-1-1
-sensor.centralite_3326l_0e33c46e_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0e:33:c4:6e-2-1
-sensor.centralite_3326l_05989ed5_1_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:05:98:9e:d5-1-1
-sensor.centralite_3326l_05989ed5_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:05:98:9e:d5-2-1
+  name: Hallway Lights
+  platform: zwave
+  unique_id: 101-72057595737243649

@@ -74,6 +74,7 @@ weather_forcast:
   icon: mdi:weather-partlycloudy
   entities:
     - group.weather_card_forecast
+    - sensor.virgia_beach_surf_report_forecast
 
 automation_view:
   name: Automation
@@ -239,6 +240,7 @@ upstairs_rooms:
   view: no
   control: hidden
   entities:
+    - light.hallway_light
     - light.frog_ceiling_light
     - light.frog_fan_light
     - fan.frog_fan
