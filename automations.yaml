@@ -362,7 +362,7 @@
       entity_id:
         - light.frog_ceiling_light
         - light.frog_fan_light
-      brightness: 60
+      brightness_pct: 60
   - service: timer.start
     entity_id: timer.frog_tv_reset
   - delay:
@@ -688,9 +688,10 @@
     to: 'on'
   action:
   - service: light.turn_on
-    entity_id: light.hallway_light
     data:
-      brightness: 25
+      entity_id:
+        - light.hallway_light
+      brightness_pct: 25
 
 - alias: Good Morning Routine
   trigger:
@@ -1390,6 +1391,56 @@
       title: SIDEYARD NOTIFICATION
       data:
         file: "/tmp/sideyard.jpg"
+        
+- alias: 'Cameras Front Door with Driveway 1 Line Crossing'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_1_line_crossing
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 45 }}'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 45 }}'
+  action:
+  - delay: '00:00:03'
+  - service: script.turn_on
+    entity_id: script.capture_frontdoor_camera
+  - delay: '00:00:04'
+  - service: notify.pushbullet_notifications
+    data:
+      message: Drive Way 1 Line Crossing
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: Driveway Crossing from 24th Street
+      data:
+        file: "/tmp/frontdoor.jpg"
+        
+- alias: 'Cameras Front Door with Driveway 2 Line Crossing'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_2_line_crossing
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 45 }}'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 45 }}'
+  action:
+  - delay: '00:00:08'
+  - service: script.turn_on
+    entity_id: script.capture_frontdoor_camera
+  - delay: '00:00:04'
+  - service: notify.pushbullet_notifications
+    data:
+      message: Drive Way 2 Line Crossing
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: DRIVEWAY Line Crossing
+      data:
+        file: "/tmp/frontdoor.jpg"
 
 - alias: Driveway Line Crossing Alerts
   trigger:

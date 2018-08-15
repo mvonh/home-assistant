@@ -36,7 +36,9 @@ CCTV:
     - automation.cameras_back_gate_picture
     - automation.cameras_drive_way_1_picture
     - automation.cameras_drive_way_2_picture
-
+    - automation.cameras_front_door_with_driveway_1_line_crossing
+    - automation.cameras_front_door_with_driveway_2_line_crossing
+    
 home_mode_and_presence:
   name: Presence and Alerts
   view: Yes
@@ -74,7 +76,7 @@ weather_forcast:
   icon: mdi:weather-partlycloudy
   entities:
     - group.weather_card_forecast
-    - sensor.virgia_beach_surf_report_forecast
+#    - sensor.virgia_beach_surf_report_forecast
 
 automation_view:
   name: Automation
@@ -89,9 +91,34 @@ automation_view:
     - group.motion_sensor_attic
     - group.motion_sensors_temp_output
     - group.all_presence_sensors
+    - group.batteries
     - group.zwave_door_lock_options
     - group.all_automations
     - group.all_scripts
+
+Batteries:
+  view: no
+  icon: mdi:battery
+  entities:
+    - sensor.door_lock_batteries_back_door
+    - sensor.door_lock_batteries_front_door
+    - sensor.door_lock_batteries_garage_door
+    - sensor.motion_sensor_attic_battery
+    - sensor.motion_sensor_front_door_battery
+    - sensor.battery_smoke_detector
+    - sensor.battery_attic_water_sensor
+    - sensor.battery_living_room_window_open_close
+    - sensor.battery_office_window_open_close
+    - sensor.battery_garage_fridge_temp_sensor
+    - sensor.battery_garage_motion_sensor
+    - sensor.battery_water_leak_detector_kitchen_sink
+    - sensor.centralite_3320l_0cceb5ca_1_1
+    - sensor.centralite_3320l_0cceb5d4_1_1
+    - sensor.centralite_3320l_0cceb8fd_1_1
+    - sensor.centralite_3326l_05989cc9_1_1
+    - sensor.centralite_3326l_05989ed5_1_1
+    - sensor.centralite_3326l_0e33a666_1_1
+    - sensor.centralite_3326l_0e33c46e_1_1
 
 garage_door:
   name: Garage Door

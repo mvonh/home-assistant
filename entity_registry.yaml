@@ -548,11 +548,6 @@ light.frog_ceiling_light:
   name:
   platform: zwave
   unique_id: 76-72057595317813249
-binary_sensor.sensor_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 77-72057595334754304
 binary_sensor.sensor_3:
   config_entry_id:
   name:
@@ -618,11 +613,6 @@ media_player.living_room:
   name:
   platform: sonos
   unique_id: RINCON_5CAAFDA640F201400
-zwave.linear_wadwaz1_doorwindow_sensor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-77
 light.bedroom_lamp_old:
   config_entry_id: cef623dce809449cbf2cad80554b9de7
   name:
@@ -683,11 +673,6 @@ light.tv_backlights:
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1a:3f:15-0b
-zwave.linear_wadwaz1_doorwindow_sensor_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-78
 zwave.water_sensor_attic:
   config_entry_id:
   name:
@@ -1148,16 +1133,6 @@ sensor.centralite_3320l_0cceb5ca_1_1:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b5:ca-1-1
-sensor.centralite_3300s_03fed0e3_1_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1
-sensor.centralite_3305s_02f13445_1_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:02:f1:34:45-1-1
 sensor.centralite_3320l_0cceb5d4_1_1:
   config_entry_id:
   name:
@@ -1213,11 +1188,6 @@ sensor.centralite_3326l_0e33a666_1_1:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0e:33:a6:66-1-1
-sensor.centralite_3315s_03264878_1_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:03:26:48:78-1-1
 sensor.centralite_3315s_03264878_2_1:
   config_entry_id:
   name:
@@ -1238,3 +1208,38 @@ light.hallway_light:
   name: Hallway Lights
   platform: zwave
   unique_id: 101-72057595737243649
+binary_sensor.doorbell_camera_motion:
+  config_entry_id:
+  name:
+  platform: hikvision
+  unique_id: 48383230-3731-3530-3235-142ffd04c513.Motion.1
+binary_sensor.office_window:
+  config_entry_id:
+  name: Office window binary sensor
+  platform: zwave
+  unique_id: 77-72057595334754304
+zwave.open_close_living_room_window:
+  config_entry_id:
+  name: Living Room Window Open Close Sensor
+  platform: zwave
+  unique_id: node-78
+zwave.open_close_office_window:
+  config_entry_id:
+  name: Office Window Open Close Sensor
+  platform: zwave
+  unique_id: node-77
+sensor.battery_water_leak_detector_kitchen_sink:
+  config_entry_id:
+  name: Kitchen Sink Leak Detector
+  platform: zha
+  unique_id: 00:0d:6f:00:03:26:48:78-1-1
+sensor.battery_garage_motion_sensor:
+  config_entry_id:
+  name: Garage Motion Sensor Battery
+  platform: zha
+  unique_id: 00:0d:6f:00:02:f1:34:45-1-1
+sensor.battery_garage_fridge_temp_sensor:
+  config_entry_id:
+  name: Garage Fridge Temp Sensor Battery
+  platform: zha
+  unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1

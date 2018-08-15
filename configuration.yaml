@@ -244,6 +244,12 @@ switch:
       save_sideyard:
         command_on: "python /home/homeassistant/.homeassistant/scripts/sideyard.py"
         command_off: ""
+        
+  - platform: command_line
+    switches:
+      save_frontdoor:
+        command_on: "python /home/homeassistant/.homeassistant/scripts/frontdoor.py"
+        command_off: ""
  
 remote:
   - platform: harmony
@@ -265,6 +271,9 @@ media_player:
     email: !secret amazon_id
     password: !secret amazon_password
     url: amazon.com
+  - platform: samsungtv
+    host: 192.168.1.61
+    name: Samsung Speaker
     
 # View all events in a logbook
 logbook: !include logbook.yaml

@@ -131,6 +131,14 @@ audio_notify:
             media_player.{{ mplayer }}
           {% endif %} 
         message: "{{ tts_msg }}"
+        
+alexa_notify:
+  alias: 'Alexa Timer Notification Script'
+  sequence: 
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.bedroom_spot,media_player.kitchen,media_player.office,media_player.living_room_echo,media_player.garage,media_player.media_room
+        message: "An Alexa Timer has gone off"
 
 toggle_cover:
   alias: 'Garage Door Button'
@@ -232,3 +240,11 @@ capture_sideyard_camera:
       entity_id: switch.save_sideyard
     - service: switch.turn_off
       entity_id: switch.save_sideyard
+      
+capture_frontdoor_camera:
+  alias: Capture Still Image from Frontdoor Camera
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.save_frontdoor
+    - service: switch.turn_off
+      entity_id: switch.save_frontdoor
