@@ -607,12 +607,6 @@
       - automation.cameras_drive_way_1_picture
       - automation.cameras_drive_way_2_picture
       - automation.camera_side_yard_picture
-#  - service: notify.pushbullet_notifications
-#    data:
-#      message: "Door to the garage has been unlocked, lights turned on if after dark"
-#      target:
-#      - !secret pauls_secret_email
-#      title: "Welcome Back Routine ran"
 
 - alias: 'Good Night Routine'
   trigger:
@@ -725,12 +719,6 @@
     data_template:
       entity_id: input_select.house_mode
       option: Home
-#  - service: notify.pushbullet_notifications
-#    data:
-#      message: "Good Morning Routine has run based on motion.  Door to the garage has been unlocked and kitchen lights turned on"
-#      target:
-#      - !secret pauls_secret_email
-#      title: "Good Morning Ran"
 
 ##########################################
 ## Door Locking and Unlocking           ##
@@ -953,15 +941,13 @@
     for:
       minutes: 3
   - platform: state
-# Garage Motion Sensor  
     entity_id: binary_sensor.motion_sensor_garage_motion
     from: 'on'
     to: 'off'
     for:
       minutes: 3
   condition:
-  - condition: state
-# Garage Motion Sensor 
+  - condition: state 
     entity_id: binary_sensor.motion_sensor_garage_motion
     state: 'off'
     for:
@@ -1053,7 +1039,6 @@
 ##########################################
 ## Alerts                               ##
 ##########################################
-
 - alias: "Notify if HA Device Offline"
   trigger:
     - platform: state
@@ -1111,7 +1096,7 @@
   trigger:
   - platform: state
     entity_id: sensor.time_to_leave_for_caci
-    to: 'True' # May need to be true
+    to: 'True'
     from: 'False'
   condition:
   - condition: numeric_state
@@ -1129,24 +1114,14 @@
   action:
   - service: script.audio_notify
     data_template:
-      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
-      mplayer: "kitchen"
-  - service: script.audio_notify
-    data_template:
-      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
-      mplayer: "bedroom_spot"
-  - service: notify.pushbullet_notifications
-    data:
-      message: "Based on current traffic, you have 10 minutes to leave if you want to be to CACI by 8:30am"
-      target:
-      - !secret pauls_secret_email
-      title: "Time to Leave for Work"      
+      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today."
+      mplayer: "main"
 
 - alias: "Notify Paul when its time to leave for Navybase"
   trigger:
   - platform: state
     entity_id: sensor.time_to_leave_for_navy_base
-    to: 'True' # May need to be true
+    to: 'True'
     from: 'False'
   condition:
   - condition: numeric_state
@@ -1159,18 +1134,16 @@
     weekday:
       - tue
   action:
-  - service: notify.pushbullet_notifications
-    data:
-      message: "Based on current traffic, you have 10 minutes to leave if you want to be to the NavyBase by 8:30am"
-      target:
-      - !secret pauls_secret_email
-      title: "Time to Leave for Work"
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get the Navybase by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_navybase') }} today."
+      mplayer: "main"
       
 - alias: "Notify Tracy when its time to leave for work"
   trigger:
   - platform: state
     entity_id: sensor.time_to_leave_for_avis
-    to: 'True' # May need to be true
+    to: 'True'
     from: 'False'
   condition:
   - condition: numeric_state
@@ -1294,53 +1267,79 @@
 ##########################################
 ## Camera Picture Alerts                ##
 ##########################################    
-- alias: 'Cameras Drive Way 1 Picture'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.driveway_1_line_crossing
-    to: 'on'
-  condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 60 }}'
-  action:
-  - service: script.turn_on
-    entity_id: script.capture_driveway1_camera
-  - delay: '00:00:05'
-  - service: notify.pushbullet_notifications
-    data:
-      message: Drive Way Line Crossing from 24th Street
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
-      title: DRIVEWAY 1 NOTIFICATION
-      data:
-        file: "/tmp/driveway1.jpg"
-
-- alias: 'Cameras Drive Way 2 Picture'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.driveway_2_line_crossing
-    to: 'on'
-  condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 60 }}'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
-  action:
-  - service: script.turn_on
-    entity_id: script.capture_driveway2_camera
-  - delay: '00:00:05'
-  - service: notify.pushbullet_notifications
-    data:
-      message: Drive Way Line Crossing from the Half Street
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
-      title: DRIVEWAY 2 NOTIFICATION
-      data:
-        file: "/tmp/driveway2.jpg"
+#- alias: 'Cameras Drive Way 1 Picture'
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.driveway_1_line_crossing
+#    to: 'on'
+#  condition:
+#  - condition: template
+#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
+#  - condition: template
+#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 60 }}'
+#  action:
+#  - service: script.turn_on
+#    entity_id: script.capture_driveway1_camera
+#  - delay: '00:00:03'
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+#      target:
+#      - !secret pauls_secret_email
+#      - !secret tracys_secret_email
+#      title: Drive Way Line Crossing from 24th Street
+#      data:
+#        file: "/tmp/driveway1.jpg"
+#  - delay: '00:00:04'
+#  - service: script.turn_on
+#    entity_id: script.capture_frontdoor_camera
+#  - delay: '00:00:02'
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+#      target:
+#      - !secret pauls_secret_email
+#      - !secret tracys_secret_email
+#      title: Front Door Picutre
+#      data:
+#        file: "/tmp/frontdoor.jpg"
+#
+#- alias: 'Cameras Drive Way 2 Picture'
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.driveway_2_line_crossing
+#    to: 'on'
+#  condition:
+#  - condition: template
+#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 60 }}'
+#  - condition: template
+#    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
+#  action:
+#  - service: script.turn_on
+#    entity_id: script.capture_driveway2_camera
+#  - delay: '00:00:05'
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+#      target:
+#      - !secret pauls_secret_email
+#      - !secret tracys_secret_email
+#      title: Drive Way Line Crossing from the Half Street
+#      data:
+#        file: "/tmp/driveway2.jpg"
+#  - delay: '00:00:03'
+#  - service: script.turn_on
+#    entity_id: script.capture_frontdoor_camera
+#  - delay: '00:00:02'
+#  - service: notify.pushbullet_notifications
+#    data:
+#      message: message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+#      target:
+#      - !secret pauls_secret_email
+#      - !secret tracys_secret_email
+#      title: Front Door Picutre
+#      data:
+#        file: "/tmp/frontdoor.jpg"
 
 - alias: 'Cameras Back Gate Picture'
   trigger:
@@ -1349,24 +1348,23 @@
     to: 'on'    
   condition:
   - condition: state
-# Back Door Open Close Sensor
     entity_id: binary_sensor.open_close_sensor_back_door
     state: 'off'
     for:
       minutes: 2
   - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_back_gate_picture.attributes.last_triggered) | int > 60 }}'      
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_back_gate_picture.attributes.last_triggered) | int > 30 }}'      
   action:
   - service: script.turn_on
     entity_id: script.capture_backgate_camera
   - delay: '00:00:04'
   - service: notify.pushbullet_notifications
     data:
-      message: Backgate Line Crossing
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
       - !secret tracys_secret_email      
-      title: BACKGATE NOTIFICATION
+      title: Gate Crossing Notification
       data:
         file: "/tmp/backgate.jpg"
 
@@ -1384,63 +1382,67 @@
   - delay: '00:00:04'
   - service: notify.pushbullet_notifications
     data:
-      message: Sideyard Line Crossing
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
       - !secret tracys_secret_email      
-      title: SIDEYARD NOTIFICATION
+      title: Side yard Line Crossing
       data:
         file: "/tmp/sideyard.jpg"
-        
-- alias: 'Cameras Front Door with Driveway 1 Line Crossing'
+
+- alias: 'Cameras Drive Way 1 Picture'
   trigger:
   - platform: state
-    entity_id: binary_sensor.driveway_1_line_crossing
+    entity_id: binary_sensor.driveway_1_motion
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.driveway_2_motion
     to: 'on'
   condition:
   - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 45 }}'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 45 }}'
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 60 }}'
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_2_line_crossing.last_changed)) < 60 }}" 
+      - condition: template
+        value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_1_line_crossing.last_changed)) < 60 }}"
   action:
-  - delay: '00:00:03'
   - service: script.turn_on
-    entity_id: script.capture_frontdoor_camera
-  - delay: '00:00:04'
+    entity_id:
+       - script.capture_frontdoor_camera
+       - script.capture_driveway1_camera
+       - script.capture_driveway2_camera
+  - delay: '00:00:05'
   - service: notify.pushbullet_notifications
     data:
-      message: Drive Way 1 Line Crossing
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
       - !secret tracys_secret_email
-      title: Driveway Crossing from 24th Street
+      title: Drive Way Line Crossing (Front Door)
       data:
         file: "/tmp/frontdoor.jpg"
-        
-- alias: 'Cameras Front Door with Driveway 2 Line Crossing'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.driveway_2_line_crossing
-    to: 'on'
-  condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 45 }}'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 45 }}'
-  action:
-  - delay: '00:00:08'
-  - service: script.turn_on
-    entity_id: script.capture_frontdoor_camera
-  - delay: '00:00:04'
+  - delay: '00:00:02'
   - service: notify.pushbullet_notifications
     data:
-      message: Drive Way 2 Line Crossing
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
       - !secret tracys_secret_email
-      title: DRIVEWAY Line Crossing
+      title: Drive Way Line Crossing (Driveway 1)
       data:
-        file: "/tmp/frontdoor.jpg"
+        file: "/tmp/driveway1.jpg"
+  - delay: '00:00:02'
+  - service: notify.pushbullet_notifications
+    data:
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: Drive Way Line Crossing (Driveway 2)
+      data:
+        file: "/tmp/driveway2.jpg"
 
 - alias: Driveway Line Crossing Alerts
   trigger:
@@ -1461,25 +1463,24 @@
 #######################################
 ## Alexa Notifications               ##
 #######################################
-
 - alias: Garage State Notification
   trigger:
-    platform: state
+  - platform: state
     entity_id: cover.garage_door_opener
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} is: {{ trigger.to_state.state }}"
-        mplayer: "kitchen"
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} is: {{ trigger.to_state.state }}"
+      mplayer: "kitchen"
 
 - alias: Doors or windows opened when Armed
   trigger:
-    platform: state
-    entity_id: binary_sensor.open_close_sensor_back_door, binary_sensor.open_close_sensor_front_door, binary_sensor.open_close_sensor_garage_door, binary_sensor.living_room_window_open_close, binary_sensor.office_window_open_close
+  - platform: state
+    entity_id: binary_sensor.open_close_sensor_back_door,binary_sensor.open_close_sensor_front_door,binary_sensor.open_close_sensor_garage_door,binary_sensor.living_room_window_open_close,binary_sensor.office_window_open_close
     to: 'on'
   condition:
   - condition: numeric_state
@@ -1489,57 +1490,88 @@
     entity_id: input_select.security_system
     state: 'Armed (Home)'
   action:
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} is open"
-        mplayer: "bedroom_spot"
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} has been opened."
+      mplayer: "bedroom_spot"
+
+- alias: Doors or windows left opened
+  trigger:
+    platform: state
+    entity_id: binary_sensor.open_close_sensor_back_door,binary_sensor.open_close_sensor_front_door,binary_sensor.open_close_sensor_garage_door,binary_sensor.living_room_window_open_close,binary_sensor.office_window_open_close
+    to: 'on'
+    for:
+      minutes: 2
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: group.primary_presence
+    state: 'on'
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} is: {{ trigger.to_state.state }}"
+      mplayer: "main"
 
 - alias: Water Leak Detected
   trigger:
-    platform: state
-    entity_id: binary_sensor.water_sensor_attic, binary_sensor.water_sensor_kitchen
+  - platform: state
+    entity_id: binary_sensor.water_sensor_attic,binary_sensor.water_sensor_kitchen
     to: 'on'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} Detected a leak"
-        mplayer: "kitchen"
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} Detected a leak"
-        mplayer: "bedroom_spot"
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} Detected a leak"
-        mplayer: "living_room_echo"
-        
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} Detected a leak"
+      mplayer: "all"
+
 - alias: Water Leak Cleared
   trigger:
-    platform: state
-    entity_id: binary_sensor.water_sensor_attic, binary_sensor.water_sensor_kitchen
+  - platform: state
+    entity_id: binary_sensor.water_sensor_attic,binary_sensor.water_sensor_kitchen
     to: 'off'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} leak cleared"
-        mplayer: "kitchen"
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} leak cleared"
-        mplayer: "bedroom_spot"
-    - service: script.audio_notify
-      data_template:
-        tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} leak cleared"
-        mplayer: "living_room_echo"
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} leak has cleared"
+      mplayer: "all"
 
+- alias: Tracy Travel Notice
+  trigger:
+  - platform: state
+    entity_id: device_tracker.tracys_iphone
+    to: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
+  - condition: template
+    value_template: "{{ trigger.from_state.state != 'home' }}"
+  action:
+  - service: input_text.set_value
+    data_template:
+      entity_id: input_text.commute_start_zone_tracy
+      value: '{{ trigger.from_state.state }}'
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
+      mplayer: "main"
+
+#######################################
+## Ecobee Automations                ##
+#######################################
 - alias: Set Ecobee to Away (Weekdays Only)
   trigger:
   - platform: state
@@ -1568,28 +1600,7 @@
   action:
   - service: script.turn_on
     entity_id: script.ecobee_home_mode
-        
-- alias: Tracy Travel Notice
-  trigger:
-  - platform: state
-    entity_id: device_tracker.tracys_iphone
-    to: 'not_home'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  - condition: state
-    entity_id: binary_sensor.paul_presence
-    state: 'on'
-  action:
-  - service: input_text.set_value
-    data_template:
-      entity_id: input_text.commute_start_zone_tracy
-      value: '{{ trigger.from_state.state }}'
-  - service: script.audio_notify
-    data_template:
-      tts_msg: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
-      mplayer: "all"
+
       
 #- alias: Turn Hue Lights to Normal
 #  trigger:
