@@ -118,6 +118,15 @@
        friendly_name: "Living Room Window"
        entity_id: sensor.living_room_window_sensor_alarm_level
        
+ - platform: template
+   sensors:
+     doors_unlocked:
+       value_template: >
+         {% set locks = [ states.lock.lock_back_door_lock, states.lock.lock_front_door_lock, states.lock.lock_garage_door_lock ] %}
+         {% set unlocked = locks | selectattr('state','eq','unlocked') | list %}
+         {{ unlocked | length >= 1 }}
+       friendly_name: 'Are doors unlocked?'
+       
  - platform: workday
    country: US
    workdays: [mon, tue, wed, thu, fri]

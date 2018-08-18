@@ -25,3 +25,6 @@ back_door_opened_for_tracy:
 goodnight_switch:
   name: Goodnight
   icon: mdi:home
+goodmorning_switch:
+  name: Good Morning
+  icon: mdi:home

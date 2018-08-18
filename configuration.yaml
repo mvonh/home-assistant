@@ -136,6 +136,7 @@ cloud:
         - automation.motion_lighting_in_the_garage
         - automation.driveway_line_crossing_alerts
         - input_boolean.goodnight_switch
+        - input_boolean.goodmorning_switch
 
 homekit:
   filter:
@@ -250,7 +251,10 @@ switch:
       save_frontdoor:
         command_on: "python /home/homeassistant/.homeassistant/scripts/frontdoor.py"
         command_off: ""
- 
+
+shell_command:
+  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh
+
 remote:
   - platform: harmony
     host: 192.168.1.51
