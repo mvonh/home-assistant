@@ -10,7 +10,7 @@ default_view:
     - group.upstairs_rooms
     - group.outdoor
     - group.livingroom_plugs
-
+    
 door_ui:
   name: Door Locks and Garage Door
   view: Yes
@@ -32,6 +32,7 @@ CCTV:
     - camera.driveway_one
     - camera.driveway_two
     - camera.side_yard
+    - group.cameras_view
     - automation.camera_side_yard_picture
     - automation.cameras_back_gate_picture
     - automation.cameras_drive_way_1_picture
@@ -388,17 +389,17 @@ router_connections:
     - device_tracker.sonosplaybar_living_room
     - device_tracker.sony_tv_living_room
 
-Cameras_view:
+cameras_view:
   name: Security Cameras
   view: no
   icon: mdi:cctv
   entities:
-    - binary_sensor.ip_camera_line_crossing
-    - binary_sensor.ip_camera_motion
-    - binary_sensor.driveway_2_line_crossing
-    - binary_sensor.driveway_2_motion
     - binary_sensor.backyard_line_crossing
     - binary_sensor.backyard_motion
+    - binary_sensor.driveway_1_line_crossing
+    - binary_sensor.driveway_1_motion
+    - binary_sensor.driveway_2_line_crossing
+    - binary_sensor.driveway_2_motion
     - binary_sensor.sideyard_line_crossing
     - binary_sensor.sideyard_motion
 
