@@ -48,6 +48,8 @@ home_mode_and_presence:
     - device_tracker.pauls_iphone
     - device_tracker.tracys_iphone
     - device_tracker.carolsiphone
+    - device_tracker.paul_
+    - device_tracker.tracy_
     - sensor.pauls_time_to_home
     - sensor.tracys_time_to_home
     - sensor.time_to_avis_tracy

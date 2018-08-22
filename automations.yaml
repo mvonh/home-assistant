@@ -853,8 +853,13 @@
   trigger:
   - platform: state
     entity_id: input_select.security_system
-    to: 'Armed (Away)'
+  - platform: state
+    entity_id: binary_sensor.doors_unlocked
+    to: 'on'
   condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
   - condition: state
     entity_id: binary_sensor.doors_unlocked
     state: 'on'
@@ -1462,7 +1467,7 @@
       - condition: template
         value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_1_line_crossing.last_changed)) < 60 }}"
   action:
-#  - delay: '00:00:01'
+  - delay: '00:00:01'
   - service: script.turn_on
     entity_id:
        - script.capture_frontdoor_camera
