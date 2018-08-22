@@ -24,7 +24,7 @@ sensor:
               mdi:battery-alert
             {% endif %}
           {% endif %}
-
+        entity_id: sensor.time
 
 binary_sensor:
   - platform: template

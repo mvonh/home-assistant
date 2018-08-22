@@ -112,6 +112,7 @@
                 mdi:help
             {%- endif -%}
         entity_id: sensor.time
+
       house_mode:
         value_template: '{{ states.input_select.house_mode.state }}'
         friendly_name: 'House Mode'
@@ -126,6 +127,7 @@
                 mdi:help
             {%- endif -%}
         entity_id: sensor.time
+
       time_to_leave_for_caci:
         value_template: >
           {% set t = strptime(states.sensor.time.state,'%H:%M') %}
@@ -211,7 +213,7 @@
               mdi:battery-alert
             {% endif %}
           {% endif %}
-        entity_id: sensor.time
+#        entity_id: sensor.time
 
       battery_smoke_detector:
         friendly_name: "Downstairs Smoke Detector Battery Level"
@@ -235,7 +237,7 @@
               mdi:battery-alert
             {% endif %}
           {% endif %}      
-        entity_id: sensor.time
+#        entity_id: sensor.time
 
       battery_living_room_window_open_close:
         friendly_name: "Living Room Window Open Close Sensor Battery Level"
@@ -259,7 +261,7 @@
               mdi:battery-alert
             {% endif %}
           {% endif %}
-        entity_id: sensor.time
+#        entity_id: sensor.time
 
       battery_office_window_open_close:
         friendly_name: "Office Window Open Close Sensor Battery Level"
@@ -283,7 +285,7 @@
               mdi:battery-alert
             {% endif %}   
           {% endif %}            
-        entity_id: sensor.time
+#        entity_id: sensor.time
 
       downstairs_smoke_detector:
         value_template: '{%- if is_state("sensor.smoke_detector_downstairs_alarm_type", "0") %}
