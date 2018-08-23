@@ -34,12 +34,13 @@
       - binary_sensor.motion_sensor_front_door
       - binary_sensor.sideyard_line_crossing
       - binary_sensor.water_sensor_attic
+      - binary_sensor.water_sensor_kitchen
       - binary_sensor.open_close_sensor_office_window
       - binary_sensor.open_close_sensor_living_room_window
       - cover.garage_door_opener
-      - device_tracker.pauls_iphone
+      - device_tracker.paul
       - device_tracker.pauls_iphone_2
-      - device_tracker.tracys_iphone
+      - device_tracker.tracy
       - device_tracker.tracys_iphone_2
       - fan.frog_fan
       - fan.living_room_fan
@@ -71,6 +72,7 @@
       - light.office_lamp_two
       - light.right_shelf_lights
       - light.tv_backlights
+      - light.hallway_light
       - lock.lock_back_door_lock
       - lock.lock_front_door_lock
       - lock.lock_garage_door_lock
@@ -82,7 +84,6 @@
       - sensor.frontdoor_code
       - sensor.garagedoor_code
       - sensor.security_system_state
-      - sensor.tracy_status
       - switch.back_porch_light
       - switch.bedroom_fan
       - switch.fireplace

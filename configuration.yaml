@@ -205,7 +205,7 @@ device_tracker:
   - platform: life360
     username: !secret life360_user
     password: !secret life360_password
-    show_as_state: places, moving
+#    show_as_state: places, moving
     interval_seconds: 12
     max_update_wait:
       minutes: 30
