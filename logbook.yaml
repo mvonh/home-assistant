@@ -28,7 +28,7 @@
       - binary_sensor.driveway_1_line_crossing
       - binary_sensor.driveway_2_line_crossing
       - binary_sensor.frog_occupancy
-      - binary_sensor.garage_fridge_warm
+      - binary_sensor.garage_fridge_cold
       - binary_sensor.guest_room_occupancy
       - binary_sensor.master_bedroom_occupancy
       - binary_sensor.motion_sensor_front_door

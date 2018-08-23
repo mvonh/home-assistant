@@ -386,9 +386,10 @@
   - condition: state
     entity_id: group.office_lights
     state: 'off'
-  - condition: state
+  - condition: numeric_state
     entity_id: sun.sun
-    state: 'below_horizon'
+    value_template: '{{ state.attributes.elevation }}'
+    below: 3.0
   action:
   - service: homeassistant.turn_on
     entity_id: group.office_lights
@@ -409,9 +410,10 @@
   - condition: state
     entity_id: group.kitchen_zwave_lights
     state: 'off'
-  - condition: state
+  - condition: numeric_state
     entity_id: sun.sun
-    state: 'below_horizon'
+    value_template: '{{ state.attributes.elevation }}'
+    below: 3.0
   action:
   - service: homeassistant.turn_on
     entity_id: group.kitchen_zwave_lights
@@ -572,7 +574,7 @@
   - condition: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    below: 3.0  
+    below: 4.0  
   action:
   - service: script.turn_on
     entity_id:

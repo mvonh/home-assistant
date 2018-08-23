@@ -32,7 +32,7 @@
 
  - platform: template
    sensors:
-     garage_fridge_warm:
+     garage_fridge_cold:
        value_template: "{{ states('sensor.temp_garage_fridge') | float < 40.0 }}"
        entity_id: sensor.temp_garage_fridge
        device_class: cold

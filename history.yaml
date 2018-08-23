@@ -32,13 +32,14 @@
       - sensor.downstairs_temperature
       - sensor.upstairs_temperature
       - sensor.master_bedroom_temperature
+      - sensor.temp_garage_fridge
 #House States
       - sensor.security_system_state
       - sensor.house_mode
 #presense Sensor States
       - device_tracker.paul
       - device_tracker.tracy
-      - binary_sensor.paul_presence
-      - binary_sensor.tracy_presence
+#      - binary_sensor.paul_presence
+#      - binary_sensor.tracy_presence
 
 
