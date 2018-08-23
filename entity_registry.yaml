@@ -1113,91 +1113,106 @@ sensor.living_room_window_sensor_sourcenodeid:
   name:
   platform: zwave
   unique_id: 78-72057595352596513
-sensor.centralite_3326l_05989cc9_1_1:
+sensor.motion_sensor_hallway_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:05:98:9c:c9-1-1
-sensor.centralite_3326l_05989ed5_1_1:
+sensor.motion_sensor_office_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:05:98:9e:d5-1-1
-sensor.centralite_3326l_0e33c46e_1_1:
+sensor.motion_sensor_kitchen_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0e:33:c4:6e-1-1
-sensor.centralite_3320l_0cceb5ca_1_1:
+sensor.motion_sensor_garage_battery:
+  config_entry_id:
+  name: Garage Motion Sensor Battery
+  platform: zha
+  unique_id: 00:0d:6f:00:02:f1:34:45-1-1
+sensor.open_close_sensor_front_door_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b5:ca-1-1
-sensor.centralite_3320l_0cceb5d4_1_1:
+sensor.open_close_sensor_garage_door_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b5:d4-1-1
-sensor.centralite_3326l_05989cc9_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:05:98:9c:c9-2-1
-sensor.centralite_3326l_05989ed5_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:05:98:9e:d5-2-1
-sensor.centralite_3326l_0e33c46e_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0e:33:c4:6e-2-1
-sensor.centralite_3320l_0cceb5ca_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0c:ce:b5:ca-2-1
-sensor.centralite_3300s_03fed0e3_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:03:fe:d0:e3-2-1
-sensor.centralite_3305s_02f13445_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:02:f1:34:45-2-1
-sensor.centralite_3320l_0cceb5d4_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0c:ce:b5:d4-2-1
-sensor.centralite_3320l_0cceb8fd_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0c:ce:b8:fd-2-1
-sensor.centralite_3326l_0e33a666_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0e:33:a6:66-2-1
-sensor.centralite_3326l_0e33a666_1_1:
+sensor.motion_sensor_sensor_living_room_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0e:33:a6:66-1-1
-sensor.centralite_3315s_03264878_2_1:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:03:26:48:78-2-1
-sensor.centralite_3320l_0cceb8fd_1_1:
+sensor.open_close_sensor_back_door_battery:
   config_entry_id:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:0c:ce:b8:fd-1-1
+sensor.open_close_sensor_garage_fridge_battery:
+  config_entry_id:
+  name: Garage Fridge Temp Sensor Battery
+  platform: zha
+  unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1
+sensor.water_sensor_kitchen_battery:
+  config_entry_id:
+  name: Kitchen Sink Leak Detector
+  platform: zha
+  unique_id: 00:0d:6f:00:03:26:48:78-1-1
+sensor.motion_sensor_hallway_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9c:c9-2-1
+sensor.motion_sensor_office_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:05:98:9e:d5-2-1
+sensor.motion_sensor_kitchen_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:c4:6e-2-1
+sensor.open_close_sensor_front_door_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:ca-2-1
+sensor.open_close_sensor_garage_fridge_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:fe:d0:e3-2-1
+sensor.motion_sensor_garage_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:02:f1:34:45-2-1
+sensor.open_close_sensor_garage_door_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b5:d4-2-1
+sensor.open_close_sensor_back_door_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0c:ce:b8:fd-2-1
+sensor.motion_sensor_living_room_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0e:33:a6:66-2-1
+sensor.water_sensor_kitchen_battery_1:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:03:26:48:78-2-1
 zwave.hallway_light:
   config_entry_id:
   name:
@@ -1228,18 +1243,3 @@ zwave.open_close_office_window:
   name: Office Window Open Close Sensor
   platform: zwave
   unique_id: node-77
-sensor.battery_water_leak_detector_kitchen_sink:
-  config_entry_id:
-  name: Kitchen Sink Leak Detector
-  platform: zha
-  unique_id: 00:0d:6f:00:03:26:48:78-1-1
-sensor.battery_garage_motion_sensor:
-  config_entry_id:
-  name: Garage Motion Sensor Battery
-  platform: zha
-  unique_id: 00:0d:6f:00:02:f1:34:45-1-1
-sensor.battery_garage_fridge_temp_sensor:
-  config_entry_id:
-  name: Garage Fridge Temp Sensor Battery
-  platform: zha
-  unique_id: 00:0d:6f:00:03:fe:d0:e3-1-1

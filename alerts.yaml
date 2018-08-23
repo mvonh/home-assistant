@@ -16,7 +16,7 @@
     name: Garage Fridge temp above 40 degreees
     done_message: Garage Fridge temp is now less than 40 degrees
     entity_id: binary_sensor.garage_fridge_warm
-    state: 'on'
+    state: 'off'
     repeat:
       - 15
       - 30
@@ -127,4 +127,4 @@
     skip_first: True
     notifiers:
       - ios_pauls_iphone
-      - pushbullet_notifications  
+      - pushbullet_notifications

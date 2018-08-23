@@ -235,3 +235,21 @@ group.motion_sensor_attic:
   group:
     group.motion_sensors:
       friendly_name: Attic Alarm
+sensor.open_close_sensor_front_door_battery:
+  friendly_name: Front Door Open Close Sensor Battery
+sensor.open_close_sensor_garage_door_battery:
+  friendly_name: Garage Door Open Close Sensor Battery
+sensor.open_close_sensor_back_door_battery:
+  friendly_name: Back Door Open Close Sensor Battery
+sensor.motion_sensor_hallway_battery:
+  friendly_name: Hallway Motion Sensor Battery
+sensor.motion_sensor_office_battery:
+  friendly_name: Office Motion Sensor Battery
+sensor.motion_sensor_living_room_battery:
+  friendly_name: Living Room Motion Sensor Battery
+sensor.motion_sensor_kitchen_battery:
+  friendly_name: Kitchen Motion Sensor Battery
+sensor.motion_sensor_garage_battery:
+  friendly_name: Garage Motion Sensor Battery
+sensor.open_close_sensor_garage_fridge_battery:
+  friendly_name: Garage Fridge Temp Sensor Battery

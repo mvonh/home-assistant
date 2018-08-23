@@ -33,8 +33,9 @@
  - platform: template
    sensors:
      garage_fridge_warm:
-       value_template: "{{ states('sensor.temp_garage_fridge') | float > 40.0 }}"
-       entity_id: sensor.time
+       value_template: "{{ states('sensor.temp_garage_fridge') | float < 40.0 }}"
+       entity_id: sensor.temp_garage_fridge
+       device_class: cold
 
  - platform: template
    sensors:
@@ -43,7 +44,8 @@
        value_template: "{{ is_state('binary_sensor.motion_sensor_kitchen_motion', 'on') }}"
        delay_off:
          seconds: 10
-       entity_id: sensor.time
+       entity_id: binary_sensor.motion_sensor_kitchen_motion
+       device_class: motion
 
  - platform: template
    sensors:
@@ -52,7 +54,8 @@
        value_template: "{{ is_state('binary_sensor.motion_sensor_office_motion', 'on') }}"
        delay_off:
          seconds: 15
-       entity_id: sensor.time
+       entity_id: binary_sensor.motion_sensor_office_motion
+       device_class: motion
 
  - platform: template
    sensors:
@@ -61,7 +64,7 @@
        device_class: presence
        value_template: >-
          {{ is_state('binary_sensor.paul_presence', 'on') }}     
-       entity_id: sensor.time
+       entity_id: binary_sensor.paul_presence
        
  - platform: template
    sensors:
@@ -70,7 +73,7 @@
        device_class: presence
        value_template: >-
          {{ is_state('binary_sensor.tracy_presence', 'on') }}
-       entity_id: sensor.time
+       entity_id: binary_sensor.tracy_presence
 
  - platform: template
    sensors:
@@ -81,28 +84,22 @@
          {{ is_state('group.primary_presence', 'on') or
             is_state('input_boolean.guests_present', 'on') or
             is_state('group.extra_device_trackers', 'home')  }}
-       entity_id: sensor.time
-
-# - platform: template
-#   sensors:
-#     front_door_motion:
-#       value_template: "{{ states('sensor.motion_sensor_front_door_alarm_level')|float > 0 }}"
-#       friendly_name: "Front Door Motion"
-#       device_class: motion
-#       entity_id: sensor.motion_sensor_front_door_alarm_level
+       entity_id: group.primary_presence,input_boolean.guests_present,group.extra_device_trackers
 
  - platform: template
    sensors:
      downstairs_smoke_detector_smoke:
        value_template: "{{ is_state('sensor.smoke_detector_downstairs_alarm_type', '1') }}"
        friendly_name: "Smoke Detector - Smoke"
+       device_class: smoke
        entity_id: sensor.smoke_detector_downstairs_alarm_type
-       
+
  - platform: template
    sensors:
      downstairs_smoke_detector_co2:
        value_template: "{{ is_state('sensor.smoke_detector_downstairs_alarm_type', '2') }}"
        friendly_name: "Smoke Detector - CO2"
+       device_class: gas
        entity_id: sensor.smoke_detector_downstairs_alarm_type
        
  - platform: template
@@ -117,15 +114,16 @@
      office_window_open_close:
        value_template: "{{ is_state('sensor.office_window_sensor_alarm_level', '255') }}"
        friendly_name: "Office Window"
+       device_class: window
        entity_id: sensor.office_window_sensor_alarm_level
 
  - platform: template
    sensors:
      living_room_window_open_close:
-       value_template: "{{ is_state('sensor.living_room_window_sensor_alarm_level', '1') }}"
+       value_template: "{{ is_state('sensor.living_room_window_sensor_alarm_level', '255') }}"
        friendly_name: "Living Room Window"
+       device_class: window
        entity_id: sensor.living_room_window_sensor_alarm_level
-       
        
  - platform: template
    sensors:
@@ -135,7 +133,6 @@
          {% set unlocked = locks | selectattr('state','eq','unlocked') | list %}
          {{ unlocked | length >= 1 }}
        friendly_name: 'Are doors unlocked?'
-       entity_id: sensor.time
        
  - platform: workday
    country: 'US'
@@ -162,6 +159,11 @@
      prob_given_false: 0.2
      platform: 'state'
      to_state: 'home'
+   - entity_id: 'device_tracker.paul'
+     prob_given_true: 0.9
+     prob_given_false: 0.2
+     platform: 'state'
+     to_state: 'home'
 
  - platform: bayesian
    prior: 0.6
@@ -179,6 +181,11 @@
      platform: 'state'
      to_state: 'home'
    - entity_id: 'device_tracker.tracys_iphone_2'
+     prob_given_true: 0.9
+     prob_given_false: 0.2
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.tracy'
      prob_given_true: 0.9
      prob_given_false: 0.2
      platform: 'state'

@@ -1,13 +1,3 @@
-#############################################
-## HA Actions for health, etc              ##
-#############################################
-- alias: heal zwave network
-  trigger:
-    platform: time
-    at: '3:30:00'
-  action:
-    service: zwave.heal_network
-
 - alias: 'Phone Charging Test'
   trigger:
   - platform: state
@@ -20,11 +10,114 @@
       target:
       - !secret pauls_secret_email
       title: "Testing of iPhone Charging"
+#############################################
+## HA Actions for health, etc              ##
+#############################################
+- alias: heal zwave network
+  trigger:
+    platform: time
+    at: '3:30:00'
+  action:
+    service: zwave.heal_network
+
+- alias: battery_alert
+  trigger:
+   
+    - platform: time
+      at: '09:55:00'
+    - platform: time
+      at: '19:55:00'
+
+  condition:
+    - condition: template
+      value_template: >
+        {%- set threshold_high = 45 -%}
+        {%- set threshold_low = 0 -%}
+        {% macro battery_level() %}
+        {% set domains = ['light', 'switch', 'zwave', 'lock', 'sensor'] %}
+        {% for domain in domains -%}
+        {% for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) or ("battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+        {% if (item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) -%}
+        {{ item.name }}{% endif -%}
+        {% if "battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown") -%}
+        {{ item.name }}{% endif -%}
+        {% endfor %}
+        {%- endfor %}
+        {% endmacro %}
+        {{ battery_level() |trim != "" }}
+
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: "Low Battery Levels"
+        notification_id: low-battery-alert
+        message: >
+          {%- set threshold_high = 45 -%}
+          {%- set threshold_low = 0 -%}
+          {% macro battery_level(domain) %}
+          {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) or ("battery" in item.name | lower and ((item.state | int < threshold_high and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+          {% if (item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) -%}
+          {{ item.name }} ({{ item.attributes['battery_level'] }}){%- if not loop.last %}, {% endif -%}{%- endif -%}
+          {%- if "battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown") -%}
+          {{ item.name }} ({{ item.state }}){% if not loop.last %}, {% endif %}{% endif -%}
+          {%- endfor -%}
+          {% endmacro %}
+          {%- set domains = ['light', 'switch', 'zwave', 'lock'] -%}
+          {%- for domain in domains if battery_level(domain) |trim != ""-%}
+          {{ battery_level(domain) }}{%- if not loop.last %}, {% endif -%}
+          {%- endfor -%}
+    - service: notify.ios_pauls_iphone
+      data_template:
+            title: "HOME devices have low battery levels:"
+            message: >
+              {%- set threshold_high = 45 -%}
+              {%- set threshold_low = 0 -%}
+              {% macro battery_level(domain) %}
+              {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) or ("battery" in item.name | lower and ((item.state | int < threshold_high and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+              {% if (item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) -%}
+              {{ item.name }} ({{ item.attributes['battery_level'] }}){%- if not loop.last %}, {% endif -%}{%- endif -%}
+              {%- if "battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown") -%}
+              {{ item.name }} ({{ item.state }}){% if not loop.last %}, {% endif %}{% endif -%}
+              {%- endfor -%}
+              {% endmacro %}
+              {%- set domains = ['light', 'switch', 'zwave', 'lock', 'sensor'] -%}
+              {%- for domain in domains if battery_level(domain) |trim != ""-%}
+              {{ battery_level(domain) }}{%- if not loop.last %}, {% endif -%}
+              {%- endfor -%}
+#            target: "device/MIHAI - iPhone 7"
+
+- alias: battery_alert_clear
+  trigger:
+    - platform: time
+      minutes: '/30'
+      seconds: 00
+  condition:
+    - condition: template
+      value_template: >
+        {%- set threshold_high = 45 -%}
+        {%- set threshold_low = 0 -%}
+        {% macro battery_level() %}
+        {% set domains = ['light', 'switch', 'sensor', 'zwave', 'lock'] %}
+        {% for domain in domains -%}
+        {% for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) or ("battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+        {% if (item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold_high and item.attributes['battery_level'] | int > threshold_low) -%}
+        {{ item.name }}{% endif -%}
+        {% if "battery" in item.name | lower and ((item.state | int < threshold_high and item.state | int > threshold_low and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown") -%}
+        {{ item.name }}{% endif -%}
+        {% endfor %}
+        {%- endfor %}
+        {% endmacro %}
+        {{ battery_level() |trim == "" }}
+  action:
+    - service: persistent_notification.dismiss
+      data:
+        notification_id: low-battery-alert
+    
 
 #############################################
-## 4 Button Controller #1 Buttons Settings ##
+## 4 Button Controller Buttons Settings ##
 #############################################
-- alias: 'Minimote Button Pressed or Held'
+- alias: 'Minimote 1 Actions'
   trigger:
   - platform: event
     event_type: zwave.scene_activated
@@ -44,9 +137,6 @@
                       9: 'switch.bedroom_fan'} %}
         {{ map[trigger.event.data.scene_id|int] }}
 
-#############################################
-## 4 Button Controller #2 Buttons Settings ##
-#############################################
 - alias: 'Minimote 2 Actions'
   trigger:
   - platform: event
@@ -92,8 +182,10 @@
      to: 'on'
    - platform: state
      entity_id:
+       - device_tracker.paul
        - device_tracker.pauls_iphone
        - device_tracker.pauls_iphone_2
+       - device_tracker.tracy
        - device_tracker.tracys_iphone
        - device_tracker.tracys_iphone_2
        - group.extra_device_trackers
@@ -126,6 +218,7 @@
      to: 'on'
    - platform: state
      entity_id:
+       - device_tracker.paul
        - device_tracker.pauls_iphone
        - device_tracker.pauls_iphone_2
      to: 'home'
@@ -141,17 +234,6 @@
   - service: timer.start
     entity_id: timer.paul_just_arrived
 
-- alias: 'Reset Door Lock for Paul'
-  trigger:
-  - platform: event
-    event_type: timer.finished
-    event_data: 
-      entity_id: timer.paul_just_arrived
-  action:
-  - service: homeassistant.turn_off
-    entity_id:
-      - input_boolean.back_door_opened_for_paul
-
 - alias: Tracy just Arrived Timer
   trigger:
    - platform: state
@@ -160,6 +242,7 @@
      to: 'on'
    - platform: state
      entity_id:
+       - device_tracker.tracy
        - device_tracker.tracys_iphone
        - device_tracker.tracys_iphone_2
      to: 'home'
@@ -175,42 +258,90 @@
   - service: timer.start
     entity_id: timer.tracy_just_arrived
 
-- alias: 'Reset Door Lock for Tracy'
+- alias: 'Reset door lock boolean'
   trigger:
   - platform: event
     event_type: timer.finished
     event_data: 
-      entity_id: timer.tracy_just_arrived
+      entity_id:
+        - timer.paul_just_arrived
+        - timer.tracy_just_arrived
   action:
   - service: homeassistant.turn_off
-    entity_id:
-      - input_boolean.back_door_opened_for_tracy
+    data_template:
+      entity_id: >-
+        {% if trigger.event.data.entity_id == 'timer.paul_just_arrived' %}
+          input_boolean.back_door_opened_for_paul
+        {% else %}
+          input_boolean.back_door_opened_for_tracy
+        {% endif %}
 
+#- alias: 'Reset Door Lock for Tracy'
+#  trigger:
+#  - platform: event
+#    event_type: timer.finished
+#    event_data: 
+#      entity_id: timer.tracy_just_arrived
+#  action:
+#  - service: homeassistant.turn_off
+#    entity_id:
+#      - input_boolean.back_door_opened_for_tracy
+#
+#- alias: 'Reset Door Lock for Paul'
+#  trigger:
+#  - platform: event
+#    event_type: timer.finished
+#    event_data: 
+#      entity_id: timer.paul_just_arrived
+#  action:
+#  - service: homeassistant.turn_off
+#    entity_id:
+#      - input_boolean.back_door_opened_for_paul
 ##########################################
 ## Update stuff when people leave       ##
 ##########################################    
-- alias: 'Paul Left'
-  trigger:
-   - platform: state
-     entity_id: binary_sensor.multiple_presence_paul
-     to: 'off'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: homeassistant.turn_off
-    entity_id:
-      - input_boolean.paul_present
-      - input_boolean.back_door_opened_for_paul
-      - input_boolean.open_garage_for_paul
-  - service: timer.cancel
-    entity_id: timer.paul_just_arrived
+#- alias: 'Paul Left'
+#  trigger:
+#   - platform: state
+#     entity_id: binary_sensor.paul_presence
+#     to: 'off'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: homeassistant.turn_off
+#    entity_id:
+#      - input_boolean.paul_present
+#      - input_boolean.back_door_opened_for_paul
+#      - input_boolean.open_garage_for_paul
+#  - service: timer.cancel
+#    entity_id: timer.paul_just_arrived
+#
+#- alias: 'Tracy Left'
+#  trigger:
+#   - platform: state
+#     entity_id: binary_sensor.tracy_presence
+#     to: 'off'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: homeassistant.turn_off
+#    entity_id:
+#      - input_boolean.tracy_present
+#      - input_boolean.back_door_opened_for_tracy
+#      - input_boolean.open_garage_for_tracy
+#  - service: timer.cancel
+#    entity_id: timer.tracy_just_arrived
 
-- alias: 'Tracy Left'
+- alias: 'Switch resets when people leave'
   trigger:
    - platform: state
-     entity_id: binary_sensor.tracy_presence
+     entity_id:
+       - binary_sensor.paul_presence
+       - binary_sensor.tracy_presence
      to: 'off'
   condition:
   - condition: numeric_state
@@ -218,12 +349,13 @@
     above: 1
   action:
   - service: homeassistant.turn_off
-    entity_id:
-      - input_boolean.tracy_present
-      - input_boolean.back_door_opened_for_tracy
-      - input_boolean.open_garage_for_tracy
-  - service: timer.cancel
-    entity_id: timer.tracy_just_arrived
+    data_template:
+      entity_id: >-
+        {% if trigger.entity_id == 'binary_sensor.paul_presence' %}
+        input_boolean.paul_present,input_boolean.back_door_opened_for_paul,input_boolean.open_garage_for_paul
+        {% else %}
+        input_boolean.tracy_present,input_boolean.back_door_opened_for_tracy,input_boolean.open_garage_for_tracy
+        {% endif %}
 
 #############################################################
 ## House as Extended away to be used for other automations ##
@@ -292,13 +424,11 @@
 
 - alias: 'Motion Lighting Garage turn light on'
   trigger:
-# Garage open close sensor 
   - platform: state
     entity_id: binary_sensor.open_close_sensor_garage_door
     from: 'off'
     to: 'on'
   - platform: state
-# Garage Motion Sensor  
     entity_id: binary_sensor.motion_sensor_garage_motion
     from: 'off'
     to: 'on'
@@ -309,20 +439,17 @@
 - alias: 'Motion Lighting in the Garage'
   trigger:
   - platform: state
-# Garage Motion Sensor  
     entity_id: binary_sensor.motion_sensor_garage_motion
     from: 'on'
     to: 'off'
     for:
       minutes: 1
   - platform: state
-# Garage open close sensor
     entity_id: binary_sensor.open_close_sensor_garage_door
     from: 'on'
     to: 'off' 
   condition:
   - condition: state
-# Garage Motion Sensor 
     entity_id: binary_sensor.motion_sensor_garage_motion
     state: 'off'
     for:
@@ -423,12 +550,12 @@
     entity_id: group.outdoor_lights_sunset
   - service: homeassistant.turn_off
     entity_id: switch.back_porch_light
-  - service: automation.turn_off
-    entity_id:
-      - automation.cameras_back_gate_picture
-      - automation.cameras_drive_way_1_picture
-      - automation.cameras_drive_way_2_picture
-      - automation.camera_side_yard_picture
+#  - service: automation.turn_off
+#    entity_id:
+#      - automation.cameras_back_gate_picture
+#      - automation.cameras_drive_way_1_picture
+#      - automation.cameras_drive_way_2_picture
+#      - automation.camera_side_yard_picture
 
 - alias: TV Lighting after sunset if TV is turned on
   trigger:
@@ -448,9 +575,9 @@
     below: 3.0  
   action:
   - service: script.turn_on
-    entity_id: script.kitchen_tv_lights_hue_scene
-  - service: script.turn_on
-    entity_id: script.living_room_tv_lights_hue_scene
+    entity_id:
+      - script.kitchen_tv_lights_hue_scene
+      - script.living_room_tv_lights_hue_scene
 
 - alias: TV Evening Lighting after turning TV Off
   trigger:
@@ -466,9 +593,9 @@
     state: 'Home'  
   action:
   - service: script.turn_on
-    entity_id: script.kitchen_evening_lights_hue_scene
-  - service: script.turn_on
-    entity_id: script.living_room_evening_lights_hue_scene
+    entity_id:
+      - script.kitchen_evening_lights_hue_scene
+      - script.living_room_evening_lights_hue_scene
 
 - alias: Turn on lights upon Arrival after sunset
   trigger:
@@ -482,9 +609,9 @@
     below: 3.0  
   action:
   - service: script.turn_on
-    entity_id: script.kitchen_evening_lights_hue_scene
-  - service: script.turn_on
-    entity_id: script.living_room_evening_lights_hue_scene
+    entity_id:
+      - script.kitchen_evening_lights_hue_scene
+      - script.living_room_evening_lights_hue_scene
 
 ##########################################
 ## Routines                             ##
@@ -669,12 +796,9 @@
   - condition: state
     entity_id: input_select.house_mode
     state: Home
-  - condition: or
-    conditions:
-      - condition: time
-        before: '05:00:00'
-      - condition: time
-        after: '22:30:00'
+  - condition: time
+    after: '22:30:00'
+    before: '05:00:00'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.goodnight_switch
@@ -761,7 +885,6 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.backyard_line_crossing
-    from: 'off'
     to: 'on'    
   condition:
   - condition: state
@@ -780,7 +903,6 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.backyard_line_crossing
-    from: 'off'
     to: 'on'    
   condition:
   - condition: state
@@ -867,7 +989,7 @@
   - service: notify.pushbullet_notifications
     data_template:
       message: >
-          {% set unlocked = states | selectattr('entity_id', 'in', state_attr('lock.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
+          {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
           The following locks are unlocked: {{ unlocked }}
       target:
       - !secret pauls_secret_email
@@ -983,6 +1105,7 @@
      to: 'on'
    - platform: state
      entity_id:
+       - device_tracker.tracy
        - device_tracker.tracys_iphone
        - device_tracker.tracys_iphone_2
      to: 'home' 
@@ -1006,6 +1129,7 @@
      to: 'on'
    - platform: state
      entity_id:
+       - device_tracker.paul
        - device_tracker.pauls_iphone
        - device_tracker.pauls_iphone_2
      to: 'home'  
@@ -1116,12 +1240,9 @@
   - condition: state
     entity_id: input_select.house_mode
     state: 'Night' 
-  - condition: or
-    conditions:
-      - condition: time
-        before: '05:00:00'
-      - condition: time
-        after: '22:30:00'
+  - condition: time
+    after: '22:30:00'
+    before: '05:00:00'
   action:
   - service: remote.turn_off
     entity_id: remote.living_room_harmony_hub
@@ -1206,7 +1327,7 @@
       tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today."
       mplayer: "main"
 
-- alias: "Notify Paul when its time to leave for Navybase"
+- alias: "Notify Paul when its time to leave for base"
   trigger:
   - platform: state
     entity_id: sensor.time_to_leave_for_navy_base
@@ -1225,7 +1346,7 @@
   action:
   - service: script.audio_notify
     data_template:
-      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get the Navybase by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_navybase') }} today."
+      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get the Navy base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today."
       mplayer: "main"
       
 - alias: "Notify Tracy when its time to leave for work"
@@ -1298,7 +1419,7 @@
     entity_id: input_select.house_mode
     from: 'Night'
   - platform: state
-    entity_id: sensor.pauls_traffic_density_to_navybase
+    entity_id: sensor.pauls_traffic_density_to_base
   - platform: time
     at: '07:35:00'
   condition:
@@ -1321,7 +1442,7 @@
       brightness_pct: 100
       color_name: >
         {% set map = {'Normal': 'green', 'Moderate': 'orange', 'Heavy': 'red'} %}
-        {% set state = states('sensor.pauls_traffic_density_to_navybase') %}
+        {% set state = states('sensor.pauls_traffic_density_to_base') %}
         {{ map[state] if state in map else 'white' }}
 
 - alias: Set alcove light color based on Traffic to AVIS
@@ -1359,7 +1480,7 @@
 - alias: "Leave any zone"
   trigger:
   - platform: state
-    entity_id: device_tracker.pauls_iphone
+    entity_id: device_tracker.paul
     to: 'not_home'
   action:
   - service: input_number.set_value
@@ -1374,24 +1495,24 @@
 - alias: "Enter any zone"
   trigger:
   - platform: state
-    entity_id: device_tracker.pauls_iphone
+    entity_id: device_tracker.paul
     from: 'not_home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1    
   - condition: template
-    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.pauls_iphone') }}"
+    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.paul') }}"
   action:
   - service: ifttt.trigger
     data_template:
       event: CommuteLog
       value1: '{{ states("input_text.commute_start_zone") }}'
-      value2: '{{ states("device_tracker.pauls_iphone") }}'
+      value2: '{{ states("device_tracker.paul") }}'
       value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
   - service: notify.pushbullet_notifications
     data:
-      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.pauls_iphone') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
+      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
       target:
       - !secret pauls_secret_email
       title: "Commute Logged"
@@ -1399,7 +1520,7 @@
 - alias: "Tracy Leaving Location Alert"
   trigger:
   - platform: state
-    entity_id: device_tracker.tracys_iphone
+    entity_id: device_tracker.tracy
     to: 'not_home'
   condition:
   - condition: numeric_state
@@ -1420,7 +1541,7 @@
 - alias: "Tracy Arriving at Location Alert"
   trigger:
   - platform: state
-    entity_id: device_tracker.tracys_iphone
+    entity_id: device_tracker.tracy
     from: 'not_home'
   condition:
   - condition: numeric_state
@@ -1429,7 +1550,7 @@
   action:
   - service: notify.pushbullet_notifications
     data:
-      message: "Tracy arrived at {{ states('device_tracker.tracys_iphone') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
+      message: "Tracy arrived at {{ states('device_tracker.tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
       title: "Location Alert"
@@ -1654,7 +1775,7 @@
 - alias: Tracy Travel Notice
   trigger:
   - platform: state
-    entity_id: device_tracker.tracys_iphone
+    entity_id: device_tracker.tracy
     to: 'not_home'
   condition:
   - condition: numeric_state

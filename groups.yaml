@@ -32,29 +32,27 @@ CCTV:
     - camera.driveway_one
     - camera.driveway_two
     - camera.side_yard
-    - group.cameras_view
     - automation.camera_side_yard_picture
     - automation.cameras_back_gate_picture
     - automation.cameras_drive_way_1_picture
     - automation.cameras_drive_way_2_picture
-    - automation.cameras_front_door_with_driveway_1_line_crossing
-    - automation.cameras_front_door_with_driveway_2_line_crossing
+    - group.cameras_view
     
 home_mode_and_presence:
   name: Presence and Alerts
   view: Yes
   icon: mdi:walk
   entities:
-    - device_tracker.pauls_iphone
-    - device_tracker.tracys_iphone
+    - device_tracker.paul
+    - device_tracker.tracy
+#    - device_tracker.pauls_iphone
+#    - device_tracker.tracys_iphone
     - device_tracker.carolsiphone
-    - device_tracker.paul_
-    - device_tracker.tracy_
     - sensor.pauls_time_to_home
     - sensor.tracys_time_to_home
     - sensor.time_to_avis_tracy
     - sensor.time_to_caci
-    - sensor.time_to_navy_base
+    - sensor.time_to_base
     - sensor.time_to_get_to_soul_mate
     - group.alerts
     - group.house_presence
@@ -69,9 +67,8 @@ house_climate_info:
     - group.thermostats
     - group.downstairs_climate_info
     - group.upstairs_climate_info
+    - group.zigbee_sensors_temp_output
     - group.room_occupancy_sensors
-
-#    - weather.downstairs
 
 weather_forcast:
   name: Dark Sky Weather Forcast
@@ -86,18 +83,17 @@ automation_view:
   view: Yes
   icon: mdi:home-automation
   entities:
+    - group.all_presence_sensors
     - group.front_door_info
     - group.back_door_info
     - group.garage_door_info
     - group.indoor_motion_sensors
     - group.motion_sensor_front_door
     - group.motion_sensor_attic
-    - group.motion_sensors_temp_output
-    - group.all_presence_sensors
     - group.batteries
-    - group.zwave_door_lock_options
     - group.all_automations
     - group.all_scripts
+    - group.zwave_door_lock_options
 
 Batteries:
   view: no
@@ -108,20 +104,20 @@ Batteries:
     - sensor.door_lock_batteries_garage_door
     - sensor.motion_sensor_attic_battery
     - sensor.motion_sensor_front_door_battery
-    - sensor.battery_smoke_detector
-    - sensor.battery_attic_water_sensor
+    - sensor.motion_sensor_hallway_battery
+    - sensor.motion_sensor_living_room_battery
+    - sensor.motion_sensor_office_battery
+    - sensor.motion_sensor_kitchen_battery
+    - sensor.motion_sensor_garage_battery
     - sensor.battery_living_room_window_open_close
     - sensor.battery_office_window_open_close
-    - sensor.battery_garage_fridge_temp_sensor
-    - sensor.battery_garage_motion_sensor
-    - sensor.battery_water_leak_detector_kitchen_sink
-    - sensor.centralite_3320l_0cceb5ca_1_1
-    - sensor.centralite_3320l_0cceb5d4_1_1
-    - sensor.centralite_3320l_0cceb8fd_1_1
-    - sensor.centralite_3326l_05989cc9_1_1
-    - sensor.centralite_3326l_05989ed5_1_1
-    - sensor.centralite_3326l_0e33a666_1_1
-    - sensor.centralite_3326l_0e33c46e_1_1
+    - sensor.open_close_sensor_front_door_battery
+    - sensor.open_close_sensor_garage_door_battery
+    - sensor.open_close_sensor_back_door_battery
+    - sensor.open_close_sensor_garage_fridge_battery
+    - sensor.battery_smoke_detector
+    - sensor.battery_attic_water_sensor
+    - sensor.water_sensor_kitchen_battery
 
 garage_door:
   name: Garage Door
@@ -410,7 +406,6 @@ indoor_motion_sensors:
   view: no
 #  icon: mdi:cctv
   entities:
-# Garage, hallway, office, living room, kitchen, front door (in that order)
     - binary_sensor.motion_sensor_garage_motion
     - binary_sensor.motion_sensor_hallway_motion
     - binary_sensor.motion_sensor_office_motion
@@ -422,7 +417,6 @@ downstairs_motion_sensors:
   name: Motion Sensors
   view: no
   entities:
-# Garage, Office, Kitchen, Living Room
     - binary_sensor.motion_sensor_garage_motion
     - binary_sensor.motion_sensor_office_motion
     - binary_sensor.motion_sensor_living_room_motion
@@ -433,7 +427,6 @@ upstairs_motion_sensors:
   name: Motion Sensors
   view: no
   entities:
-# Hallway
     - binary_sensor.motion_sensor_hallway_motion
     - binary_sensor.motion_sensor_attic_motion
 
@@ -454,7 +447,6 @@ door_open_close_sensors:
   view: no
 #  icon: mdi:cctv
   entities:
-# Door to the garage, front Door, Back Door
   - binary_sensor.open_close_sensor_front_door
   - binary_sensor.open_close_sensor_garage_door
   - binary_sensor.open_close_sensor_back_door
@@ -562,8 +554,8 @@ garage_door_info:
     - sensor.lock_garage_doorlock_alarm_type
     - zwave.lock_garage_door_lock
 
-motion_sensors_temp_output:
-  name: Temp info from Motion Sensors
+zigbee_sensors_temp_output:
+  name: Temp info from Sensors
   view: no
   entities:
     - sensor.temp_garage_fridge
@@ -601,12 +593,15 @@ all_presence_sensors:
     - input_boolean.tracy_present     
     - binary_sensor.multiple_presence_tracy
     - input_boolean.guests_present
+    - device_tracker.paul
+    - device_tracker.tracy
 
 tracy_iphone_presence:
   name: Tracys Iphone Presence
   icon: mdi:account-multiple
   view: no
   entities:
+    - device_tracker.tracy
     - device_tracker.tracys_iphone
     - device_tracker.tracys_iphone_2
 
@@ -615,6 +610,7 @@ paul_iphone_presence:
   icon: mdi:account-multiple
   view: no
   entities:
+    - device_tracker.paul
     - device_tracker.pauls_iphone
     - device_tracker.pauls_iphone_2
     
