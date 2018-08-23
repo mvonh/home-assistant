@@ -5,7 +5,7 @@
     to: 'Charging'
   action:
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Tracys phone is on the charger"
       target:
       - !secret pauls_secret_email
@@ -167,6 +167,8 @@
     entity_id: input_select.house_mode
     data:
       option: 'Away'
+  - delay:
+      seconds: 60
   - service: input_select.select_option
     entity_id: input_select.security_system
     data:
@@ -663,7 +665,7 @@
       - automation.cameras_drive_way_1_picture
       - automation.cameras_drive_way_2_picture
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "All lights have been turned off, garage door has closed and locks have been locked"
       target:
       - !secret pauls_secret_email
@@ -712,7 +714,7 @@
       - automation.cameras_drive_way_1_picture
       - automation.cameras_drive_way_2_picture
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "All lights have been turned off, except for night time lighting.  Garage door has closed and locks have been locked"
       target:
       - !secret pauls_secret_email
@@ -772,7 +774,7 @@
       entity_id: input_select.house_mode
       option: Night
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Lights off, doors locked, garage closed"
       target:
       - !secret pauls_secret_email
@@ -1022,32 +1024,23 @@
 - alias: 'Security System - Armed Away Motion Detected'
   trigger:
   - platform: state
-    entity_id: binary_sensor.motion_sensor_garage_motion
-    from: 'off'
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_office_motion
-    from: 'off'
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_living_room_motion
-    from: 'off'
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_kitchen_motion
-    from: 'off'
-    to: 'on'    
+    entity_id:
+      - binary_sensor.motion_sensor_garage_motion
+      - binary_sensor.motion_sensor_office_motion
+      - binary_sensor.motion_sensor_living_room_motion
+      - binary_sensor.motion_sensor_kitchen_motion
+    to: 'on'  
   condition:
   - condition: state
     entity_id: input_select.security_system
     state: 'Armed (Away)'
   action:
   - service: notify.pushbullet_notifications
-    data:
-      message: "Motion Detected indoors and no one is home"
+    data_template:
+      message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
       target:
       - !secret pauls_secret_email
-      title: "Security Alert"    
+      title: "Indoor Motion Alert"  
       
 - alias: 'Security System - Armed Home'
   trigger:
@@ -1061,7 +1054,7 @@
     state: 'Armed (Home)'
   action:
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Door has opened after goodnight ran."
       target:
       - !secret pauls_secret_email
@@ -1180,15 +1173,19 @@
   trigger:
   - platform: state
     entity_id: cover.garage_door_opener
-    from: 'closed'
-    to: 'open'   
+    to: 'open'
+  - platform: state
+    entity_id: input_select.security_system
   condition:
   - condition: state
     entity_id: input_select.security_system
     state: 'Armed (Away)'
+  - condition: state
+    entity_id: cover.garage_door_opener
+    state: 'open'
   action:
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Garage Door has Opened and nobody is home."
       target:
       - !secret pauls_secret_email
@@ -1205,7 +1202,7 @@
   - service: homeassistant.turn_off
     entity_id: input_boolean.garage_changed_with_ha
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Garage Door has Closed"
       target:
       - !secret pauls_secret_email
@@ -1272,35 +1269,12 @@
       to: 'not_home'
   action:
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "{{ trigger.to_state.attributes.friendly_name }} is offline"
       target:
       - !secret pauls_secret_email
       title: "Device Offline"      
 
-- alias: Water Leak in Attic
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.water_sensor_attic
-    from: 'off'
-    to: 'on'
-  action:
-  - service: notify.sony_tv
-    data:
-      message: "Water Leak in Attic"
-      title: "Leak Alert"
-  - service: notify.ios_pauls_iphone
-    data:
-      message: "Water Leak in Attic"
-      title: "Leak Alert"
-  - service: notify.pushbullet_notifications
-    data:
-      message: "Water Leak in Attic"
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email      
-      title: "Leak Alert"      
-      
 ##########################################
 ## Time to Leave for work Alert         ##
 ##########################################
@@ -1374,7 +1348,7 @@
         state: 'Heavy'
   action:
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Based on current traffic, you have about 10 minutes to leave if you want to be to work by 7:30am"
       target:
       - !secret tracys_secret_email
@@ -1513,7 +1487,7 @@
       value2: '{{ states("device_tracker.paul") }}'
       value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
       target:
       - !secret pauls_secret_email
@@ -1534,7 +1508,7 @@
       entity_id: input_text.commute_start_zone_tracy
       value: '{{ trigger.from_state.state }}'
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
@@ -1551,7 +1525,7 @@
     above: 1
   action:
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "Tracy arrived at {{ states('device_tracker.tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
@@ -1586,9 +1560,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_2_line_crossing.last_changed)) < 60 }}" 
+        value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_2_line_crossing.last_changed)) < 15 }}" 
       - condition: template
-        value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_1_line_crossing.last_changed)) < 60 }}"
+        value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_1_line_crossing.last_changed)) < 15 }}"
   action:
   - delay: '00:00:01'
   - service: script.turn_on
@@ -1597,7 +1571,7 @@
 #       - script.capture_driveway1_camera
   - delay: '00:00:04'
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
@@ -1607,7 +1581,7 @@
         file: "/tmp/frontdoor.jpg"
 #  - delay: '00:00:02'
 #  - service: notify.pushbullet_notifications
-#    data:
+#    data_template:
 #      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
 #      target:
 #      - !secret pauls_secret_email
@@ -1631,7 +1605,7 @@
     entity_id: script.capture_driveway2_camera
   - delay: '00:00:04'
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
@@ -1658,7 +1632,7 @@
     entity_id: script.capture_backgate_camera
   - delay: '00:00:04'
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
@@ -1680,7 +1654,7 @@
     entity_id: script.capture_sideyard_camera
   - delay: '00:00:04'
   - service: notify.pushbullet_notifications
-    data:
+    data_template:
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       target:
       - !secret pauls_secret_email
@@ -1763,6 +1737,19 @@
             {{ ' unknown' }}
           {%- endif %}
       mplayer: "all"
+  - service: notify.pushbullet_notifications
+    data_template:
+      message: >-
+        The {{ trigger.to_state.name }} is:
+          {%- if trigger.to_state.state in ['on', 'off'] -%}
+            {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
+          {%- else -%}
+            {{ ' unknown' }}
+          {%- endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email      
+      title: "Leak Alert" 
 
 - alias: Tracy Travel Notice
   trigger:
