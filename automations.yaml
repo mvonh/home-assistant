@@ -1000,66 +1000,6 @@
       - !secret tracys_secret_email
       title: Doors left unlocked
 
-##########################################
-## Security Alerts                      ##
-##########################################
-- alias: 'Security System - Armed Away Door Opened'
-  trigger:
-  - platform: state
-    entity_id: group.door_open_close_sensors
-    from: 'off'
-    to: 'on'  
-  condition:
-  - condition: state
-    entity_id: input_select.security_system
-    state: 'Armed (Away)'
-  action:
-  - service: notify.pushbullet_notifications
-    data:
-      message: "Door has opened and no one is home"
-      target:
-      - !secret pauls_secret_email
-      title: "Security Alert"
-
-- alias: 'Security System - Armed Away Motion Detected'
-  trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.motion_sensor_garage_motion
-      - binary_sensor.motion_sensor_office_motion
-      - binary_sensor.motion_sensor_living_room_motion
-      - binary_sensor.motion_sensor_kitchen_motion
-    to: 'on'  
-  condition:
-  - condition: state
-    entity_id: input_select.security_system
-    state: 'Armed (Away)'
-  action:
-  - service: notify.pushbullet_notifications
-    data_template:
-      message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
-      target:
-      - !secret pauls_secret_email
-      title: "Indoor Motion Alert"  
-      
-- alias: 'Security System - Armed Home'
-  trigger:
-  - platform: state
-    entity_id: group.door_open_close_sensors
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: input_select.security_system
-    state: 'Armed (Home)'
-  action:
-  - service: notify.pushbullet_notifications
-    data_template:
-      message: "Door has opened after goodnight ran."
-      target:
-      - !secret pauls_secret_email
-      title: "Security Alert"
-
 - alias: Notify who locked door with timestamp when away
   trigger:
   - platform: state
@@ -1088,6 +1028,48 @@
         {{ trigger.to_state.attributes.friendly_name }} locked by {{ states('input_text.last_person_to_unlock') }}
   - service: input_boolean.turn_off
     entity_id: input_boolean.guests_present
+
+##########################################
+## Security Alerts                      ##
+##########################################
+- alias: 'Security System - Armed Away Door Opened'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.open_close_sensor_back_door,binary_sensor.open_close_sensor_front_door,binary_sensor.open_close_sensor_garage_door,binary_sensor.living_room_window_open_close,binary_sensor.office_window_open_close
+    from: 'off'
+    to: 'on'  
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+  action:
+  - service: notify.pushbullet_notifications
+    data:
+      message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and no one is home"
+      target:
+      - !secret pauls_secret_email
+      title: "Security Alert"
+
+- alias: 'Security System - Armed Away Motion Detected'
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.motion_sensor_garage_motion
+      - binary_sensor.motion_sensor_office_motion
+      - binary_sensor.motion_sensor_living_room_motion
+      - binary_sensor.motion_sensor_kitchen_motion
+    to: 'on'  
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+  action:
+  - service: notify.pushbullet_notifications
+    data_template:
+      message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
+      target:
+      - !secret pauls_secret_email
+      title: "Indoor Motion Alert"  
 
 ##########################################
 ## Garage Door Automations              ##
@@ -1697,6 +1679,12 @@
     data_template:
       tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} has been opened."
       mplayer: "bedroom_spot"
+  - service: notify.pushbullet_notifications
+    data_template:
+      message: "The {{ trigger.to_state.attributes.friendly_name }} just opened after goodnight ran."
+      target:
+      - !secret pauls_secret_email
+      title: "Security Alert"
 
 - alias: Doors or windows left opened
   trigger:
