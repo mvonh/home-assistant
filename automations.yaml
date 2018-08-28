@@ -1,3 +1,55 @@
+- alias: Guests Just Arrived Timer
+  trigger:
+   - platform: state
+     entity_id:
+       - group.extra_device_trackers
+     to: 'home'
+  condition:
+  - condition: template
+    value_template: "{{ (as_timestamp(now())- as_timestamp(states.group.extra_device_trackers.last_changed)) < 60 }}"
+  action:
+  - service: timer.start
+    entity_id: timer.guests_just_arrived
+
+- alias: 'Unlock Back Door for Guests'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.backyard_line_crossing
+    to: 'on'    
+  condition:
+  - condition: state
+    entity_id: timer.guests_just_arrived
+    state: 'active'
+  - condition: state
+    entity_id: input_boolean.back_door_opened_for_guests
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.back_door_opened_for_guests
+  - service: lock.unlock
+    entity_id: lock.lock_back_door_lock
+
+- alias: 'Reset door lock boolean'
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data: 
+      entity_id:
+        - timer.paul_just_arrived
+        - timer.tracy_just_arrived
+        - timer.guests_just_arrived
+  action:
+  - service: homeassistant.turn_off
+    data_template:
+      entity_id: >-
+        {% if trigger.event.data.entity_id == 'timer.paul_just_arrived' %}
+          input_boolean.back_door_opened_for_paul
+        {% elif trigger.event.data.entity_id == 'timer.tracy_just_arrived' %}
+          input_boolean.back_door_opened_for_tracy
+        {% else %}
+          input_boolean.back_door_opened_for_guests
+        {% endif %}
+
 - alias: 'Phone Charging Test'
   trigger:
   - platform: state
@@ -260,24 +312,24 @@
   - service: timer.start
     entity_id: timer.tracy_just_arrived
 
-- alias: 'Reset door lock boolean'
-  trigger:
-  - platform: event
-    event_type: timer.finished
-    event_data: 
-      entity_id:
-        - timer.paul_just_arrived
-        - timer.tracy_just_arrived
-  action:
-  - service: homeassistant.turn_off
-    data_template:
-      entity_id: >-
-        {% if trigger.event.data.entity_id == 'timer.paul_just_arrived' %}
-          input_boolean.back_door_opened_for_paul
-        {% else %}
-          input_boolean.back_door_opened_for_tracy
-        {% endif %}
-
+#- alias: 'Reset door lock boolean'
+#  trigger:
+#  - platform: event
+#    event_type: timer.finished
+#    event_data: 
+#      entity_id:
+#        - timer.paul_just_arrived
+#        - timer.tracy_just_arrived
+#  action:
+#  - service: homeassistant.turn_off
+#    data_template:
+#      entity_id: >-
+#        {% if trigger.event.data.entity_id == 'timer.paul_just_arrived' %}
+#          input_boolean.back_door_opened_for_paul
+#        {% else %}
+#          input_boolean.back_door_opened_for_tracy
+#        {% endif %}
+#
 #- alias: 'Reset Door Lock for Tracy'
 #  trigger:
 #  - platform: event

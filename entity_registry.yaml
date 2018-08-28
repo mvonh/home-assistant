@@ -1243,3 +1243,13 @@ zwave.open_close_office_window:
   name: Office Window Open Close Sensor
   platform: zwave
   unique_id: node-77
+sensor.tracys_ipad_battery_level:
+  config_entry_id:
+  name:
+  platform: ios
+  unique_id: level_tracys_ipad
+sensor.tracys_ipad_battery_state:
+  config_entry_id:
+  name:
+  platform: ios
+  unique_id: state_tracys_ipad

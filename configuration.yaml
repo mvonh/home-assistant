@@ -28,9 +28,10 @@ google:
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
+
 timer:
-  someone_just_arrived:
-    duration: '00:04:00'
+  guests_just_arrived:
+    duration: '00:07:00'
   paul_just_arrived:
     duration: '00:07:00'
   tracy_just_arrived:

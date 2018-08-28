@@ -22,6 +22,9 @@ back_door_opened_for_paul:
 back_door_opened_for_tracy:
   name: Back Door Unlocked for Tracy
   icon: mdi:garage
+back_door_opened_for_guests:
+  name: Back Door Unlocked for Tracy
+  icon: mdi:garage
 goodnight_switch:
   name: Goodnight
   icon: mdi:home

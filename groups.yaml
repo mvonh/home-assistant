@@ -45,9 +45,8 @@ home_mode_and_presence:
   entities:
     - device_tracker.paul
     - device_tracker.tracy
-#    - device_tracker.pauls_iphone
-#    - device_tracker.tracys_iphone
     - device_tracker.carolsiphone
+    - device_tracker.jimsiphone
     - sensor.pauls_time_to_home
     - sensor.tracys_time_to_home
     - sensor.time_to_avis_tracy
@@ -326,6 +325,7 @@ house_presence:
     - binary_sensor.multiple_presence_paul
     - binary_sensor.multiple_presence_tracy
     - device_tracker.carolsiphone
+    - device_tracker.jimsiphone
     - input_boolean.guests_present
 
 # Add guests here who are staying over
@@ -335,6 +335,7 @@ extra_device_trackers:
   view: no
   entities:
     - device_tracker.carolsiphone
+    - device_tracker.jimsiphone
 
 # Only for Primary People (aka Paul and Tracy)
 primary_presence:
@@ -394,12 +395,16 @@ cameras_view:
   entities:
     - binary_sensor.backyard_line_crossing
     - binary_sensor.backyard_motion
+    - binary_sensor.backyard_field_detection
     - binary_sensor.driveway_1_line_crossing
     - binary_sensor.driveway_1_motion
+    - binary_sensor.driveway_1_field_detection
     - binary_sensor.driveway_2_line_crossing
     - binary_sensor.driveway_2_motion
+    - binary_sensor.driveway_2_field_detection
     - binary_sensor.sideyard_line_crossing
     - binary_sensor.sideyard_motion
+    - binary_sensor.sideyard_field_detection
 
 indoor_motion_sensors:
   name: Motion Sensors
