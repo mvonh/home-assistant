@@ -223,6 +223,47 @@ notify:
   - platform: nfandroidtv
     name: Sony TV
     host: 192.168.1.80
+  - name: gmail_all
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret pauls_secret_email
+      - !secret pauls_secret_sms
+      - !secret tracys_secret_email
+      - !secret tracys_secret_sms
+    sender_name: The House
+  - name: gmail_paul
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret pauls_secret_email
+      - !secret pauls_secret_sms
+    sender_name: The House
+  - name: gmail_tracy
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret tracys_secret_email
+      - !secret tracys_secret_sms
+    sender_name: The House
 
 ifttt:
   key: !secret ifttt_key 

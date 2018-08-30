@@ -144,12 +144,6 @@ ecobee_resume_mode:
 ecobee_home_mode:
   alias: "Ecobee Home Mode"
   sequence:
-    - condition: or
-      conditions:
-        - condition: template
-          value_template: "{{ states.climate.downstairs.attributes.hold_mode == 'Away' }}"
-        - condition: template
-          value_template: "{{ states.climate.downstairs.attributes.climate_mode == 'Away' }}"
     - service: climate.set_hold_mode
       entity_id:
        - climate.downstairs
@@ -160,12 +154,6 @@ ecobee_home_mode:
 ecobee_away_mode:
   alias: "Ecobee Away Mode"
   sequence:
-    - condition: or
-      conditions:
-        - condition: template
-          value_template: "{{ states.climate.downstairs.attributes.hold_mode == 'Home' }}"
-        - condition: template
-          value_template: "{{ states.climate.downstairs.attributes.climate_mode == 'Home' }}"
     - service: climate.set_hold_mode
       entity_id:
        - climate.downstairs
@@ -188,14 +176,12 @@ ecobee_sleep_mode:
 ecobee_worker_mode:
   alias: "Ecobee Worker Mode"
   sequence:
-    - condition: template
-      value_template: "{{ states.climate.downstairs.attributes.climate_mode != 'Worker' }}"
     - service: climate.set_hold_mode
       entity_id:
        - climate.downstairs
        - climate.upstairs
       data:
-        hold_mode: 'worker'
+        hold_mode: 'smart1'
 
 ##########################################
 ## Security Camera Photo Capture        ##

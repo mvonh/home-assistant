@@ -450,7 +450,6 @@ room_occupancy_sensors:
 door_open_close_sensors:
   name: Open Close Sensors
   view: no
-#  icon: mdi:cctv
   entities:
   - binary_sensor.open_close_sensor_front_door
   - binary_sensor.open_close_sensor_garage_door
@@ -484,8 +483,8 @@ outdoor_to_turn_off:
     - switch.garage_light_indoor
     - switch.garage_light_outdoor  
 
-goodbye_lights_and_switches_at_night:
-  name: Lights and switches not including night lights
+goodbye_lights_and_switches:
+  name: Lights and switches not including Outdoor Night lights
   view: no
   icon: mdi:lightbulb-outline
   entities:
@@ -498,25 +497,6 @@ goodbye_lights_and_switches_at_night:
     - group.upstairs_zwave_devices
     - group.outdoor_to_turn_off
     - group.all_remotes
-    - input_boolean.back_door_opened_for_paul
-    - input_boolean.back_door_opened_for_tracy
-
-goodbye_lights_and_switches_daytime:
-  name: Lights and switches 
-  view: no
-  icon: mdi:lightbulb-outline
-  entities:
-    - group.livingroom_hue_lights
-    - group.kitchen_hue_lights
-    - group.kitchen_zwave_lights
-    - group.livingroom_zwave_devices
-    - group.livingroom_plugs
-    - group.upstairs_hue_lights
-    - group.upstairs_zwave_devices
-    - group.outdoor
-    - group.all_remotes
-    - input_boolean.back_door_opened_for_paul
-    - input_boolean.back_door_opened_for_tracy
 
 front_door_info:
   name: Front Door Info
@@ -579,8 +559,7 @@ household_routines:
   entities:    
     - automation.good_morning_routine
     - automation.good_night_routine
-    - automation.goodbye_routine_daylight
-    - automation.goodbye_routine_after_dark
+    - automation.goodbye_routine
     - automation.welcome_back_routine
 
 all_presence_sensors:
