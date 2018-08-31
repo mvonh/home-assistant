@@ -233,9 +233,9 @@ notify:
     username: !secret notificationemail
     password: !secret gmailpassword
     recipient:
-      - !secret pauls_secret_email
+      - !secret pauls_secret_gmail
       - !secret pauls_secret_sms
-      - !secret tracys_secret_email
+      - !secret tracys_secret_gmail
       - !secret tracys_secret_sms
     sender_name: The House
   - name: gmail_paul
@@ -248,7 +248,7 @@ notify:
     username: !secret notificationemail
     password: !secret gmailpassword
     recipient:
-      - !secret pauls_secret_email
+      - !secret pauls_secret_gmail
       - !secret pauls_secret_sms
     sender_name: The House
   - name: gmail_tracy
@@ -261,7 +261,7 @@ notify:
     username: !secret notificationemail
     password: !secret gmailpassword
     recipient:
-      - !secret tracys_secret_email
+      - !secret tracys_secret_gmail
       - !secret tracys_secret_sms
     sender_name: The House
 

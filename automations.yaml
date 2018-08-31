@@ -1553,7 +1553,7 @@
   - delay: '00:00:01'
   - service: script.turn_on
     entity_id: script.capture_frontdoor_camera
-  - delay: '00:00:02'
+  - delay: '00:00:03'
   - service: script.turn_on
     entity_id: script.capture_driveway2_camera
   - delay: '00:00:04'
@@ -1580,10 +1580,9 @@
   action:
   - service: script.turn_on
     entity_id: script.capture_driveway2_camera
-  - delay: '00:00:02'
+  - delay: '00:00:03'
   - service: script.turn_on
     entity_id: script.capture_frontdoor_camera
-  - delay: '00:00:01'
   - service: script.turn_on
     entity_id: script.capture_driveway1_camera
   - delay: '00:00:04'
