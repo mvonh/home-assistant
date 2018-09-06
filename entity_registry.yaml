@@ -243,26 +243,6 @@ light.kitchen_counter_light:
   name:
   platform: zwave
   unique_id: 6-72057594143408129
-zwave.lock_garage_door_lock:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-12
-lock.lock_garage_door_lock:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 12-72057594245054464
-sensor.lock_garage_door_lock_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 12-72057594245300225
-sensor.lock_garage_door_lock_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 12-72057594245300241
 zwave.living_room_ceiling_light:
   config_entry_id:
   name:
@@ -1253,3 +1233,23 @@ sensor.tracys_ipad_battery_state:
   name:
   platform: ios
   unique_id: state_tracys_ipad
+sensor.lock_garage_door_lock_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 102-72057595755249665
+sensor.lock_garage_door_lock_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 102-72057595755249681
+lock.lock_garage_door_lock:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 102-72057595755003904
+zwave.lock_garage_door_lock:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-102

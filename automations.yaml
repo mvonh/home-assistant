@@ -1566,6 +1566,13 @@
           - /tmp/driveway1.jpg
           - /tmp/frontdoor.jpg
           - /tmp/driveway2.jpg
+  - service: notify.gmail_paul_sms
+    data:
+      title: 'Driveway Alert'
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+      data:
+        images:
+          - /tmp/frontdoor.jpg
 
 - alias: 'Cameras Drive Way 2 Picture'
   trigger:

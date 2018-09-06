@@ -174,21 +174,35 @@ automation:
 
     action:
 # this is where usercodes get deleted, for the Schlage locks there seems to be an issue with 
-# clear usercode, setting to 0000 works for some locks, but for the schalge it sets 0000 as above
+# clear usercode, setting to 0000 works for some locks, but for the schalge it sets 0000 as a
 # valid code, so this sets a random code, of course that means there is an unknown code in the cleared
 # slots.  If you dont like that set a specific code that only you know
-      - service: lock.set_usercode
-        data_template:
-          usercode: >-
-            {{ range(1000, 9999) | random }}
-# if your lock does not end in "door_lock" ie. often its "door_locked" change line 3 below to match
-# no other things should need to be changed
+# Update 9/4/18 - I have updated my openzwave for the locks and the clear usercode now works.  I have commented
+# out the section with the random number.  If you are are using the release version you can uncommoment that section
+# and comment out the clear user code sections
+#      - service: lock.set_usercode
+#        data_template:
+#          usercode: >-
+#            {{ range(1000, 9999) | random }}
+## if your lock does not end in "door_lock" ie. often its "door_locked" change line 3 below to match
+## no other things should need to be changed
+#          node_id: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set lock_name = "_".join(object_id.split("_")[3:-1]) %}
+#            {% set lock_id = 'lock_' ~ lock_name ~ '_door_lock' %}
+#            {{ states['lock'][lock_id].attributes.node_id }}
+#
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
+#            {{ code_slot }}
+      - service: lock.clear_usercode
+        data_template:      
           node_id: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set lock_name = "_".join(object_id.split("_")[3:-1]) %}
             {% set lock_id = 'lock_' ~ lock_name ~ '_door_lock' %}
             {{ states['lock'][lock_id].attributes.node_id }}
-
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = "_".join(object_id.split("_")[2:-2]) %}
@@ -430,43 +444,70 @@ automation:
           - sensor.keypad_14_temp_lock_turn_off
           - sensor.keypad_15_temp_lock_turn_off
 # this is where usercodes get deleted, for the Schlage locks there seems to be an issue with 
-# clear usercode, setting to 0000 works for some locks, but for the schalge it sets 0000 as above
+# clear usercode, setting to 0000 works for some locks, but for the schalge it sets 0000 as a
 # valid code, so this sets a random code, of course that means there is an unknown code in the cleared
 # slots.  If you dont like that set a specific code that only you know
+# Update 9/4/18 - I have updated my openzwave for the locks and the clear usercode now works.  I have commented
+# out the section with the random number.  If you are are using the release version you can uncommoment that section
+# and comment out the clear user code sections
     action:
-      - service: lock.set_usercode
+#      - service: lock.set_usercode
+#        data_template:
+#          usercode: >-
+#            {{ range(1000, 9999) | random }}
+## Front Door Deadbolt.  You must put in the zwave node id's here 
+#          node_id: 82
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}
+#         
+#      - service: lock.set_usercode
+#        data_template:
+#          usercode: >-
+#            {{ range(1000, 9999) | random }}
+## Back Door Deadbolt.   You must put in the zwave node id's here 
+#          node_id: 99
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}
+#            
+#      - service: lock.set_usercode
+#        data_template:
+#          usercode: >-
+#            {{ range(1000, 9999) | random }}
+##Garage Door Lock  You must put in the zwave node id's here 
+#          node_id: 102
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}
+      - service: lock.clear_usercode
         data_template:
-          usercode: >-
-            {{ range(1000, 9999) | random }}
-# Front Door Deadbolt.  You must put in the zwave node id's here 
+# Front Door Deadbolt.  You must put in the zwave node id's here         
           node_id: 82
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
-            {{ code_slot }}
-            
-      - service: lock.set_usercode
+            {{ code_slot }}   
+      - service: lock.clear_usercode
         data_template:
-          usercode: >-
-            {{ range(1000, 9999) | random }}
-# Back Door Deadbolt.   You must put in the zwave node id's here 
+# Back Door Deadbolt.   You must put in the zwave node id's here         
           node_id: 99
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
             {{ code_slot }}
-            
-      - service: lock.set_usercode
+      - service: lock.clear_usercode
         data_template:
-          usercode: >-
-            {{ range(1000, 9999) | random }}
-#Garage Door Lock  You must put in the zwave node id's here 
-          node_id: 12
+# Garage Door Lock  You must put in the zwave node id's here
+          node_id: 102
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
-            {{ code_slot }}
-   
+            {{ code_slot }}   
+
       - service: notify.pushbullet_notifications
         data_template:
           message: >-
@@ -2046,7 +2087,47 @@ sensor:
           {% else %}
             n/a
           {% endif %}
-          
+
+      back_door_report:
+        friendly_name: 'Back Door Report'
+        value_template: >
+          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set alarm_type_value = states('sensor.lock_back_door_deadbolt_alarm_type') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {% set alarm_type_general_actions = { 
+            '9':'Lock Jammed',
+            '17':'Keypad Lock Jammed',
+            '21':'Manual Lock',
+            '22':'Manual Unlock',
+            '23':'HA Lock Jammed',
+            '24':'HA Lock',
+            '25':'HA Unlock',
+            '26':'Auto Lock Jammed',
+            '27':'Auto Lock',
+            '32':'All Codes Deleted',
+            '161':'Bad Code Entered',
+            '167':'Battery Low',
+            '168':'Battery Critical',
+            '169':'Battery Too Low To Operate Lock' } %}
+          {% set alarm_type_lock_actions = {
+            '18':'Keypad Lock',
+            '19':'Keypad Unlock',
+            '162':'Lock Code Attempt Outside of Schedule' } %}
+          {% set alarm_type_code_actions = {
+            '33':'Code Deleted',
+            '112':'Code Changed',
+            '113':'Duplicate Code' } %}
+          {% if alarm_type_value in alarm_type_code_actions %}
+            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
+          {% elif alarm_type_value in alarm_type_lock_actions  %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{number }} ({{ user }})
+          {% elif alarm_type_value in alarm_type_general_actions %}
+            {{ alarm_type_general_actions[alarm_type_value] }}
+          {% else %}
+            Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
+          {% endif %}
+
       frontdoor_action:
         friendly_name: 'Front Door Lock'
         value_template: >
@@ -2116,6 +2197,46 @@ sensor:
           {% else %}
             n/a
           {% endif %}
+      front_door_report:
+        friendly_name: 'Front Door Report'
+        value_template: >
+          {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
+          {% set alarm_type_value = states('sensor.lock_front_door_deadbolt_alarm_type') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {% set alarm_type_general_actions = { 
+            '9':'Lock Jammed',
+            '17':'Keypad Lock Jammed',
+            '21':'Manual Lock',
+            '22':'Manual Unlock',
+            '23':'HA Lock Jammed',
+            '24':'HA Lock',
+            '25':'HA Unlock',
+            '26':'Auto Lock Jammed',
+            '27':'Auto Lock',
+            '32':'All Codes Deleted',
+            '161':'Bad Code Entered',
+            '167':'Battery Low',
+            '168':'Battery Critical',
+            '169':'Battery Too Low To Operate Lock' } %}
+          {% set alarm_type_lock_actions = {
+            '18':'Keypad Lock',
+            '19':'Keypad Unlock',
+            '162':'Lock Code Attempt Outside of Schedule' } %}
+          {% set alarm_type_code_actions = {
+            '33':'Code Deleted',
+            '112':'Code Changed',
+            '113':'Duplicate Code' } %}
+          {% if alarm_type_value in alarm_type_code_actions %}
+            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
+          {% elif alarm_type_value in alarm_type_lock_actions  %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{number }} ({{ user }})
+          {% elif alarm_type_value in alarm_type_general_actions %}
+            {{ alarm_type_general_actions[alarm_type_value] }}
+          {% else %}
+            Unknown Alarm Type Value {{ states('sensor.lock_front_door_deadbolt_alarm_type') }}
+          {% endif %}
+
 #  Commeneted out for me because I have a FE599 for my garage and it does not repoty alarm_type properly          
       garagedoor_action:
         friendly_name: 'Garage Door Lock'
@@ -2181,6 +2302,46 @@ sensor:
             {{ states.input_text.door_keypad_18_name.state }}
           {% else %}
             Unknown
+          {% endif %}
+
+      garage_door_report:
+        friendly_name: 'Garage Door Report'
+        value_template: >
+          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {% set alarm_type_general_actions = { 
+            '9':'Lock Jammed',
+            '17':'Keypad Lock Jammed',
+            '21':'Manual Lock',
+            '22':'Manual Unlock',
+            '23':'HA Lock Jammed',
+            '24':'HA Lock',
+            '25':'HA Unlock',
+            '26':'Auto Lock Jammed',
+            '27':'Auto Lock',
+            '32':'All Codes Deleted',
+            '161':'Bad Code Entered',
+            '167':'Battery Low',
+            '168':'Battery Critical',
+            '169':'Battery Too Low To Operate Lock' } %}
+          {% set alarm_type_lock_actions = {
+            '18':'Keypad Lock',
+            '19':'Keypad Unlock',
+            '162':'Lock Code Attempt Outside of Schedule' } %}
+          {% set alarm_type_code_actions = {
+            '33':'Code Deleted',
+            '112':'Code Changed',
+            '113':'Duplicate Code' } %}
+          {% if alarm_type_value in alarm_type_code_actions %}
+            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
+          {% elif alarm_type_value in alarm_type_lock_actions  %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{number }} ({{ user }})
+          {% elif alarm_type_value in alarm_type_general_actions %}
+            {{ alarm_type_general_actions[alarm_type_value] }}
+          {% else %}
+            Unknown Alarm Type Value {{ states('sensor.lock_garage_door_lock_alarm_type') }}
           {% endif %}
 
 #  Battery info, use your custom name if needed.  Also I had some issues that I thought was related to this

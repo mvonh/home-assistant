@@ -249,6 +249,17 @@ notify:
     password: !secret gmailpassword
     recipient:
       - !secret pauls_secret_gmail
+    sender_name: The House
+  - name: gmail_paul_sms
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
       - !secret pauls_secret_sms
     sender_name: The House
   - name: gmail_tracy
