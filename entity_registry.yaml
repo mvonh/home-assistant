@@ -1233,23 +1233,23 @@ sensor.tracys_ipad_battery_state:
   name:
   platform: ios
   unique_id: state_tracys_ipad
-sensor.lock_garage_door_lock_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 102-72057595755249665
-sensor.lock_garage_door_lock_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 102-72057595755249681
 lock.lock_garage_door_lock:
   config_entry_id:
-  name:
+  name: Garage Door Lock
   platform: zwave
-  unique_id: 102-72057595755003904
+  unique_id: 103-72057595771781120
+sensor.lock_garage_door_lock_alarm_level:
+  config_entry_id:
+  name: Sensor Garage Door Alarm Level
+  platform: zwave
+  unique_id: 103-72057595772026897
+sensor.lock_garage_door_lock_alarm_type:
+  config_entry_id:
+  name: Garage Door Alarm Type
+  platform: zwave
+  unique_id: 103-72057595772026881
 zwave.lock_garage_door_lock:
   config_entry_id:
-  name:
+  name: Garage Door Lock
   platform: zwave
-  unique_id: node-102
+  unique_id: node-103

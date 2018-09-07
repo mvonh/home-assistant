@@ -568,17 +568,17 @@ all_presence_sensors:
   view: no
   entities:
     - binary_sensor.people_home
+    - device_tracker.paul
     - device_tracker.pauls_iphone
     - device_tracker.pauls_iphone_2
     - input_boolean.paul_present     
     - binary_sensor.multiple_presence_paul
+    - device_tracker.tracy
     - device_tracker.tracys_iphone
     - device_tracker.tracys_iphone_2
     - input_boolean.tracy_present     
     - binary_sensor.multiple_presence_tracy
     - input_boolean.guests_present
-    - device_tracker.paul
-    - device_tracker.tracy
 
 tracy_iphone_presence:
   name: Tracys Iphone Presence

@@ -478,7 +478,7 @@ automation:
 #          usercode: >-
 #            {{ range(1000, 9999) | random }}
 ##Garage Door Lock  You must put in the zwave node id's here 
-#          node_id: 102
+#          node_id: 103
 #          code_slot: >-
 #            {% set object_id = trigger.to_state.object_id %}
 #            {% set code_slot = object_id[7:-19] %}
@@ -502,7 +502,7 @@ automation:
       - service: lock.clear_usercode
         data_template:
 # Garage Door Lock  You must put in the zwave node id's here
-          node_id: 102
+          node_id: 103
           code_slot: >-
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
@@ -561,7 +561,7 @@ automation:
           value: '{{ range(1000, 9999) | random }}'
 
   - alias: Keypad clear code after one time use code is used for 16 through 18
-# When the code from slots 16. 17 or 18 are used, the immediately run the delete script, removing the code from all doors
+# When the code from slots 16. 17 or 18 are used, this immediately runs the delete script, removing the code from all doors
 # notice that the alarm level is used to determine which slot was used, make sure the names match your config.  Added condition
 # for keypad unlock to keep codes from being deleted when set  (Yale Locks did this)
     trigger:
@@ -577,30 +577,27 @@ automation:
       conditions:
         - condition: or
           conditions:
-            - condition: state
-              entity_id: sensor.frontdoor_action
-              state: 'Keypad Unlock'
-            - condition: state
-              entity_id: sensor.backdoor_action
-              state: 'Keypad Unlock'
-            - condition: state
-              entity_id: sensor.garagedoor_action
-              state: 'Keypad Unlock'
+            - condition: template
+              value_template: "{{ states('sensor.front_door_report').lower().startswith('keypad unlock') }}"
+            - condition: template
+              value_template: "{{ states('sensor.back_door_report').lower().startswith('keypad unlock') }}"
+            - condition: template
+              value_template: "{{ states('sensor.garage_door_report').lower().startswith('keypad unlock') }}"
         - condition: numeric_state
           entity_id: sensor.ha_runtime_in_minutes
           above: 1
     action:
-#      - service: notify.pushbullet_notifications
-#        data:
-#          message: "door delete test "
-#          target:
-#          - !secret pauls_secret_email
-#          title: "Testing of delete script door keypad"
       - service: script.turn_on
         data_template:
           entity_id: >
             {% set code_slot = trigger.to_state.state %}
             {{ 'script.door_keypad_' ~ code_slot ~ '_delete' }}
+      - service: notify.pushbullet_notifications
+        data:
+          message: "door delete test "
+          target:
+          - !secret pauls_secret_email
+          title: "Testing of delete script door keypad"
 
   - alias: Keypad clear code after one time use is set to disabled for 16 through 18
 # This will also delete the code from all doors when you change the option from enabled to disabled
@@ -620,54 +617,6 @@ automation:
                 {% set script_to_run = 'script.door_keypad_' ~ code_slot ~ '_delete' %}
                 {{ script_to_run }}
 
-  - alias: Notify who unlocked door with timestamp
-# this will send you a message telling you which slot was used to unlock the door and will use the
-# name set in the input text for the door as it's friendly name.  If you dont want to get notified
-# when you are home use the appropiate condition. 
-    trigger:
-    - platform: state
-      entity_id:
-        - sensor.frontdoor_action
-        - sensor.backdoor_action
-      to: 'Keypad Unlock'
-# This is for an FE599 Schalge lock, they handle events differntly, this will only trigger if a differnt code is used to unlock the door.  Best I could do currently
-    - platform: state
-      entity_id:
-        - sensor.garagedoor_code
-    condition:
-    - condition: numeric_state
-      entity_id: sensor.ha_runtime_in_minutes
-      above: 1
-# This condtion is for me to only run when no one is home.  This sensor is not included in this package.  Its one I use for other automations as well.
-    - condition: state
-      entity_id: binary_sensor.people_home
-      state: 'off'
-    action:
-# This input boolean is not included in this packge, Its something I use in other automations to disable alarms, turn on lights, etc 
-# for guests who have a code but nota presence sensor set up
-    - service: input_boolean.turn_on
-      entity_id: input_boolean.guests_present
-    - delay:
-        seconds: 2
-    - service: notify.pushbullet_notifications
-      data_template:
-        message: " At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }} " 
-        target:
-        - !secret pauls_secret_email
-        - !secret tracys_secret_email
-        title: >
-          {% set mapper = { 'sensor.frontdoor_action' : 'sensor.frontdoor_code',
-                            'sensor.backdoor_action' : 'sensor.backdoor_code',
-                            'sensor.garagedoor_code' : 'sensor.garagedoor_code' } %}
-          {{ trigger.to_state.attributes.friendly_name }} unlocked by {{ states(mapper[trigger.entity_id]) }}
-    - service: input_text.set_value
-      data_template:
-        entity_id: input_text.last_person_to_unlock
-        value: >
-          {% set mapper = { 'sensor.frontdoor_action' : 'sensor.frontdoor_code',
-                            'sensor.backdoor_action' : 'sensor.backdoor_code',
-                            'sensor.garagedoor_code' : 'sensor.garagedoor_code' } %}
-          {{ states(mapper[trigger.entity_id]) }}
 
 group:
 # you can choose to hide your main entry codes so they will not show in the UI, but, they are still visible in the States
@@ -953,74 +902,92 @@ input_text:
     name: Name
   door_keypad_1_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_2_name:
     name: Name
   door_keypad_2_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_3_name:
     name: Name
   door_keypad_3_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_4_name:
     name: Name
   door_keypad_4_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_5_name:
     name: Name
   door_keypad_5_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_6_name:
     name: Name
   door_keypad_6_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_7_name:
     name: Name
   door_keypad_7_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_8_name:
     name: Name
   door_keypad_8_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_9_name:
     name: Name
   door_keypad_9_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_10_name:
     name: Name
   door_keypad_10_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_11_name:
     name: Name
   door_keypad_11_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_12_name:
     name: Name
   door_keypad_12_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_13_name:
     name: Name
   door_keypad_13_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_14_name:
     name: Name
   door_keypad_14_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_15_name:
     name: Name
   door_keypad_15_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_16_name:
     name: Name
   door_keypad_16_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_17_name:
     name: Name
   door_keypad_17_code:
     name: Code
+    pattern: '[0-9]*'
   door_keypad_18_name:
     name: Name
   door_keypad_18_code:
     name: Code
+    pattern: '[0-9]*'
   last_person_to_unlock:
     name: Name
 
@@ -2016,86 +1983,18 @@ sensor:
           {% set access_schedule = states['input_select']['door_keypad_15_access_schedule'].state %}
           {{ (access_schedule == 'Temporary' or access_schedule == 'Recurring') and input.state == time_now }}
 
-# these use the alarm type to determine how the door was unlocked.  I know this works with Schlage, but I believe
-# it works with other zwave locks as well.  As before make sure the name matches your lock
-      backdoor_action:
-        friendly_name: 'Back Door Lock'
-        value_template: >
-          {% if is_state('sensor.lock_back_door_deadbolt_alarm_type', '22') %}
-            Manual Unlock
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '21') %}
-            Manual Lock
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '19') %}
-            Keypad Unlock
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '18') %}
-            Keypad Lock
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '25') %}
-            Wireless Unlock
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '24') %}
-            Wireless Lock
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '9') %}
-            Lock Jammed
-          {% elif is_state('sensor.lock_back_door_deadbolt_alarm_type', '161') %}
-            Tamper Alarm
-          {% else %}
-            HA Controlled
-          {% endif %}
-# this uses alarm type of keypad unlock/keypad lock, and then pulls the alarm level (code slot) to determin which slot was used          
-      backdoor_code:
-        friendly_name: 'Back Door Code'
-        value_template: >
-          {% if is_state('sensor.lock_back_door_deadbolt_alarm_type', '19') or is_state('sensor.lock_back_door_deadbolt_alarm_type', '18') %}
-            {% if is_state('sensor.lock_back_door_deadbolt_alarm_level', '1') %}
-              {{ states.input_text.door_keypad_1_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '2') %}
-              {{ states.input_text.door_keypad_2_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '3') %}
-              {{ states.input_text.door_keypad_3_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '4') %}
-              {{ states.input_text.door_keypad_4_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '5') %}
-              {{ states.input_text.door_keypad_5_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '6') %}
-              {{ states.input_text.door_keypad_6_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '7') %}
-              {{ states.input_text.door_keypad_7_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '8') %}
-              {{ states.input_text.door_keypad_8_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '9') %}
-              {{ states.input_text.door_keypad_9_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '10') %}
-              {{ states.input_text.door_keypad_10_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '11') %}
-              {{ states.input_text.door_keypad_11_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '12') %}
-              {{ states.input_text.door_keypad_12_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '13') %}
-              {{ states.input_text.door_keypad_13_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '14') %}
-              {{ states.input_text.door_keypad_14_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '15') %}
-              {{ states.input_text.door_keypad_15_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '16') %}
-              {{ states.input_text.door_keypad_16_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '17') %}
-              {{ states.input_text.door_keypad_17_name.state }}
-            {% elif is_state('sensor.lock_back_door_deadbolt_alarm_level', '18') %}
-              {{ states.input_text.door_keypad_18_name.state }}
-            {% else %}
-              Unknown
-            {% endif %}
-          {% else %}
-            n/a
-          {% endif %}
+# This Sensor uses the alarm type to determine what is happening with the lock.  The codes should be standard across locks
+# but not all locks will use all values. As before make sure the names matches your locks
 
       back_door_report:
-        friendly_name: 'Back Door Report'
+        friendly_name: 'Back Door Lock'
         value_template: >
           {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
           {% set alarm_type_value = states('sensor.lock_back_door_deadbolt_alarm_type') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {% set alarm_type_general_actions = { 
+          {% set alarm_type_general_actions = {
+            '0':'No Status Reported',                     
             '9':'Lock Jammed',
             '17':'Keypad Lock Jammed',
             '21':'Manual Lock',
@@ -2128,83 +2027,24 @@ sensor:
             Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
           {% endif %}
 
-      frontdoor_action:
-        friendly_name: 'Front Door Lock'
+# This sensor will just be a friendly name of whoever unlocked the door,  Use for other automations if you want.
+      backdoor_code:
+        friendly_name: 'Back Door Lock'
         value_template: >
-          {% if is_state('sensor.lock_front_door_deadbolt_alarm_type', '22') %}
-            Manual Unlock
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '21') %}
-            Manual Lock
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '19') %}
-            Keypad Unlock
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '18') %}
-            Keypad Lock
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '25') %}
-            Wireless Unlock
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '24') %}
-            Wireless Lock
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '9') %}
-            Lock Jammed
-          {% elif is_state('sensor.lock_front_door_deadbolt_alarm_type', '161') %}
-            Tamper Alarm
-          {% else %}
-            HA Controlled
-          {% endif %}
-          
-      frontdoor_code:
-        friendly_name: 'Front Door Code'
-        value_template: >
-          {% if is_state('sensor.lock_front_door_deadbolt_alarm_type', '19') or is_state('sensor.lock_front_door_deadbolt_alarm_type', '18') %}
-            {% if is_state('sensor.lock_front_door_deadbolt_alarm_level', '1') %}
-              {{ states.input_text.door_keypad_1_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '2') %}
-              {{ states.input_text.door_keypad_2_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '3') %}
-              {{ states.input_text.door_keypad_3_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '4') %}
-              {{ states.input_text.door_keypad_4_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '5') %}
-              {{ states.input_text.door_keypad_5_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '6') %}
-              {{ states.input_text.door_keypad_6_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '7') %}
-              {{ states.input_text.door_keypad_7_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '8') %}
-              {{ states.input_text.door_keypad_8_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '9') %}
-              {{ states.input_text.door_keypad_9_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '10') %}
-              {{ states.input_text.door_keypad_10_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '11') %}
-              {{ states.input_text.door_keypad_11_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '12') %}
-              {{ states.input_text.door_keypad_12_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '13') %}
-              {{ states.input_text.door_keypad_13_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '14') %}
-              {{ states.input_text.door_keypad_14_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '15') %}
-              {{ states.input_text.door_keypad_15_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '16') %}
-              {{ states.input_text.door_keypad_16_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '17') %}
-              {{ states.input_text.door_keypad_17_name.state }}
-            {% elif is_state('sensor.lock_front_door_deadbolt_alarm_level', '18') %}
-              {{ states.input_text.door_keypad_18_name.state }}
-            {% else %}
-              Unknown
-            {% endif %}
-          {% else %}
-            n/a
-          {% endif %}
+          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
+
       front_door_report:
-        friendly_name: 'Front Door Report'
+        friendly_name: 'Front Door Lock'
         value_template: >
           {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
           {% set alarm_type_value = states('sensor.lock_front_door_deadbolt_alarm_type') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {% set alarm_type_general_actions = { 
+          {% set alarm_type_general_actions = {
+            '0':'No Status Reported',          
             '9':'Lock Jammed',
             '17':'Keypad Lock Jammed',
             '21':'Manual Lock',
@@ -2237,81 +2077,23 @@ sensor:
             Unknown Alarm Type Value {{ states('sensor.lock_front_door_deadbolt_alarm_type') }}
           {% endif %}
 
-#  Commeneted out for me because I have a FE599 for my garage and it does not repoty alarm_type properly          
-      garagedoor_action:
-        friendly_name: 'Garage Door Lock'
+      frontdoor_code:
+        friendly_name: 'Front Door Lock'
         value_template: >
-          {% if is_state('sensor.lock_garage_door_lock_alarm_type', '22') %}
-            Manual Unlock
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '21') %}
-            Manual Lock
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '19') %}
-            Keypad Unlock
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '18') %}
-            Keypad Lock
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '25') %}
-            Wireless Unlock
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '24') %}
-            Wireless Lock
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '9') %}
-            Lock Jammed
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '161') %}
-            Tamper Alarm
-          {% else %}
-            HA Controlled
-          {% endif %}
-# Schalge FE599 is slightly different for alarm Type          
-      garagedoor_code:
-        friendly_name: 'Garage Door Lock'
-        value_template: >
-          {% if is_state('sensor.lock_garage_door_lock_alarm_level', '1') %}
-            {{ states.input_text.door_keypad_1_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '2') %}
-            {{ states.input_text.door_keypad_2_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '3') %}
-            {{ states.input_text.door_keypad_3_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '4') %}
-            {{ states.input_text.door_keypad_4_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '5') %}
-            {{ states.input_text.door_keypad_5_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '6') %}
-            {{ states.input_text.door_keypad_6_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '7') %}
-            {{ states.input_text.door_keypad_7_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '8') %}
-            {{ states.input_text.door_keypad_8_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '9') %}
-            {{ states.input_text.door_keypad_9_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '10') %}
-            {{ states.input_text.door_keypad_10_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '11') %}
-            {{ states.input_text.door_keypad_11_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '12') %}
-            {{ states.input_text.door_keypad_12_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '13') %}
-            {{ states.input_text.door_keypad_13_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '14') %}
-            {{ states.input_text.door_keypad_14_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '15') %}
-            {{ states.input_text.door_keypad_15_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '16') %}
-            {{ states.input_text.door_keypad_16_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '17') %}
-            {{ states.input_text.door_keypad_17_name.state }}
-          {% elif is_state('sensor.lock_garage_door_lock_alarm_level', '18') %}
-            {{ states.input_text.door_keypad_18_name.state }}
-          {% else %}
-            Unknown
-          {% endif %}
+          {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
 
       garage_door_report:
-        friendly_name: 'Garage Door Report'
+        friendly_name: 'Garage Door Lock'
         value_template: >
           {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
           {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {% set alarm_type_general_actions = { 
+          {% set alarm_type_general_actions = {
+            '0':'No Status Reported',
             '9':'Lock Jammed',
             '17':'Keypad Lock Jammed',
             '21':'Manual Lock',
@@ -2344,75 +2126,83 @@ sensor:
             Unknown Alarm Type Value {{ states('sensor.lock_garage_door_lock_alarm_type') }}
           {% endif %}
 
+      garagedoor_code:
+        friendly_name: 'Garage Door Lock'
+        value_template: >
+          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
+          
 #  Battery info, use your custom name if needed.  Also I had some issues that I thought was related to this
 #  and had this commented out for a while, but it seems to be working well now, so might not be a problem
 #  if you notice any issues, try commenting this out
-#      door_lock_batteries_front_door:
-#        friendly_name: Front Door Lock Battery Level
-#        value_template: "{% if states.zwave.lock_front_door_deadbolt %}
-#            {{ states.zwave.lock_front_door_deadbolt.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        icon_template: >-
-#          {% set battery_level = states('sensor.door_lock_batteries_front_door')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}
-#          {% endif %}
-#
-#      door_lock_batteries_back_door:
-#        friendly_name: Back Door Lock Battery Level
-#        value_template: "{% if states.zwave.lock_back_door_deadbolt %}
-#            {{ states.zwave.lock_back_door_deadbolt.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        icon_template: >-
-#          {% set battery_level = states('sensor.door_lock_batteries_back_door')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}
-#          {% endif %}
-#
-#      door_lock_batteries_garage_door:
-#        friendly_name: Garage Door Lock Battery Level
-#        value_template: "{% if states.zwave.lock_garage_door_lock %}
-#            {{ states.zwave.lock_garage_door_lock.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        # entity_id: zwave.lock_garage_door_lock
-#        icon_template: >-
-#          {% set battery_level = states('sensor.door_lock_batteries_garage_door')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}
-#          {% endif %}
+      door_lock_batteries_front_door:
+        friendly_name: Front Door Lock Battery Level
+        value_template: "{% if states.zwave.lock_front_door_deadbolt %}
+            {{ states.zwave.lock_front_door_deadbolt.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.door_lock_batteries_front_door')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
+
+      door_lock_batteries_back_door:
+        friendly_name: Back Door Lock Battery Level
+        value_template: "{% if states.zwave.lock_back_door_deadbolt %}
+            {{ states.zwave.lock_back_door_deadbolt.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.door_lock_batteries_back_door')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
+
+      door_lock_batteries_garage_door:
+        friendly_name: Garage Door Lock Battery Level
+        value_template: "{% if states.zwave.lock_garage_door_lock %}
+            {{ states.zwave.lock_garage_door_lock.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        # entity_id: zwave.lock_garage_door_lock
+        icon_template: >-
+          {% set battery_level = states('sensor.door_lock_batteries_garage_door')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}

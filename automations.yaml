@@ -166,7 +166,7 @@
     data:
       option: 'Away'
   - delay:
-      seconds: 60
+      seconds: 75
   - service: input_select.select_option
     entity_id: input_select.security_system
     data:
@@ -711,7 +711,7 @@
     data:
       entity_id:
         - light.hallway_light
-      brightness_pct: 25
+      brightness_pct: 35
 
 - alias: Good Morning Switch
   trigger:
@@ -870,6 +870,8 @@
   - platform: state
     entity_id: binary_sensor.doors_unlocked
     to: 'on'
+    for:
+      minutes: 1
   condition:
   - condition: state
     entity_id: input_select.security_system
@@ -888,13 +890,48 @@
       - !secret tracys_secret_email
       title: Doors left unlocked
 
-- alias: Notify who locked door with timestamp when away
+- alias: Notify who unlocked door with timestamp
   trigger:
-  - platform: state
-    entity_id:
-      - sensor.frontdoor_action
-      - sensor.backdoor_action
-    to: 'Keypad Lock'
+  - platform: template
+    value_template: "{{ states('sensor.front_door_report').lower().startswith('keypad unlock') }}"
+  - platform: template
+    value_template: "{{ states('sensor.back_door_report').lower().startswith('keypad unlock') }}"
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: binary_sensor.people_home
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.guests_present
+  - delay:
+      seconds: 2
+  - service: notify.pushbullet_notifications
+    data_template:
+      message: " At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }} " 
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: >
+        {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
+                          'sensor.back_door_report' : 'sensor.backdoor_code' } %}
+        {{ trigger.to_state.attributes.friendly_name }} unlocked by {{ states(mapper[trigger.entity_id]) }}
+  - service: input_text.set_value
+    data_template:
+      entity_id: input_text.last_person_to_unlock
+      value: >
+        {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
+                          'sensor.back_door_report' : 'sensor.backdoor_code' } %}
+        {{ states(mapper[trigger.entity_id]) }}
+
+- alias: Notify who locked door with timestamp
+  trigger:
+  - platform: template
+    value_template: "{{ states('sensor.front_door_report').lower().startswith('keypad lock') }}"
+  - platform: template
+    value_template: "{{ states('sensor.back_door_report').lower().startswith('keypad lock') }}"
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -917,29 +954,8 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.guests_present
 
-# Duplicated elsewhere
-#- alias: 'Reset door lock boolean'
-#  trigger:
-#  - platform: event
-#    event_type: timer.finished
-#  condition:
-#    condition: template
-#    value_template: >
-#      {{ trigger.event.data.entity_id in ['timer.paul_just_arrived',
-#                                          'timer.tracy_just_arrived',
-#                                          'timer.guests_just_arrived'] }}
-#  action:
-#  - service: input_boolean.turn_off
-#    data_template:
-#      entity_id: >-
-#        {% if trigger.event.data.entity_id == 'timer.paul_just_arrived' %}
-#          input_boolean.back_door_opened_for_paul
-#        {% elif trigger.event.data.entity_id == 'timer.tracy_just_arrived' %}
-#          input_boolean.back_door_opened_for_tracy
-#        {% else %}
-#          input_boolean.back_door_opened_for_guests
-#        {% endif %}
-#
+
+
 ##########################################
 ## Security Alerts                      ##
 ##########################################
