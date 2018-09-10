@@ -135,7 +135,7 @@
        friendly_name: 'Are doors unlocked?'
        
  - platform: workday
-   country: 'US'
+   country: 'UnitedStates'
    workdays: [mon, tue, wed, thu, fri]
 
 

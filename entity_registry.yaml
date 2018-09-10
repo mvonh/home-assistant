@@ -188,396 +188,6 @@ zwave.sigma_designs_uzb_zwave_usb_adapter:
   name:
   platform: zwave
   unique_id: node-1
-zwave.office_lamp_one:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-2
-switch.office_lamp_one:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076282880
-sensor.office_lamp_one_power:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076479554
-sensor.office_lamp_one_energy:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076495874
-sensor.office_lamp_one_previous_reading:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076495890
-sensor.office_lamp_one_interval:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076495907
-sensor.office_lamp_one_exporting:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076496384
-zwave.kitchen_island_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-4
-light.kitchen_island_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 4-72057594109853697
-zwave.kitchen_counter_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-6
-light.kitchen_counter_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 6-72057594143408129
-zwave.living_room_ceiling_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-13
-light.living_room_ceiling_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 13-72057594260848641
-zwave.living_room_fan_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-14
-light.living_room_fan_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 14-72057594277625857
-zwave.living_room_fan:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-15
-fan.living_room_fan:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 15-72057594294403073
-zwave.back_porch_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-18
-switch.back_porch_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 18-72057594344718336
-zwave.rope_lights:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-19
-switch.rope_lights:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 19-72057594361495552
-zwave.garage_light_indoor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-20
-switch.garage_light_indoor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 20-72057594378272768
-zwave.garage_light_outdoor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-21
-switch.garage_light_outdoor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 21-72057594395049984
-zwave.front_porch_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-22
-switch.front_porch_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 22-72057594411827200
-zwave.lamp_post:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-23
-switch.lamp_post:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 23-72057594428604416
-zwave.bedroom_fan:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-24
-zwave.bedroom_ceiling_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-25
-switch.bedroom_fan:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 24-72057594445381632
-zwave.ashleys_room_lamp:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-27
-light.bedroom_ceiling_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 25-72057594462175233
-zwave.frog_fan_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-29
-zwave.frog_fan:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-30
-light.frog_fan_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 29-72057594529284097
-zwave.stairwell_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-31
-fan.frog_fan:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 30-72057594546061313
-zwave.remotec_zfm80:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-34
-switch.stairwell_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 31-72057594562822144
-zwave.living_room_plug_one:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-37
-switch.fireplace:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 34-72057594613153792
-zwave.living_room_plug_two:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-38
-switch.living_room_plug_one:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 37-72057594663485440
-zwave.living_room_plug_three:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-39
-switch.living_room_plug_two:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 38-72057594680262656
-zwave.lava_lamp_plug:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-42
-switch.living_room_plug_three:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 39-72057594697039872
-zwave.lava_lamp_two:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-44
-switch.lava_lamp_plug:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 42-72057594747371520
-zwave.garage_door_opener_remote_controller:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-61
-switch.lava_lamp_two:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594780925952
-sensor.lava_lamp_two_power:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781122626
-sensor.lava_lamp_two_energy:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781138946
-sensor.lava_lamp_two_previous_reading:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781138962
-sensor.lava_lamp_two_interval:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781138979
-sensor.lava_lamp_two_exporting:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781139456
-zwave.frog_ceiling_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-76
-binary_sensor.garage_door_opener_remote_controller_sensor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595066318848
-cover.garage_door_opener:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595067203604
-sensor.garage_door_opener_remote_controller_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595067383809
-sensor.garage_door_opener_remote_controller_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595067383825
-sensor.garage_door_opener_remote_controller_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595067383841
-sensor.garage_door_opener_remote_controller_access_control:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595067383953
-sensor.garage_door_opener_remote_controller_burglar:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 61-72057595067383969
-binary_sensor.water_sensor_attic:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 67-72057595166982144
-light.frog_ceiling_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 76-72057595317813249
-binary_sensor.sensor_3:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 78-72057595351531520
-zwave.lock_front_door_deadbolt:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-82
-lock.lock_front_door_lock:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419459584
-sensor.lock_front_door_deadbolt_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705345
-sensor.lock_front_door_deadbolt_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705361
-sensor.lock_front_door_deadbolt_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705377
-sensor.lock_front_door_deadbolt_access_control:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705489
-sensor.lock_front_door_deadbolt_burglar:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705505
-sensor.lock_front_door_deadbolt_power_management:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705521
-sensor.lock_front_door_deadbolt_system:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 82-72057595419705537
 media_player.theater_room_tv:
   config_entry_id: b8cef0e1631d4f5d8e6e4cbb89851f74
   name:
@@ -589,225 +199,70 @@ media_player.xbr65x900e:
   platform: cast
   unique_id: 9e57e702-768c-5ee4-01a8-0fa1d86246a5
 media_player.living_room:
-  config_entry_id: 4e0e60ec3ff042f5a891ceeafbd67b94
+  config_entry_id: 1b6c5346c3fc4f1e8308941b9d6f1dc0
   name:
   platform: sonos
   unique_id: RINCON_5CAAFDA640F201400
 light.bedroom_lamp_old:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:03:5c:15:13-0b
 light.guest_bedroom_lamp:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:02:fe:ea:4f-0b
 light.left_shelf_lights:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1e:8c:26-0b
 light.living_room_lamp_one:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:02:c8:1c:a8-0b
 light.kitchen_cabinet_tops:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:02:16:ad:83-0b
 light.kitchen_cabinet_bottoms:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1a:f1:d8-0b
 light.living_room_lamp_two:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:02:c8:1c:fe-0b
 light.office_lamp_two:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:02:cd:a9:00-0b
 light.right_shelf_lights:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1c:7f:69-0b
 light.alcove_light:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:02:25:d0:d4-0b
 light.ashleys_room_lamp:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:03:5c:1e:da-0b
 light.tv_backlights:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:01:1a:3f:15-0b
-zwave.water_sensor_attic:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-67
-sensor.water_sensor_attic_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 67-72057595168047137
-sensor.water_sensor_attic_flood:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 67-72057595168047233
-sensor.water_sensor_attic_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 67-72057595168047105
-sensor.water_sensor_attic_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 67-72057595168047121
-zwave.motion_sensor_front_door:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-89
-sensor.motion_sensor_front_door_temperature:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595536097298
-sensor.motion_sensor_front_door_luminance:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595536097330
-sensor.motion_sensor_front_door_relative_humidity:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595536097362
-sensor.motion_sensor_front_door_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537145889
-sensor.motion_sensor_front_door_burglar:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537146017
-sensor.motion_sensor_front_door_power_management:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537146033
-sensor.motion_sensor_front_door_system:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537146049
-sensor.motion_sensor_front_door_emergency:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537146065
-sensor.motion_sensor_front_door_appliance:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537146097
-sensor.motion_sensor_front_door_homehealth:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537146113
-sensor.motion_sensor_front_door_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537145857
-sensor.motion_sensor_front_door_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595537145873
-zwave.motion_sensor_attic:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-91
-sensor.motion_sensor_attic_temperature:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595569651730
-sensor.motion_sensor_attic_luminance:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595569651762
-sensor.motion_sensor_attic_relative_humidity:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595569651794
-sensor.motion_sensor_attic_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700321
-sensor.motion_sensor_attic_burglar:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700449
-sensor.motion_sensor_attic_power_management:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700465
-sensor.motion_sensor_attic_system:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700481
-sensor.motion_sensor_attic_clock:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700513
-sensor.motion_sensor_attic_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700289
-sensor.motion_sensor_attic_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595570700305
-binary_sensor.motion_sensor_front_door_sensor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 89-72057595536080896
-binary_sensor.motion_sensor_attic_sensor:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 91-72057595569635328
 media_player.pauls_iphone:
   config_entry_id:
   name:
@@ -823,36 +278,11 @@ media_player.bravia_4k_gb:
   name:
   platform: plex
   unique_id: ac2d2970f3c851a7-com-plexapp-android
-zwave.smoke_detector_downstairs:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-92
-sensor.smoke_detector_downstairs_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 92-72057595587477505
-sensor.smoke_detector_downstairs_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 92-72057595587477521
 media_player.unnamed_device:
   config_entry_id:
   name:
   platform: plex
   unique_id: d1g13yxc5zb3e7khkpc1h5mi
-zwave.aeotec_minimote_1:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-93
-zwave.aeotec_minimote_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-94
 sensor.water_sensor_kitchen_temp:
   config_entry_id:
   name: Kitchen Sink Water Leak Sensor Temp
@@ -863,11 +293,6 @@ binary_sensor.water_sensor_kitchen:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:03:26:48:78-1-1280
-zwave.enerwave_zwnsc7_7button_scene_controller:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-97
 sensor.tracys_iphone_battery_state:
   config_entry_id:
   name:
@@ -883,86 +308,6 @@ media_player.microsoft_edge:
   name:
   platform: plex
   unique_id: mzflp69otaty886e8o25122f
-sensor.office_lamp_one_power_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076496002
-sensor.office_lamp_one_previous_reading_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076496018
-sensor.office_lamp_one_interval_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 2-72057594076496035
-sensor.lava_lamp_two_power_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781139074
-sensor.lava_lamp_two_previous_reading_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781139090
-sensor.lava_lamp_two_interval_2:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 44-72057594781139107
-sensor.centralite_3210l_0b2d06b5_1_2820:
-  config_entry_id:
-  name:
-  platform: zha
-  unique_id: 00:0d:6f:00:0b:2d:06:b5-1-2820
-sensor.lock_back_door_deadbolt_alarm_type:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918017
-sensor.lock_back_door_deadbolt_alarm_level:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918033
-zwave.lock_back_door_deadbolt:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-99
-lock.lock_back_door_lock:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704672256
-sensor.lock_back_door_deadbolt_sourcenodeid:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918049
-sensor.lock_back_door_deadbolt_access_control:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918161
-sensor.lock_back_door_deadbolt_burglar:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918177
-sensor.lock_back_door_deadbolt_power_management:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918193
-sensor.lock_back_door_deadbolt_system:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: 99-72057595704918209
 media_player.fire_tv:
   config_entry_id:
   name:
@@ -1010,7 +355,7 @@ media_player.tracys_alexa_apps:
   unique_id: D77E79D869174463A556578844AC3C46
 zwave.sconce_light:
   config_entry_id:
-  name:
+  name: Sconce Light
   platform: zwave
   unique_id: node-100
 switch.sconce_light:
@@ -1019,12 +364,12 @@ switch.sconce_light:
   platform: zwave
   unique_id: 100-72057595720450048
 light.bedroom_lamp_one:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:03:b9:8a:29-0b
 light.bedroom_lamp_two:
-  config_entry_id: 03b908e2d9634d9b8942c420e94d5e2c
+  config_entry_id: 9e93046eea9a4079aa2e51e28e52881e
   name:
   platform: hue
   unique_id: 00:17:88:01:03:b9:8f:16-0b
@@ -1193,36 +538,11 @@ sensor.water_sensor_kitchen_battery_1:
   name:
   platform: zha
   unique_id: 00:0d:6f:00:03:26:48:78-2-1
-zwave.hallway_light:
-  config_entry_id:
-  name:
-  platform: zwave
-  unique_id: node-101
-light.hallway_light:
-  config_entry_id:
-  name: Hallway Lights
-  platform: zwave
-  unique_id: 101-72057595737243649
 binary_sensor.doorbell_camera_motion:
   config_entry_id:
   name:
   platform: hikvision
   unique_id: 48383230-3731-3530-3235-142ffd04c513.Motion.1
-binary_sensor.office_window:
-  config_entry_id:
-  name: Office window binary sensor
-  platform: zwave
-  unique_id: 77-72057595334754304
-zwave.open_close_living_room_window:
-  config_entry_id:
-  name: Living Room Window Open Close Sensor
-  platform: zwave
-  unique_id: node-78
-zwave.open_close_office_window:
-  config_entry_id:
-  name: Office Window Open Close Sensor
-  platform: zwave
-  unique_id: node-77
 sensor.tracys_ipad_battery_level:
   config_entry_id:
   name:
@@ -1233,23 +553,653 @@ sensor.tracys_ipad_battery_state:
   name:
   platform: ios
   unique_id: state_tracys_ipad
-lock.lock_garage_door_lock:
+switch.office_lamp_one:
   config_entry_id:
-  name: Garage Door Lock
+  name:
   platform: zwave
-  unique_id: 103-72057595771781120
-sensor.lock_garage_door_lock_alarm_level:
+  unique_id: 2-72057594076282880
+light.kitchen_island_light:
   config_entry_id:
-  name: Sensor Garage Door Alarm Level
+  name:
   platform: zwave
-  unique_id: 103-72057595772026897
-sensor.lock_garage_door_lock_alarm_type:
+  unique_id: 4-72057594109853697
+light.kitchen_counter_light:
   config_entry_id:
-  name: Garage Door Alarm Type
+  name:
   platform: zwave
-  unique_id: 103-72057595772026881
+  unique_id: 6-72057594143408129
+light.living_room_ceiling_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 13-72057594260848641
+light.living_room_fan_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 14-72057594277625857
+fan.living_room_fan:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 15-72057594294403073
+switch.back_porch_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 18-72057594344718336
+switch.rope_lights:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 19-72057594361495552
+switch.garage_light_indoor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 20-72057594378272768
+switch.garage_light_outdoor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 21-72057594395049984
+switch.front_porch_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 22-72057594411827200
+switch.lamp_post:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 23-72057594428604416
+switch.bedroom_fan:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 24-72057594445381632
+light.bedroom_ceiling_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 25-72057594462175233
+light.frog_fan_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 29-72057594529284097
+fan.frog_fan:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 30-72057594546061313
+switch.stairwell_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 31-72057594562822144
+switch.living_room_plug_one:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 37-72057594663485440
+switch.living_room_plug_three:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 39-72057594697039872
+switch.lava_lamp_plug:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 42-72057594747371520
+switch.lava_lamp_two:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594780925952
+sensor.water_sensor_attic:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 67-2251800943804436
+light.frog_ceiling_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 76-72057595317813249
+zwave.open_close_office_window:
+  config_entry_id:
+  name: Office Window Open Close Sensor
+  platform: zwave
+  unique_id: node-77
+sensor.open_close_office_window_sensor_sourcenode:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-562951251312657
+sensor.open_close_office_window_sensor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-2814751064997908
+zwave.open_close_living_room_window:
+  config_entry_id:
+  name: Living Room Window Open Close Sensor
+  platform: zwave
+  unique_id: node-78
+zwave.hallway_light:
+  config_entry_id:
+  name: Hallway Light
+  platform: zwave
+  unique_id: node-101
+light.hallway_light:
+  config_entry_id:
+  name: Hallway Light
+  platform: zwave
+  unique_id: 101-72057595737243649
 zwave.lock_garage_door_lock:
   config_entry_id:
   name: Garage Door Lock
   platform: zwave
   unique_id: node-103
+sensor.centralite_3210l_0b2d06b5_1_2820:
+  config_entry_id:
+  name:
+  platform: zha
+  unique_id: 00:0d:6f:00:0b:2d:06:b5-1-2820
+zwave.office_lamp_one:
+  config_entry_id:
+  name: Office Lamp One
+  platform: zwave
+  unique_id: node-2
+zwave.kitchen_island_light:
+  config_entry_id:
+  name: Kitchen Island Light
+  platform: zwave
+  unique_id: node-4
+zwave.kitchen_counter_light:
+  config_entry_id:
+  name: Kitchen Counter Light
+  platform: zwave
+  unique_id: node-6
+zwave.living_room_ceiling_light:
+  config_entry_id:
+  name: Living Room Ceiling Light
+  platform: zwave
+  unique_id: node-13
+zwave.living_room_fan_light:
+  config_entry_id:
+  name: Living Room Fan Light
+  platform: zwave
+  unique_id: node-14
+zwave.living_room_fan:
+  config_entry_id:
+  name: Living Room Fan
+  platform: zwave
+  unique_id: node-15
+zwave.back_porch_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-18
+zwave.rope_lights:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-19
+zwave.garage_light_indoor:
+  config_entry_id:
+  name: Garage Light (Indoor)
+  platform: zwave
+  unique_id: node-20
+zwave.garage_light_outdoor:
+  config_entry_id:
+  name: Garage Light (Outdoor)
+  platform: zwave
+  unique_id: node-21
+zwave.front_porch_light:
+  config_entry_id:
+  name: Front Porch Light
+  platform: zwave
+  unique_id: node-22
+zwave.lamp_post:
+  config_entry_id:
+  name: Lamp Post
+  platform: zwave
+  unique_id: node-23
+zwave.bedroom_fan:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-24
+zwave.bedroom_ceiling_light:
+  config_entry_id:
+  name: Bedroom Ceiling Light
+  platform: zwave
+  unique_id: node-25
+zwave.frog_fan_light:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-29
+zwave.frog_fan:
+  config_entry_id:
+  name: FROG Fan
+  platform: zwave
+  unique_id: node-30
+zwave.stairwell_light:
+  config_entry_id:
+  name: Stairwell Light
+  platform: zwave
+  unique_id: node-31
+zwave.fireplace:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-34
+switch.fireplace:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 34-72057594613153792
+zwave.living_room_plug_one:
+  config_entry_id:
+  name: Living Room Plug One
+  platform: zwave
+  unique_id: node-37
+zwave.living_room_plug_two:
+  config_entry_id:
+  name: Living Room Plug Two
+  platform: zwave
+  unique_id: node-107
+zwave.living_room_plug_three:
+  config_entry_id:
+  name: Living Room Plug Three
+  platform: zwave
+  unique_id: node-39
+zwave.lava_lamp_plug:
+  config_entry_id:
+  name: Lava Lamp One
+  platform: zwave
+  unique_id: node-42
+zwave.garage_door_opener_remote_controller:
+  config_entry_id:
+  name: Garage Door Opener
+  platform: zwave
+  unique_id: node-61
+zwave.water_sensor_attic:
+  config_entry_id:
+  name: Attic Water Leak Sensor
+  platform: zwave
+  unique_id: node-67
+sensor.living_room_window_sensor_sourcenode:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-562951268089873
+sensor.living_room_window_sensor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-2814751081775124
+zwave.motion_sensor_front_door:
+  config_entry_id:
+  name: Front Door Motion Sensor
+  platform: zwave
+  unique_id: node-89
+zwave.motion_sensor_attic:
+  config_entry_id:
+  name: Attic Motion Sensor
+  platform: zwave
+  unique_id: node-91
+zwave.smoke_detector_downstairs:
+  config_entry_id:
+  name: Smoke Detector
+  platform: zwave
+  unique_id: node-92
+zwave.aeotec_minimote_1:
+  config_entry_id:
+  name: Minimote 1
+  platform: zwave
+  unique_id: node-93
+zwave.aeotec_minimote_2:
+  config_entry_id:
+  name: Minimote 2
+  platform: zwave
+  unique_id: node-94
+sensor.lock_garage_door_lock_alarm_type:
+  config_entry_id:
+  name: Garage Door Lock Alarm Type
+  platform: zwave
+  unique_id: 103-72057595772026881
+sensor.lock_garage_door_lock_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 103-72057595772026897
+lock.lock_garage_door_lock:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 103-72057595771781120
+zwave.frog_ceiling_light:
+  config_entry_id:
+  name: FROG Ceiling Light
+  platform: zwave
+  unique_id: node-76
+sensor.office_lamp_two_energy:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495874
+sensor.office_lamp_two_power:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496002
+sensor.office_lamp_two_exporting:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496384
+sensor.lava_lamp_two_energy_2:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781138946
+sensor.lava_lamp_two_power_2:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139074
+sensor.lava_lamp_two_exporting_2:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139456
+sensor.garage_door_opener_remote_controller_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383841
+sensor.garage_door_opener_remote_controller_access_control:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383953
+sensor.garage_door_opener_remote_controller_burglar:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383969
+sensor.office_lamp_two_power_3:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076479554
+sensor.office_lamp_two_previous_reading:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495890
+sensor.office_lamp_two_interval:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496035
+sensor.lava_lamp_two_power_4:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781122626
+sensor.lava_lamp_two_previous_reading_2:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781138962
+zwave.lava_lamp_two:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: node-44
+sensor.lava_lamp_two_previous_reading:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139090
+sensor.lava_lamp_two_interval:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781139107
+binary_sensor.garage_door_opener_remote_controller_sensor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595066318848
+cover.garage_door_opener:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067203604
+sensor.garage_door_opener_remote_controller_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383809
+sensor.garage_door_opener_remote_controller_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 61-72057595067383825
+sensor.aeotec_dsc06106_smart_energy_switch_interval:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076495907
+sensor.aeotec_dsc06106_smart_energy_switch_previous_reading:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 2-72057594076496018
+sensor.aeotec_dsc06106_smart_energy_switch_interval_2:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 44-72057594781138979
+sensor.lock_front_door_deadbolt_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804097
+sensor.lock_front_door_deadbolt_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581329
+zwave.lock_front_door_deadbolt:
+  config_entry_id:
+  name: Front Door Lock
+  platform: zwave
+  unique_id: node-104
+lock.lock_front_door_lock:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788558336
+sensor.lock_front_door_deadbolt_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804129
+sensor.lock_front_door_deadbolt_access_control:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804241
+sensor.lock_front_door_deadbolt_burglar:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804257
+sensor.lock_front_door_deadbolt_power_management:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804273
+sensor.lock_front_door_deadbolt_system:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804289
+sensor.lock_back_door_deadbolt_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581313
+zwave.lock_back_door_deadbolt:
+  config_entry_id:
+  name: Back Door Lock
+  platform: zwave
+  unique_id: node-105
+lock.lock_back_door_lock:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805335552
+sensor.lock_back_door_deadbolt_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581345
+sensor.lock_back_door_deadbolt_access_control:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581457
+sensor.lock_back_door_deadbolt_burglar:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581473
+sensor.lock_back_door_deadbolt_power_management:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581489
+sensor.lock_back_door_deadbolt_system:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 105-72057595805581505
+sensor.lock_back_door_deadbolt_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 104-72057595788804113
+binary_sensor.linear_wadwaz1_doorwindow_sensor_sensor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 77-72057595334754304
+sensor.water_sensor_attic_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047137
+sensor.water_sensor_attic_flood:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047233
+binary_sensor.water_sensor_attic_sensor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 67-72057595166982144
+sensor.water_sensor_attic_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047105
+sensor.water_sensor_attic_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 67-72057595168047121
+switch.living_room_plug_two:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 107-72057595837890560
+sensor.vision_zp3111_multisensor_4in1_temperature:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536097298
+sensor.vision_zp3111_multisensor_4in1_luminance:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536097330
+sensor.vision_zp3111_multisensor_4in1_relative_humidity:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536097362
+sensor.vision_zp3111_multisensor_4in1_sourcenodeid:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537145889
+sensor.vision_zp3111_multisensor_4in1_burglar:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146017
+sensor.vision_zp3111_multisensor_4in1_power_management:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146033
+sensor.vision_zp3111_multisensor_4in1_emergency:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146065
+sensor.vision_zp3111_multisensor_4in1_clock:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146081
+sensor.vision_zp3111_multisensor_4in1_homehealth:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146113
+sensor.vision_zp3111_multisensor_4in1_alarm_type:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537145857
+sensor.vision_zp3111_multisensor_4in1_alarm_level:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537145873
+binary_sensor.linear_wadwaz1_doorwindow_sensor_sensor_2:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 78-72057595351531520
+sensor.vision_zp3111_multisensor_4in1_system:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595537146049
+binary_sensor.vision_zp3111_multisensor_4in1_sensor:
+  config_entry_id:
+  name:
+  platform: zwave
+  unique_id: 89-72057595536080896

@@ -10,7 +10,10 @@
     spot_id: 396
     monitored_conditions:
       - swell_forecast
-      
+
+  - platform: noaa_tides
+    station_id: 8639207
+    
 # Time-Date Sensor
   - platform: time_date
     display_options:

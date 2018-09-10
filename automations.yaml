@@ -1396,7 +1396,7 @@
       message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
       target:
       - !secret pauls_secret_email
-      title: "Commute Logged"
+#      title: "Commute Logged"
 
 - alias: "Tracy Leaving Location Alert"
   trigger:
@@ -1417,7 +1417,7 @@
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
-      title: "Location Alert"
+#      title: "Location Alert"
 
 - alias: "Tracy Arriving at Location Alert"
   trigger:
@@ -1434,7 +1434,7 @@
       message: "Tracy arrived at {{ states('device_tracker.tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
-      title: "Location Alert"
+#      title: "Location Alert"
 
 ##########################################
 ## Roku Key Mapping for Harmony         ##
@@ -1583,6 +1583,13 @@
           - /tmp/frontdoor.jpg
           - /tmp/driveway2.jpg
   - service: notify.gmail_paul_sms
+    data:
+      title: 'Driveway Alert'
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+      data:
+        images:
+          - /tmp/frontdoor.jpg
+  - service: notify.gmail_tracy_sms
     data:
       title: 'Driveway Alert'
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 

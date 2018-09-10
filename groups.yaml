@@ -474,6 +474,7 @@ outdoor_lights_sunset:
   entities:
     - switch.rope_lights
     - switch.front_porch_light
+    - switch.garage_light_outdoor
     - switch.lamp_post
 
 outdoor_to_turn_off:
@@ -503,40 +504,39 @@ front_door_info:
   view: no
   entities:    
     - lock.lock_front_door_lock
-    - sensor.frontdoor_action
+    - sensor.front_door_report
     - sensor.frontdoor_code
-    - sensor.lock_front_door_deadbolt_access_control
+#    - sensor.lock_front_door_deadbolt_access_control
     - sensor.lock_front_door_deadbolt_alarm_level
     - sensor.lock_front_door_deadbolt_alarm_type
-    - sensor.lock_front_door_deadbolt_burglar
-    - sensor.lock_front_door_deadbolt_power_management
-    - sensor.lock_front_door_deadbolt_sourcenodeid
-    - sensor.lock_front_door_deadbolt_system
+#    - sensor.lock_front_door_deadbolt_burglar
+#    - sensor.lock_front_door_deadbolt_power_management
+#    - sensor.lock_front_door_deadbolt_sourcenodeid
+#    - sensor.lock_front_door_deadbolt_system
     - zwave.lock_front_door_deadbolt
 
 back_door_info:
   name: Back Door Info
   entities:    
     - lock.lock_back_door_lock
-    - sensor.backdoor_action
+    - sensor.back_door_report
     - sensor.backdoor_code
-    - sensor.lock_back_door_deadbolt_access_control
+#    - sensor.lock_back_door_deadbolt_access_control
     - sensor.lock_back_door_deadbolt_alarm_level
     - sensor.lock_back_door_deadbolt_alarm_type
-    - sensor.lock_back_door_deadbolt_burglar
-    - sensor.lock_back_door_deadbolt_power_management
-    - sensor.lock_back_door_deadbolt_sourcenodeid
-    - sensor.lock_back_door_deadbolt_system
+#    - sensor.lock_back_door_deadbolt_burglar
+#    - sensor.lock_back_door_deadbolt_power_management
+#    - sensor.lock_back_door_deadbolt_sourcenodeid
+#    - sensor.lock_back_door_deadbolt_system
     - zwave.lock_back_door_deadbolt
 
 garage_door_info:
   name: Garage Door Info
   entities:  
     - lock.lock_garage_door_lock
-    - sensor.garagedoor_action
     - sensor.garagedoor_code
-    - sensor.lock_garage_door_lock_alarm_level
-    - sensor.lock_garage_doorlock_alarm_type
+#    - sensor.lock_garage_door_lock_alarm_level
+#    - sensor.lock_garage_doorlock_alarm_type
     - zwave.lock_garage_door_lock
 
 zigbee_sensors_temp_output:
