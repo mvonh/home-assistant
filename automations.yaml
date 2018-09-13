@@ -10,6 +10,7 @@
       target:
       - !secret pauls_secret_email
       title: "Testing of iPhone Charging"
+
 #############################################
 ## HA Actions for health, etc              ##
 #############################################
@@ -433,7 +434,7 @@
       entity_id:
         - light.frog_ceiling_light
         - light.frog_fan_light
-      brightness_pct: 60
+      brightnes: 140
   - service: timer.start
     entity_id: timer.frog_tv_reset
   - delay:
@@ -711,7 +712,7 @@
     data:
       entity_id:
         - light.hallway_light
-      brightness_pct: 35
+      brightness: 20
 
 - alias: Good Morning Switch
   trigger:
@@ -1396,7 +1397,7 @@
       message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
       target:
       - !secret pauls_secret_email
-#      title: "Commute Logged"
+      title: "Commute Logged"
 
 - alias: "Tracy Leaving Location Alert"
   trigger:
@@ -1417,7 +1418,7 @@
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
-#      title: "Location Alert"
+      title: "Location Alert"
 
 - alias: "Tracy Arriving at Location Alert"
   trigger:
@@ -1434,7 +1435,7 @@
       message: "Tracy arrived at {{ states('device_tracker.tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
       target:
       - !secret pauls_secret_email
-#      title: "Location Alert"
+      title: "Location Alert"
 
 ##########################################
 ## Roku Key Mapping for Harmony         ##
@@ -1573,29 +1574,35 @@
   - service: script.turn_on
     entity_id: script.capture_driveway2_camera
   - delay: '00:00:04'
-  - service: notify.gmail_paul
+  - service: notify.gmail_house_archive
     data:
-      title: 'Driveway Alert'
+      title: 'Driveway Line Crossing from 24th Street'
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       data:
         images:
           - /tmp/driveway1.jpg
           - /tmp/frontdoor.jpg
           - /tmp/driveway2.jpg
-  - service: notify.gmail_paul_sms
-    data:
-      title: 'Driveway Alert'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/frontdoor.jpg
-  - service: notify.gmail_tracy_sms
-    data:
-      title: 'Driveway Alert'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/frontdoor.jpg
+  - service: script.turn_on
+    entity_id: script.sms_to_all_all_doorbell_pictures
+    
+- alias: 'Cameras Drive Way 2 Crossing Front Door Motion'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_1_motion
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_crossing_front_door_motion.attributes.last_triggered) | int > 60 }}'
+  - condition: template
+    value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_2_line_crossing.last_changed)) < 30 }}" 
+  action:
+  - service: script.turn_on
+    entity_id:
+       - script.capture_frontdoor_camera
+  - delay: '00:00:04'
+  - service: script.turn_on
+    entity_id: script.sms_to_all_all_doorbell_pictures
 
 - alias: 'Cameras Drive Way 2 Picture'
   trigger:
@@ -1610,21 +1617,14 @@
   action:
   - service: script.turn_on
     entity_id: script.capture_driveway2_camera
-  - delay: '00:00:03'
-  - service: script.turn_on
-    entity_id: script.capture_frontdoor_camera
-  - service: script.turn_on
-    entity_id: script.capture_driveway1_camera
   - delay: '00:00:04'
-  - service: notify.gmail_paul
+  - service: notify.gmail_house_archive
     data:
-      title: 'Driveway Alert'
+      title: 'Driveway Line Crossing From the Half Street'
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       data:
         images:
           - /tmp/driveway2.jpg
-          - /tmp/frontdoor.jpg
-          - /tmp/driveway1.jpg
 
 - alias: 'Cameras Back Gate Picture'
   trigger:
@@ -1643,15 +1643,8 @@
   - service: script.turn_on
     entity_id: script.capture_backgate_camera
   - delay: '00:00:04'
-  - service: notify.pushbullet_notifications
-    data_template:
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email      
-      title: Gate Crossing Notification
-      data:
-        file: "/tmp/backgate.jpg"
+  - service: script.turn_on
+    entity_id: script.sms_to_all_all_backgate_pictures
 
 - alias: 'Camera Side Yard Picture'
   trigger:
@@ -1665,15 +1658,8 @@
   - service: script.turn_on
     entity_id: script.capture_sideyard_camera
   - delay: '00:00:04'
-  - service: notify.pushbullet_notifications
-    data_template:
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email      
-      title: Side yard Line Crossing
-      data:
-        file: "/tmp/sideyard.jpg"
+  - service: script.turn_on
+    entity_id: script.sms_to_all_all_sideyard_pictures
       
 #######################################
 ## Alexa Notifications               ##

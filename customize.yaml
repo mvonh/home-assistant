@@ -253,3 +253,13 @@ sensor.motion_sensor_garage_battery:
   friendly_name: Garage Motion Sensor Battery
 sensor.open_close_sensor_garage_fridge_battery:
   friendly_name: Garage Fridge Temp Sensor Battery
+sensor.dark_sky_minutely_summary:
+  friendly_name: Hourly Weather
+sensor.dark_sky_hourly_summary:
+  friendly_name: Daily Weather
+sensor.dark_sky_daily_summary:
+  friendly_name: Weekly Weather
+sensor.dark_sky_apparent_temperature:
+  friendly_name: Current Real Feel Temp
+sensor.dark_sky_wind_speed:
+  friendly_name: Wind Speed

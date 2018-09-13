@@ -11,15 +11,15 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York 
   # Customization file
-#  auth_providers:
-#   - type: homeassistant
-#   - type: legacy_api_password
+  auth_providers:
+   - type: homeassistant
+   - type: legacy_api_password
   customize: !include customize.yaml
   packages: !include_dir_named packages
   whitelist_external_dirs:
     - '/home/homeassistant/.homeassistant/scripts/cameraimages'
     - '/tmp'
-#auth:
+auth:
 
 google:
   client_id: !secret google_calendar_id
@@ -223,6 +223,18 @@ notify:
   - platform: nfandroidtv
     name: Sony TV
     host: 192.168.1.80
+  - name: gmail_house_archive
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: !secret notificationemail
+    encryption: starttls
+    username: !secret notificationemail
+    password: !secret gmailpassword
+    recipient:
+      - !secret notificationemail
+    sender_name: The House
   - name: gmail_all
     platform: smtp
     server: smtp.gmail.com
@@ -234,9 +246,7 @@ notify:
     password: !secret gmailpassword
     recipient:
       - !secret pauls_secret_gmail
-      - !secret pauls_secret_sms
       - !secret tracys_secret_gmail
-      - !secret tracys_secret_sms
     sender_name: The House
   - name: gmail_paul
     platform: smtp
@@ -250,7 +260,7 @@ notify:
     recipient:
       - !secret pauls_secret_gmail
     sender_name: The House
-  - name: gmail_paul_sms
+  - name: sms_paul
     platform: smtp
     server: smtp.gmail.com
     port: 587
@@ -273,9 +283,8 @@ notify:
     password: !secret gmailpassword
     recipient:
       - !secret tracys_secret_gmail
-      - !secret tracys_secret_sms
     sender_name: The House
-  - name: gmail_tracy_sms
+  - name: sms_tracy
     platform: smtp
     server: smtp.gmail.com
     port: 587

@@ -22,40 +22,75 @@
       - 'date_time'
       - 'time_date'
 
+#  # Pauls commute to home
+#  - platform: google_travel_time
+#    name: Pauls Time to Home
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.paul
+#    destination: zone.home
+#  
+#  # Tracys commute to Home
+#  - platform: google_travel_time
+#    name: Tracy's Time to Home
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.tracy
+#    destination: zone.home 
+#  
+#  # Commute to CACI
+#  - platform: google_travel_time
+#    name: Time to CACI
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.paul
+#    destination: zone.caci   
+#  
+#  #   Commute to Base
+#  - platform: google_travel_time
+#    name: Time to Base
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.paul
+#    destination: zone.base
+#  
+#  #   Commute to AVIS
+#  - platform: google_travel_time
+#    name: Time to AVIS Tracy
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.tracy
+#    destination: zone.avis
+#
   # Pauls commute to home
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Pauls Time to Home
-    api_key: !secret google_maps_api_key
     origin: device_tracker.paul
     destination: zone.home
+    region: 'US'
   
   # Tracys commute to Home
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Tracy's Time to Home
-    api_key: !secret google_maps_api_key
     origin: device_tracker.tracy
     destination: zone.home 
+    region: 'US'
   
   # Commute to CACI
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Time to CACI
-    api_key: !secret google_maps_api_key
     origin: device_tracker.paul
-    destination: zone.caci   
+    destination: zone.caci
+    region: 'US'
   
   #   Commute to Base
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Time to Base
-    api_key: !secret google_maps_api_key
     origin: device_tracker.paul
     destination: zone.base
+    region: 'US'
   
   #   Commute to AVIS
-  - platform: google_travel_time
+  - platform: waze_travel_time
     name: Time to AVIS Tracy
-    api_key: !secret google_maps_api_key
     origin: device_tracker.tracy
     destination: zone.avis
+    region: 'US'
 
   #   Time to get to Soul Mate
   - platform: waze_travel_time
@@ -159,101 +194,101 @@
           {% endif %}
         entity_id: sensor.time
         
-#      battery_attic_water_sensor:
-#        friendly_name: "Attic Water Detector Battery Level"
-#        value_template: "{% if states.zwave.water_sensor_attic %}
-#            {{ states.zwave.water_sensor_attic.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        icon_template: >-
-#          {% set battery_level = states('sensor.battery_attic_water_sensor')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}
-#          {% endif %}
-##        entity_id: sensor.time
-#
-#      battery_smoke_detector:
-#        friendly_name: "Downstairs Smoke Detector Battery Level"
-#        value_template: "{% if states.zwave.smoke_detector_downstairs %}
-#            {{ states.zwave.smoke_detector_downstairs.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        icon_template: >-
-#          {% set battery_level = states('sensor.battery_smoke_detector')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}
-#          {% endif %}      
-##        entity_id: sensor.time
-#
-#      battery_living_room_window_open_close:
-#        friendly_name: "Living Room Window Open Close Sensor Battery Level"
-#        value_template: "{% if states.zwave.open_close_living_room_window %}
-#            {{ states.zwave.open_close_living_room_window.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        icon_template: >-
-#          {% set battery_level = states('sensor.battery_living_room_window_open_close')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}
-#          {% endif %}
-##        entity_id: sensor.time
-#
-#      battery_office_window_open_close:
-#        friendly_name: "Office Window Open Close Sensor Battery Level"
-#        value_template: "{% if states.zwave.open_close_office_window %}
-#            {{ states.zwave.open_close_office_window.attributes.battery_level }}
-#          {% else %}
-#            unknown
-#          {% endif %}"
-#        unit_of_measurement: '%'
-#        icon_template: >-
-#          {% set battery_level = states('sensor.battery_office_window_open_close')|int('unknown') %}
-#          {% set battery_round = (battery_level|int / 10)|int * 10 %}
-#          {% if battery_level == 'unknown' %}
-#            mdi:battery-unknown
-#          {% else %}
-#            {% if battery_round >= 100 %}
-#              mdi:battery
-#            {% elif battery_round > 0 %}
-#              mdi:battery-{{ battery_round }}
-#            {% else %}
-#              mdi:battery-alert
-#            {% endif %}   
-#          {% endif %}            
+      battery_attic_water_sensor:
+        friendly_name: "Attic Water Detector Battery Level"
+        value_template: "{% if states.zwave.water_sensor_attic %}
+            {{ states.zwave.water_sensor_attic.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.battery_attic_water_sensor')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
 #        entity_id: sensor.time
+
+      battery_smoke_detector:
+        friendly_name: "Downstairs Smoke Detector Battery Level"
+        value_template: "{% if states.zwave.smoke_detector_downstairs %}
+            {{ states.zwave.smoke_detector_downstairs.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.battery_smoke_detector')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}      
+#        entity_id: sensor.time
+
+      battery_living_room_window_open_close:
+        friendly_name: "Living Room Window Open Close Sensor Battery Level"
+        value_template: "{% if states.zwave.open_close_living_room_window %}
+            {{ states.zwave.open_close_living_room_window.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.battery_living_room_window_open_close')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
+#        entity_id: sensor.time
+
+      battery_office_window_open_close:
+        friendly_name: "Office Window Open Close Sensor Battery Level"
+        value_template: "{% if states.zwave.open_close_office_window %}
+            {{ states.zwave.open_close_office_window.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.battery_office_window_open_close')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}   
+          {% endif %}            
+        entity_id: sensor.time
 
       downstairs_smoke_detector:
             value_template: >

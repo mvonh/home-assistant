@@ -36,7 +36,7 @@ CCTV:
     - automation.cameras_back_gate_picture
     - automation.cameras_drive_way_1_picture
     - automation.cameras_drive_way_2_picture
-    - group.cameras_view
+#    - group.cameras_view
     
 home_mode_and_presence:
   name: Presence and Alerts
@@ -58,6 +58,14 @@ home_mode_and_presence:
     - group.home_mode_and_security_monitor
     - group.household_routines
 
+weather_forcast:
+  name: Weather Informatiom
+  view: Yes
+  icon: mdi:weather-partlycloudy
+  entities:
+    - group.local_conditions
+    - group.weather_card_forecast
+    
 house_climate_info:
   name: House Climate Info
   view: Yes
@@ -68,14 +76,6 @@ house_climate_info:
     - group.upstairs_climate_info
     - group.zigbee_sensors_temp_output
     - group.room_occupancy_sensors
-
-weather_forcast:
-  name: Dark Sky Weather Forcast
-  view: Yes
-  icon: mdi:weather-partlycloudy
-  entities:
-    - group.weather_card_forecast
-#    - sensor.virgia_beach_surf_report_forecast
 
 automation_view:
   name: Automation
@@ -93,6 +93,19 @@ automation_view:
     - group.all_automations
     - group.all_scripts
     - group.zwave_door_lock_options
+
+local_conditions:
+  name: Local Conditions
+  view: no
+  icon: mdi:sun
+  entities:
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_minutely_summary
+    - sensor.dark_sky_hourly_summary
+    - sensor.dark_sky_daily_summary
+    - sensor.virgia_beach_surf_report_forecast
+    - sensor.noaa_tides
 
 Batteries:
   view: no
@@ -476,6 +489,7 @@ outdoor_lights_sunset:
     - switch.front_porch_light
     - switch.garage_light_outdoor
     - switch.lamp_post
+    - switch.sconce_light
 
 outdoor_to_turn_off:
   name: Outdoor Lights

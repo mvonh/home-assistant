@@ -20,12 +20,16 @@ sensor:
       - icon
       - temperature_low
       - temperature_high
+      - apparent_temperature
+      - minutely_summary
       - daily_summary
       - hourly_summary
-
+      - hourly_summary
+      
   - platform: season
   - platform: template
     sensors:
+
       forecast_0:
         friendly_name: "Today"
         value_template: >
@@ -98,7 +102,7 @@ sensor:
 
 group:
   weather_card_forecast:
-    name: Forecast
+    name: 7 Day Forecast
     view: no
     icon: mdi:sun
     entities:
@@ -110,4 +114,5 @@ group:
       - sensor.forecast_5
       - sensor.forecast_6
       - sensor.forecast_7
-      - sensor.noaa_tides
+
+      
