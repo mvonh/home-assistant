@@ -662,8 +662,10 @@ group:
     entities:
        - lock.lock_back_door_lock
        - sensor.door_lock_batteries_back_door
+       - sensor.back_door_report
        - lock.lock_front_door_lock
        - sensor.door_lock_batteries_front_door
+       - sensor.front_door_report
        - lock.lock_garage_door_lock
        - sensor.door_lock_batteries_garage_door
 
@@ -1987,7 +1989,7 @@ sensor:
 # but not all locks will use all values. As before make sure the names matches your locks
 
       back_door_report:
-        friendly_name: 'Back Door Lock'
+        friendly_name: 'Back Door Report'
         value_template: >
           {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
           {% set alarm_type_value = states('sensor.lock_back_door_deadbolt_alarm_type') %}
@@ -2037,7 +2039,7 @@ sensor:
           {{ user }}
 
       front_door_report:
-        friendly_name: 'Front Door Lock'
+        friendly_name: 'Front Door Report'
         value_template: >
           {% set number = states('sensor.lock_front_door_deadbolt_alarm_level') %}
           {% set alarm_type_value = states('sensor.lock_front_door_deadbolt_alarm_type') %}
@@ -2086,7 +2088,7 @@ sensor:
           {{ user }}
 
 #      garage_door_report:
-#        friendly_name: 'Garage Door Lock'
+#        friendly_name: 'Garage Door Report'
 #        value_template: >
 #          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
 #          {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}

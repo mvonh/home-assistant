@@ -1,0 +1,201 @@
+title: The Beach House
+# Include external resources
+resources:
+  - url: /local/my-custom-card.js
+    type: js
+  - url: /local/my-webfont.css
+    type: css
+
+# Optional background for all views. Check https://developer.mozilla.org/en-US/docs/Web/CSS/background for more examples.
+background: center / cover no-repeat url("/background.png") fixed
+# Exclude entities from "Unused entities" view
+excluded_entities:
+  - weblink.router
+views:
+    # View tab title.
+  - title: Rooms
+    # Optional unique id for direct access /lovelace/${id}
+    id: Rooms
+    # Optional background (overwrites the global background).
+    background: radial-gradient(crimson, skyblue)
+    # Each view can have a different theme applied. Theme should be defined in the frontend.
+    theme: dark-mode
+    # The cards to show on this view.
+    cards:
+
+        # The picture entity card will represent an entity with a picture
+      - type: picture-elements
+        image: /local/lovelace/living_room_full.jpg
+        elements:
+          - type: state-icon
+            tap_action: toggle
+            entity: light.living_room_lamp_two
+            style:
+              top: 76%
+              left: 83%
+              --iron-icon-height: 50px
+              --iron-icon-width: 50px
+          - type: image
+            tap_action: toggle
+            entity: light.left_shelf_lights
+            image: /local/lovelace/shelf.png
+            state_filter:
+              "off": opacity(50%)
+              "on": opacity(1%)
+            style:
+              top: 63.5%
+              left: 40.25%
+              width: 6.75%
+          - type: image
+            tap_action: toggle
+            entity: light.right_shelf_lights
+            image: /local/lovelace/shelf.png
+            state_filter:
+              "off": opacity(50%)
+              "on": opacity(1%)
+            style:
+              top: 62.5%
+              left: 71.25%
+              width: 6.75%
+          - type: image
+            tap_action: toggle
+            entity: light.tv_backlights
+            image: /local/lovelace/tv.png
+            state_filter:
+              "off": opacity(50%)
+              "on": opacity(1%)
+            style:
+              top: 55.75%
+              left: 55.5%
+              width: 18%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.living_room_fan_light
+            style:
+              top: 45%
+              left: 56%
+          - type: state-icon
+            tap_action: toggle
+            entity: fan.living_room_fan
+            style:
+              top: 39%
+              left: 56%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.living_room_ceiling_light
+            style:
+              top: 6%
+              left: 38%
+          - type: state-icon
+            tap_action: toggle
+            entity: switch.fireplace
+            style:
+              top: 86%
+              left: 56%
+          - type: state-icon
+            tap_action: toggle
+            entity: switch.sconce_light
+            style:
+              top: 42%
+              left: 2%
+          - type: state-label
+            prefix: "Living Room Temp "
+            entity: sensor.living_room_temperature
+            style:
+              top: 10%
+              left: 80%
+          - type: service-button
+            title: Tap here to turn all lights off
+            style:
+              top: 98%
+              left: 70%
+            service: homeassistant.turn_off
+            service_data:
+              entity_id: group.livingroom
+
+        # The picture entity card will represent an entity with a picture
+      - type: picture-elements
+        image: /local/lovelace/kitchen.jpg
+        elements:
+          - type: state-icon
+            tap_action: toggle
+            entity: light.alcove_light
+            style:
+              top: 50%
+              left: 94.5%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.kitchen_cabinet_tops
+            style:
+              top: 36.5%
+              left: 49%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.kitchen_cabinet_bottoms
+            style:
+              top: 66%
+              left: 51%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.kitchen_island_light
+            style:
+              top: 10%
+              left: 32%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.kitchen_island_light
+            style:
+              top: 20%
+              left: 65%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.kitchen_counter_light
+            style:
+              top: 28%
+              left: 28%
+          - type: state-icon
+            tap_action: toggle
+            entity: light.kitchen_counter_light
+            style:
+              top: 33%
+              left: 54%
+          - type: state-label
+            prefix: "Kitchen Temp "
+            entity: sensor.motion_sensor_kitchen_temp
+            style:
+              top: 10%
+              left: 80%
+          - type: service-button
+            title: Tap here to turn all lights off
+            style:
+              top: 98%
+              left: 70%
+            service: homeassistant.turn_off
+            service_data:
+              entity_id: group.kitchen
+
+    # Specify a tab icon if you want the view tab to be an icon.
+  - icon: mdi:home-assistant
+    # Title of the view. Will be used as the tooltip for tab icon
+    title: Second view
+    cards:
+        # Entities card will take a list of entities and show their state.
+      - type: entities
+        # Title of the entities card
+        title: Example
+        # The entities here will be shown in the same order as specified.
+        # Each entry is an entity ID or a map with extra options.
+        entities:
+          - light.living_room_lamp_one
+          - light.living_room_lamp_two
+          - entity: light.kitchen_island_light
+            # Override the name to use
+            name: Island Light
+
+        # The markdown card will render markdown text.
+      - type: markdown
+        title: Lovelace
+        content: >
+          Welcome to your **Lovelace UI**.
+
+

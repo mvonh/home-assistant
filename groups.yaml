@@ -295,6 +295,7 @@ upstairs_hue_lights:
     - light.bedroom_lamp_one
     - light.bedroom_lamp_two
     - light.guest_bedroom_lamp
+    - light.ashleys_room_lamp
 
 upstairs_zwave_devices:
   name: Upstairs Zwave Devices
