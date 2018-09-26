@@ -136,6 +136,8 @@ cloud:
         - automation.motion_lighting_in_the_Office
         - automation.motion_lighting_in_the_garage
         - automation.driveway_line_crossing_alerts
+        - automation.tracy_travel_notice
+        - script.ecobee_away_mode
         - input_boolean.goodnight_switch
         - input_boolean.goodmorning_switch
 
@@ -210,6 +212,22 @@ device_tracker:
     interval_seconds: 12
     max_update_wait:
       minutes: 30
+  - platform: composite
+    name: Paul_All
+    entity_id:
+      - device_tracker.paul
+      - device_tracker.pauls_iphone
+      - device_tracker.pauls_iphone_2
+      - device_tracker.paulsapplewatch
+      - input_boolean.paul_present
+  - platform: composite
+    name: Tracy_All
+    entity_id:
+      - device_tracker.tracy
+      - device_tracker.tracys_iphone
+      - device_tracker.tracys_iphone_2
+#      - device_tracker.tracysapplewatch
+      - input_boolean.tracy_present
 
 notify:
   - platform: ios

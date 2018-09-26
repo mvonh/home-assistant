@@ -43,8 +43,8 @@ home_mode_and_presence:
   view: Yes
   icon: mdi:walk
   entities:
-    - device_tracker.paul
-    - device_tracker.tracy
+    - device_tracker.paul_all
+    - device_tracker.tracy_all
     - device_tracker.carolsiphone
     - device_tracker.jimsiphone
     - sensor.pauls_time_to_home
@@ -583,11 +583,13 @@ all_presence_sensors:
   view: no
   entities:
     - binary_sensor.people_home
+    - device_tracker.paul_all
     - device_tracker.paul
     - device_tracker.pauls_iphone
     - device_tracker.pauls_iphone_2
     - input_boolean.paul_present     
     - binary_sensor.multiple_presence_paul
+    - device_tracker.tracy_all
     - device_tracker.tracy
     - device_tracker.tracys_iphone
     - device_tracker.tracys_iphone_2
