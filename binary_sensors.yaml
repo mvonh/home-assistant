@@ -59,21 +59,39 @@
 
  - platform: template
    sensors:
-     multiple_presence_paul:
+     homekit_presence_paul:
        friendly_name: "Paul"
        device_class: presence
        value_template: >-
-         {{ is_state('binary_sensor.paul_presence', 'on') }}     
-       entity_id: binary_sensor.paul_presence
+         {{ is_state('input_boolean.paul_present', 'on') }}     
+       entity_id: input_boolean.paul_present
        
  - platform: template
    sensors:
-     multiple_presence_tracy:
+     homekit_presence_tracy:
        friendly_name: "Tracy"
        device_class: presence
        value_template: >-
-         {{ is_state('binary_sensor.tracy_presence', 'on') }}
-       entity_id: binary_sensor.tracy_presence
+         {{ is_state('input_boolean.tracy_present', 'on') }}
+       entity_id: input_boolean.tracy_present
+
+# - platform: template
+#   sensors:
+#     multiple_presence_paul:
+#       friendly_name: "Paul"
+#       device_class: presence
+#       value_template: >-
+#         {{ is_state('binary_sensor.paul_presence', 'on') }}     
+#       entity_id: binary_sensor.paul_presence
+#       
+# - platform: template
+#   sensors:
+#     multiple_presence_tracy:
+#       friendly_name: "Tracy"
+#       device_class: presence
+#       value_template: >-
+#         {{ is_state('binary_sensor.tracy_presence', 'on') }}
+#       entity_id: binary_sensor.tracy_presence
 
  - platform: template
    sensors:
@@ -81,7 +99,7 @@
        friendly_name: People Home
        device_class: presence
        value_template: >
-         {{ is_state('group.primary_presence', 'on') or
+         {{ is_state('group.primary_presence', 'home') or
             is_state('input_boolean.guests_present', 'on') or
             is_state('group.extra_device_trackers', 'home')  }}
        entity_id: group.primary_presence,input_boolean.guests_present,group.extra_device_trackers
@@ -143,6 +161,7 @@
    prior: 0.6
    name: Paul Presence
    probability_threshold: 0.9
+   device_class: presence
    observations:
    - entity_id: 'input_boolean.paul_present'
      prob_given_true: 0.9
@@ -169,6 +188,7 @@
    prior: 0.6
    name: Tracy Presence
    probability_threshold: 0.9
+   device_class: presence
    observations:
    - entity_id: 'input_boolean.tracy_present'
      prob_given_true: 0.9

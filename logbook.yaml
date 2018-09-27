@@ -38,10 +38,10 @@
       - binary_sensor.open_close_sensor_office_window
       - binary_sensor.open_close_sensor_living_room_window
       - cover.garage_door_opener
-      - device_tracker.paul
-      - device_tracker.pauls_iphone_2
-      - device_tracker.tracy
-      - device_tracker.tracys_iphone_2
+      - device_tracker.paul_all
+#      - device_tracker.pauls_iphone_2
+      - device_tracker.tracy_all
+#      - device_tracker.tracys_iphone_2
       - fan.frog_fan
       - fan.living_room_fan
       - input_boolean.goodnight_switch
@@ -73,15 +73,14 @@
       - light.right_shelf_lights
       - light.tv_backlights
       - light.hallway_light
-      - lock.lock_back_door_lock
-      - lock.lock_front_door_lock
+#      - lock.lock_back_door_lock
+#      - lock.lock_front_door_lock
       - lock.lock_garage_door_lock
       - remote.living_room_harmony_hub
       - remote.theater_room_harmony_hub
       - sensor.house_mode
-      - sensor.paul_status
-      - sensor.backdoor_code
-      - sensor.frontdoor_code
+      - sensor.back_door_report
+      - sensor.front_door_report
       - sensor.garagedoor_code
       - sensor.security_system_state
       - switch.back_porch_light

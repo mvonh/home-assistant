@@ -219,15 +219,15 @@ device_tracker:
       - device_tracker.pauls_iphone
       - device_tracker.pauls_iphone_2
       - device_tracker.paulsapplewatch
-      - input_boolean.paul_present
+      - binary_sensor.homekit_presence_Paul
   - platform: composite
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
       - device_tracker.tracys_iphone
       - device_tracker.tracys_iphone_2
-#      - device_tracker.tracysapplewatch
-      - input_boolean.tracy_present
+      - device_tracker.tracysapplewatch
+      - binary_sensor.homekit_presence_tracy
 
 notify:
   - platform: ios

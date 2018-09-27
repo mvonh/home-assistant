@@ -71,23 +71,35 @@ sensor.motion_sensor_living_room_temp:
 sensor.motion_sensor_kitchen_temp:
   friendly_name: Kitchen Temperature
 device_tracker.pauls_iphone:
-  friendly_name: Paul
+  friendly_name: Paul Presence (App)
 device_tracker.pauls_iphone_2:
   friendly_name: Paul Presence (Router)
-device_tracker.688470312b7a:
-  friendly_name: Lucy the Car
-device_tracker.tracys_iphone:
-  friendly_name: Tracy
-device_tracker.tracys_iphone_2:
-  friendly_name: Tracy Presence (Router)
+device_tracker.paul:
+  friendly_name: Paul Presence (Life360)
+binary_sensor.homekit_presence_Paul:
+  friendly_name: Paul Presence (HomeKit)
 binary_sensor.paul_presence:
   friendly_name: Paul Presence (Bayesian)
+device_tracker.paul_all:
+  friendly_name: Paul
+device_tracker.tracys_iphone:
+  friendly_name: Tracy Presence (App)
+device_tracker.tracys_iphone_2:
+  friendly_name: Tracy Presence (Router)
+device_tracker.Tracy:
+  friendly_name: Tracy Presence (Life360)
+binary_sensor.homekit_presence_tracy:
+  friendly_name: Tracy Presence (HomeKit)
 binary_sensor.tracy_presence:
   friendly_name: Tracy Presence (Bayesian)
-input_boolean.paul_present :
-  friendly_name: Paul Presence (HomeKit)
-input_boolean.tracy_present:
-  friendly_name: Tracy Presence (HomeKit)
+device_tracker.tracy_all:
+  friendly_name: Tracy
+#input_boolean.paul_present :
+#  friendly_name: Paul Presence (HomeKit)
+#input_boolean.tracy_present:
+#  friendly_name: Tracy Presence (HomeKit)
+device_tracker.688470312b7a:
+  friendly_name: Lucy the Car
 light.bedroom_ceiling_light:
   friendly_name: Bedroom Ceiling Light
   icon: mdi:wall-sconce-flat
