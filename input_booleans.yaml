@@ -31,3 +31,7 @@ goodnight_switch:
 goodmorning_switch:
   name: Good Morning
   icon: mdi:home
+notify_paul:
+  name: Notify Paul
+notify_tracy:
+  name: Notify Tracy

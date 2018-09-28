@@ -378,6 +378,10 @@ media_player:
   - platform: samsungtv
     host: 192.168.1.61
     name: Samsung Speaker
+  - platform: vizio
+    host: 192.168.1.82
+    access_token: Zj1lgc5dk9
+    suppress_warning: true
     
 # View all events in a logbook
 logbook: !include logbook.yaml

@@ -282,56 +282,16 @@ gif_picture_script:
       data:
         file: /home/homeassistant/.homeassistant/www/tmp/frontdoor.gif
 
-sms_to_all_all_doorbell_pictures:
-  alias: Send Doorbell Capture to All
+sms_notify_with_images:
+  alias: SMS Notify with Images
   sequence:
-  - service: notify.sms_paul
-    data:
-      title: 'Front Door Motion'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+  - condition: template
+    value_template: "{{ condition }}"
+  - service_template: "{{ service }}"
+    data_template:
+      title: "{{ title }}"
+      message: "{{ message }}"
       data:
         images:
-          - /tmp/frontdoor.jpg
-  - service: notify.sms_tracy
-    data:
-      title: 'Front Door Motion'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/frontdoor.jpg
+          - "{{ imagename }}"
 
-sms_to_all_all_backgate_pictures:
-  alias: Send Doorbell Capture to All
-  sequence:
-  - service: notify.sms_paul
-    data:
-      title: 'Gate Crossing'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/backgate.jpg
-  - service: notify.sms_tracy
-    data:
-      title: 'Gate Crossing'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/backgate.jpg
-
-sms_to_all_all_sideyard_pictures:
-  alias: Send Doorbell Capture to All
-  sequence:
-  - service: notify.sms_paul
-    data:
-      title: 'Side Yard Line Crossing'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/sideyard.jpg
-  - service: notify.sms_tracy
-    data:
-      title: 'Side Yard Line Crossing'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/sideyard.jpg

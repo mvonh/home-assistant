@@ -13,18 +13,35 @@ sensor:
       - 6
       - 7
     monitored_conditions:
-      - summary
-      - precip_probability
-      - wind_speed
-      - cloud_cover
       - icon
-      - temperature_low
-      - temperature_high
-      - apparent_temperature
+      - summary
       - minutely_summary
       - daily_summary
       - hourly_summary
       - hourly_summary
+      - nearest_storm_distance
+      - nearest_storm_bearing
+      - humidity
+      - temperature
+      - temperature_high
+      - temperature_low
+      - apparent_temperature
+      - apparent_temperature_high
+      - apparent_temperature_low
+      - wind_speed
+      - wind_bearing
+      - precip_type
+      - precip_probability
+      - precip_accumulation
+      - precip_intensity
+      - precip_intensity_max
+      - uv_index
+      - cloud_cover
+      - pressure
+      - visibility
+    
+      - cloud_cover
+
       
   - platform: season
   - platform: template

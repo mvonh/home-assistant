@@ -1,4 +1,6 @@
   - platform: yr
+  - platform: yweather
+    woeid: 12767389
   
   - platform: uptime
     name: "HA runtime in minutes"

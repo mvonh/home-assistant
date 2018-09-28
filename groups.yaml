@@ -57,6 +57,8 @@ home_mode_and_presence:
     - group.house_presence
     - group.home_mode_and_security_monitor
     - group.household_routines
+    - input_boolean.notify_paul
+    - input_boolean.notify_tracy
 
 weather_forcast:
   name: Weather Informatiom

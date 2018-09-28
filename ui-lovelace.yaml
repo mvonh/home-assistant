@@ -5,6 +5,8 @@ resources:
     type: js
   - url: /local/my-webfont.css
     type: css
+  - url: /local/custom_ui/dark-sky-weather-card.js?v=1
+    type: js
 
 # Optional background for all views. Check https://developer.mozilla.org/en-US/docs/Web/CSS/background for more examples.
 background: center / cover no-repeat url("/background.png") fixed
@@ -14,6 +16,7 @@ excluded_entities:
 views:
     # View tab title.
   - title: Rooms
+    panel: true
     # Optional unique id for direct access /lovelace/${id}
     id: Rooms
     # Optional background (overwrites the global background).
@@ -177,25 +180,34 @@ views:
     # Specify a tab icon if you want the view tab to be an icon.
   - icon: mdi:home-assistant
     # Title of the view. Will be used as the tooltip for tab icon
-    title: Second view
+  - title: Weather
     cards:
-        # Entities card will take a list of entities and show their state.
-      - type: entities
-        # Title of the entities card
-        title: Example
-        # The entities here will be shown in the same order as specified.
-        # Each entry is an entity ID or a map with extra options.
-        entities:
-          - light.living_room_lamp_one
-          - light.living_room_lamp_two
-          - entity: light.kitchen_island_light
-            # Override the name to use
-            name: Island Light
+      - type: vertical-stack
+        cards:
+          - type: custom:dark-sky-weather-card
+            entity_sun: sun.sun
+            entity_daily_summary: sensor.dark_sky_daily_summary
+            entity_current_conditions: sensor.dark_sky_icon  
+            entity_humidity: sensor.dark_sky_humidity
+            entity_pressure: sensor.dark_sky_pressure
+            entity_temperature: sensor.dark_sky_temperature
+            entity_visibility: sensor.dark_sky_visibility
+            entity_wind_bearing: sensor.dark_sky_wind_bearing
+            entity_wind_speed: sensor.dark_sky_wind_speed
+            entity_forecast_high_temp_1: sensor.dark_sky_daytime_high_temperature_1
+            entity_forecast_high_temp_2: sensor.dark_sky_daytime_high_temperature_2
+            entity_forecast_high_temp_3: sensor.dark_sky_daytime_high_temperature_3
+            entity_forecast_high_temp_4: sensor.dark_sky_daytime_high_temperature_4
+            entity_forecast_high_temp_5: sensor.dark_sky_daytime_high_temperature_5
+            entity_forecast_low_temp_1: sensor.dark_sky_overnight_low_temperature
+            entity_forecast_low_temp_2: sensor.dark_sky_overnight_low_temperature_1
+            entity_forecast_low_temp_3: sensor.dark_sky_overnight_low_temperature_2
+            entity_forecast_low_temp_4: sensor.dark_sky_overnight_low_temperature_3
+            entity_forecast_low_temp_5: sensor.dark_sky_overnight_low_temperature_4
+            entity_forecast_icon_1: sensor.dark_sky_icon_1
+            entity_forecast_icon_2: sensor.dark_sky_icon_2
+            entity_forecast_icon_3: sensor.dark_sky_icon_3
+            entity_forecast_icon_4: sensor.dark_sky_icon_4
+            entity_forecast_icon_5: sensor.dark_sky_icon_5
 
-        # The markdown card will render markdown text.
-      - type: markdown
-        title: Lovelace
-        content: >
-          Welcome to your **Lovelace UI**.
-
-
+        
