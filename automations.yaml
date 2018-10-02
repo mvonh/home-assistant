@@ -14,12 +14,12 @@
 #############################################
 ## HA Actions for health, etc              ##
 #############################################
-- alias: Heal zwave network
-  trigger:
-    platform: time
-    at: '3:30:00'
-  action:
-    service: zwave.heal_network
+#- alias: Heal zwave network
+#  trigger:
+#    platform: time
+#    at: '3:30:00'
+#  action:
+#    service: zwave.heal_network
 
 - alias: Battery Alert
   trigger:
@@ -384,6 +384,9 @@
   - condition: state
     entity_id: timer.frog_tv_reset
     state: 'idle'
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home' 
   action:
   - service: switch.turn_on
     data:
@@ -396,6 +399,10 @@
   - platform: state
     entity_id: media_player.vizio_smartcast
     to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home' 
   action:
   - service: light.turn_on
     data:
@@ -1468,27 +1475,19 @@
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 30 }}'
   action:
-  - service: script.turn_on
-    entity_id: script.capture_driveway1_camera
-  - delay: '00:00:01'
-  - service: script.turn_on
-    entity_id: script.capture_frontdoor_camera
-  - delay: '00:00:03'
-  - service: script.turn_on
-    entity_id: script.capture_driveway2_camera
-  - delay: '00:00:04'
-  - service: notify.gmail_house_archive
+  - service: camera.snapshot
     data:
-      title: 'Driveway Line Crossing from 24th Street'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/driveway1.jpg
-          - /tmp/frontdoor.jpg
-          - /tmp/driveway2.jpg
-      title: "Front Door Motion"
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
-      imagename: "/tmp/frontdoor.jpg"
+      entity_id: camera.front_door
+      filename: '/tmp/frontdoor.jpg'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.driveway_one
+      filename: '/tmp/driveway1.jpg'
+  - delay: '00:00:03'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.driveway_two
+      filename: '/tmp/driveway2.jpg'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1503,7 +1502,16 @@
       title: "Front Door Motion"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       imagename: "/tmp/frontdoor.jpg"
-    
+  - service: notify.gmail_house_archive
+    data:
+      title: 'Driveway Line Crossing from 24th Street'
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+      data:
+        images:
+          - /tmp/driveway1.jpg
+          - /tmp/frontdoor.jpg
+          - /tmp/driveway2.jpg
+
 - alias: 'Cameras Drive Way 2 Crossing Front Door Motion'
   trigger:
   - platform: state
@@ -1511,14 +1519,12 @@
     to: 'on'
   condition:
   - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_crossing_front_door_motion.attributes.last_triggered) | int > 60 }}'
-  - condition: template
-    value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.driveway_2_line_crossing.last_changed)) < 30 }}" 
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int < 30 }}'
   action:
-  - service: script.turn_on
-    entity_id:
-       - script.capture_frontdoor_camera
-  - delay: '00:00:04'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.front_door
+      filename: '/tmp/frontdoor.jpg'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1544,9 +1550,10 @@
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 30 }}'
   action:
-  - service: script.turn_on
-    entity_id: script.capture_driveway2_camera
-  - delay: '00:00:04'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.driveway_two
+      filename: '/tmp/driveway2.jpg'
   - service: notify.gmail_house_archive
     data_template:
       title: 'Driveway Line Crossing From the Half Street'
@@ -1569,9 +1576,10 @@
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_back_gate_picture.attributes.last_triggered) | int > 30 }}'      
   action:
-  - service: script.turn_on
-    entity_id: script.capture_backgate_camera
-  - delay: '00:00:04'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.back_gate
+      filename: '/tmp/backgate.jpg'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1595,9 +1603,10 @@
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_side_yard_picture.attributes.last_triggered) | int > 60 }}'
   action:
-  - service: script.turn_on
-    entity_id: script.capture_sideyard_camera
-  - delay: '00:00:04'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.side_yard
+      filename: '/tmp/sideyard.jpg'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1611,7 +1620,28 @@
       title: "Side Yard Line Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       imagename: "/tmp/sideyard.jpg"
-      
+
+
+- alias: Driveway Line Crossing Alerts
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_1_line_crossing
+    from: 'off'
+    to: 'on'    
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+  - delay: '00:00:02'
+  - service: notify.sony_tv
+    data:
+      message: Someone has crossed the driveway coming from 24th Street
+      title: Driveway Crossing
+      data:
+        file:
+          path: /tmp/frontdoor.jpg
+
 #######################################
 ## Alexa Notifications               ##
 #######################################

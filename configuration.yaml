@@ -210,13 +210,14 @@ device_tracker:
     password: !secret life360_password
 #    show_as_state: places, moving
     interval_seconds: 12
+    driving_speed: 12
     max_update_wait:
       minutes: 30
   - platform: composite
     name: Paul_All
     entity_id:
       - device_tracker.paul
-      - device_tracker.pauls_iphone
+#      - device_tracker.pauls_iphone
       - device_tracker.pauls_iphone_2
       - device_tracker.paulsapplewatch
       - binary_sensor.homekit_presence_Paul
@@ -224,23 +225,24 @@ device_tracker:
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
-      - device_tracker.tracys_iphone
+#      - device_tracker.tracys_iphone
       - device_tracker.tracys_iphone_2
       - device_tracker.tracysapplewatch
       - binary_sensor.homekit_presence_tracy
 
 notify:
   - platform: ios
-  - name: Pushover_Notifications
-    platform: pushover
-    api_key: !secret pushover_api_key
-    user_key: !secret pushover_user_key
+#  - name: Pushover_Notifications
+#    platform: pushover
+#    api_key: !secret pushover_api_key
+#    user_key: !secret pushover_user_key
   - name: PushBullet_Notifications
     platform: pushbullet
     api_key: !secret pushbullet_api_key
   - platform: nfandroidtv
     name: Sony TV
     host: 192.168.1.80
+    duration: 8
   - name: gmail_house_archive
     platform: smtp
     server: smtp.gmail.com
@@ -323,6 +325,8 @@ input_number:
     name: Commute Start Time
     min: 0
     max: 100000000000
+
+python_script:
 
 switch:
   - platform: command_line

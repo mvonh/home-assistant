@@ -106,6 +106,7 @@ local_conditions:
     - sensor.dark_sky_minutely_summary
     - sensor.dark_sky_hourly_summary
     - sensor.dark_sky_daily_summary
+    - sensor.current_uv_level
     - sensor.virgia_beach_surf_report_forecast
     - sensor.noaa_tides
 
