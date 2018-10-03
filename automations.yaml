@@ -1,14 +1,14 @@
-- alias: 'Phone Charging Test'
-  trigger:
-    - platform: template
-      value_template: "{{is_state_attr('device_tracker.paul', 'charging', true)}}"
-  action:
-  - service: script.sms_notify_with_images
-    data_template:
-      service: notify.sms_paul
-      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
-      title: "Testing of iPhone Charging"
-      message: "Pauls phone is on the charger"
+#- alias: 'Phone Charging Test'
+#  trigger:
+#    - platform: template
+#      value_template: "{{is_state_attr('device_tracker.paul', 'charging', true)}}"
+#  action:
+#  - service: script.sms_notify_with_images
+#    data_template:
+#      service: notify.sms_paul
+#      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
+#      title: "Testing of iPhone Charging"
+#      message: "Pauls phone is on the charger"
 
 
 #############################################
@@ -472,6 +472,11 @@
   action:
   - service: homeassistant.turn_on
     entity_id: group.outdoor_lights_sunset
+  - service: light.turn_on
+    entity_id: light.alcove_light
+      brightness: 158
+      xy_color: (0.52, 0.437)
+      rgb_color: (255, 190, 44)
 
 - alias: 'Outdoor Lights off at sunrise'
   trigger:
@@ -1470,24 +1475,48 @@
     entity_id: binary_sensor.driveway_1_line_crossing
     to: 'on'
   condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 30 }}'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 30 }}'
+  - condition: state
+    entity_id: timer.camera_action
+    state: 'idle'
+  action:
+  - service: timer.start
+    entity_id: timer.camera_action
+  - service: camera.snapshot
+    data:
+      entity_id: camera.driveway_one
+      filename: '/tmp/driveway1.jpg'
+
+- alias: 'Cameras Drive Way 2 Picture'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_2_line_crossing
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: timer.camera_action
+    state: 'idle'
+  action:
+  - service: timer.start
+    entity_id: timer.camera_action
+  - service: camera.snapshot
+    data:
+      entity_id: camera.driveway_two
+      filename: '/tmp/driveway2.jpg'
+          
+- alias: 'Cameras Drive Way Front Door Motion'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.driveway_1_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: timer.camera_action
+    state: 'active'
   action:
   - service: camera.snapshot
     data:
       entity_id: camera.front_door
       filename: '/tmp/frontdoor.jpg'
-  - service: camera.snapshot
-    data:
-      entity_id: camera.driveway_one
-      filename: '/tmp/driveway1.jpg'
-  - delay: '00:00:03'
-  - service: camera.snapshot
-    data:
-      entity_id: camera.driveway_two
-      filename: '/tmp/driveway2.jpg'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1502,65 +1531,18 @@
       title: "Front Door Motion"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       imagename: "/tmp/frontdoor.jpg"
-  - service: notify.gmail_house_archive
+  - service: timer.cancel
+    entity_id: timer.camera_action
+  - condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  - service: notify.sony_tv
     data:
-      title: 'Driveway Line Crossing from 24th Street'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
+      message: Front Door Motion
+      title: Driveway Crossing
       data:
-        images:
-          - /tmp/driveway1.jpg
-          - /tmp/frontdoor.jpg
-          - /tmp/driveway2.jpg
-
-- alias: 'Cameras Drive Way 2 Crossing Front Door Motion'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.driveway_1_motion
-    to: 'on'
-  condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int < 30 }}'
-  action:
-  - service: camera.snapshot
-    data:
-      entity_id: camera.front_door
-      filename: '/tmp/frontdoor.jpg'
-  - service: script.sms_notify_with_images
-    data_template:
-      service: notify.sms_paul
-      title: "Front Door Motion"
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
-      imagename: "/tmp/frontdoor.jpg"
-  - service: script.sms_notify_with_images
-    data_template:
-      service: notify.sms_tracy
-      condition: "{{ is_state('input_boolean.notify_tracy','on') }}"
-      title: "Front Door Motion"
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
-      imagename: "/tmp/frontdoor.jpg"
-
-- alias: 'Cameras Drive Way 2 Picture'
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.driveway_2_line_crossing
-    to: 'on'
-  condition:
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_2_picture.attributes.last_triggered) | int > 30 }}'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.cameras_drive_way_1_picture.attributes.last_triggered) | int > 30 }}'
-  action:
-  - service: camera.snapshot
-    data:
-      entity_id: camera.driveway_two
-      filename: '/tmp/driveway2.jpg'
-  - service: notify.gmail_house_archive
-    data_template:
-      title: 'Driveway Line Crossing From the Half Street'
-      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
-      data:
-        images:
-          - /tmp/driveway2.jpg
+        file:
+          path: /tmp/frontdoor.jpg
 
 - alias: 'Cameras Back Gate Picture'
   trigger:
@@ -1622,25 +1604,26 @@
       imagename: "/tmp/sideyard.jpg"
 
 
-- alias: Driveway Line Crossing Alerts
+- alias: Send Camera Pics to Archive
   trigger:
   - platform: state
-    entity_id: binary_sensor.driveway_1_line_crossing
-    from: 'off'
-    to: 'on'    
-  condition:
-  - condition: state
-    entity_id: sun.sun
-    state: 'below_horizon'
+    entity_id: timer.camera_action
+    to: 'idle'
+    for:
+      minutes: 1
   action:
-  - delay: '00:00:02'
-  - service: notify.sony_tv
+  - service: notify.gmail_house_archive
     data:
-      message: Someone has crossed the driveway coming from 24th Street
-      title: Driveway Crossing
+      title: 'Driveway Line Crossing Events'
+      message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
       data:
-        file:
-          path: /tmp/frontdoor.jpg
+        images:
+          - /tmp/driveway1.jpg
+          - /tmp/frontdoor.jpg
+          - /tmp/driveway2.jpg
+  - delay:
+      seconds: 10
+  - service: shell_command.delete_snapshots
 
 #######################################
 ## Alexa Notifications               ##

@@ -2032,7 +2032,6 @@ sensor:
           {% else %}
             Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
           {% endif %}
-
 # This sensor will just be a friendly name of whoever unlocked the door,  Use for other automations if you want.
       backdoor_code:
         friendly_name: 'Last Person to unlock with Keypad (Back Door)'
@@ -2041,7 +2040,6 @@ sensor:
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
-
       front_door_report:
         friendly_name: 'Front Door Report'
         value_template: >

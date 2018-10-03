@@ -10,7 +10,7 @@
     skip_first: True
     notifiers:
       - ios_pauls_iphone
-      - pushbullet_notifications
+      - ios_tracys_iphone
 
   garage_fridge_temp:
     name: Garage Fridge temp above 40 degreees
@@ -25,7 +25,6 @@
     skip_first: True
     notifiers:
       - ios_pauls_iphone
-      - pushbullet_notifications
 
   water_leak_attic:
     name: Water Sensor in Attic reporting leak
@@ -37,7 +36,7 @@
     notifiers:
       - ios_pauls_iphone
       - sony_tv
-      - pushbullet_notifications
+      - ios_tracys_iphone
 
   water_leak_kitchen:
     name: Water Sensor under the Kitchen Sing Reporting a leak
@@ -49,7 +48,7 @@
     notifiers:
       - ios_pauls_iphone
       - sony_tv
-      - pushbullet_notifications
+      - ios_tracys_iphone
       
   smoke_detector_smoke:
     name: Downstairs Smoke Alarm - Smoke Detected
@@ -99,7 +98,7 @@
     skip_first: True
     notifiers:
       - ios_pauls_iphone
-      - pushbullet_notifications
+      - ios_tracys_iphone
 
   back_door:
     name: Back Door is open
@@ -107,13 +106,13 @@
     entity_id: binary_sensor.open_close_sensor_back_door
     state: 'on'
     repeat:
-      - 5
-      - 15
+      - 10
+      - 20
     can_acknowledge: True
     skip_first: True
     notifiers:
       - ios_pauls_iphone
-      - pushbullet_notifications
+      - ios_tracys_iphone
 
   garage_door_door:
     name: Door to the Garage is open
@@ -121,10 +120,10 @@
     entity_id: binary_sensor.open_close_sensor_garage_door
     state: 'on'
     repeat:
-      - 5
-      - 15
+      - 10
+      - 30
     can_acknowledge: True
     skip_first: True
     notifiers:
       - ios_pauls_iphone
-      - pushbullet_notifications
+      - ios_tracys_iphone

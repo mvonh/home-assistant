@@ -38,6 +38,8 @@ timer:
     duration: '00:07:00'
   frog_tv_reset:
     duration: '00:05:00'
+  camera_action:
+    duration: '00:00:30'
 
 # Zigbee
 zha:
@@ -193,6 +195,15 @@ tts:
 
 # iOS Additions
 ios:
+  push:
+    categories:
+      - name: Garage Alert
+        identifier: 'garage_alert'
+        actions:
+          - identifier: 'CANCEL_GARAGE_ALERT'
+            title: 'Cancel Alert'
+          - identifier: 'CLOSE_GARAGE'
+            title: 'Close Garage'
 
 # Device Trackers
 device_tracker:
@@ -356,8 +367,10 @@ switch:
         command_on: "python /home/homeassistant/.homeassistant/scripts/frontdoor.py"
         command_off: ""
 
+#shell_command:
+#  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh
 shell_command:
-  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh
+  delete_snapshots: 'rm -f /tmp/*.jpg'
 
 remote:
   - platform: harmony
