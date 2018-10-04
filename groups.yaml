@@ -57,8 +57,7 @@ home_mode_and_presence:
     - group.house_presence
     - group.home_mode_and_security_monitor
     - group.household_routines
-    - input_boolean.notify_paul
-    - input_boolean.notify_tracy
+    - group.notify_selection
 
 weather_forcast:
   name: Weather Informatiom
@@ -471,6 +470,8 @@ door_open_close_sensors:
   - binary_sensor.open_close_sensor_front_door
   - binary_sensor.open_close_sensor_garage_door
   - binary_sensor.open_close_sensor_back_door
+  - binary_sensor.office_window_open_close
+  - binary_sensor.living_room_window_open_close
 
 good_night_lights:
   view: no
@@ -579,6 +580,13 @@ household_routines:
     - automation.good_night_routine
     - automation.goodbye_routine
     - automation.welcome_back_routine
+
+notify_selection:
+  name: Enable Notification
+  view: no
+  entities:    
+    - input_boolean.notify_paul
+    - input_boolean.notify_tracy
 
 all_presence_sensors:
   name: Presence and status

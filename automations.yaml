@@ -473,9 +473,9 @@
   - service: homeassistant.turn_on
     entity_id: group.outdoor_lights_sunset
   - service: light.turn_on
-    entity_id: light.alcove_light
+    data:
+      entity_id: light.alcove_light
       brightness: 158
-      xy_color: (0.52, 0.437)
       rgb_color: (255, 190, 44)
 
 - alias: 'Outdoor Lights off at sunrise'
@@ -488,12 +488,6 @@
     entity_id: group.outdoor_lights_sunset
   - service: homeassistant.turn_off
     entity_id: switch.back_porch_light
-#  - service: automation.turn_off
-#    entity_id:
-#      - automation.cameras_back_gate_picture
-#      - automation.cameras_drive_way_1_picture
-#      - automation.cameras_drive_way_2_picture
-#      - automation.camera_side_yard_picture
 
 - alias: TV Lighting after sunset if TV is turned on
   trigger:
@@ -512,10 +506,24 @@
     value_template: '{{ state.attributes.elevation }}'
     below: 4.0  
   action:
-  - service: script.turn_on
-    entity_id:
-      - script.kitchen_tv_lights_hue_scene
-      - script.living_room_tv_lights_hue_scene
+  - service: scene.turn_on
+    entity_id: scene.tv_lights
+
+- alias: Lighting after sunset if TV is turned off
+  trigger:
+  - platform: template
+    value_template: "{{ states.sun.sun.attributes.elevation < 3 }}"
+  condition:
+  - condition: state
+    entity_id: remote.living_room_harmony_hub
+    state: 'off'
+  - condition: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 4.0  
+  action:
+  - service: scene.turn_on
+    entity_id: scene.casual_lighting
 
 - alias: TV Evening Lighting after turning TV Off
   trigger:
@@ -530,10 +538,8 @@
     entity_id: input_select.house_mode
     state: 'Home'  
   action:
-  - service: script.turn_on
-    entity_id:
-      - script.kitchen_evening_lights_hue_scene
-      - script.living_room_evening_lights_hue_scene
+  - service: scene.turn_on
+    entity_id: scene.evening_lighting
 
 - alias: Turn on lights upon Arrival after sunset
   trigger:
@@ -546,10 +552,8 @@
     value_template: '{{ state.attributes.elevation }}'
     below: 3.0  
   action:
-  - service: script.turn_on
-    entity_id:
-      - script.kitchen_evening_lights_hue_scene
-      - script.living_room_evening_lights_hue_scene
+  - service: scene.turn_on
+    entity_id: scene.casual_lighting
 
 ##########################################
 ## Routines                             ##
@@ -728,10 +732,10 @@
     entity_id: input_boolean.goodmorning_switch
     to: 'on'
   action:
+  - service: scene.turn_on
+    entity_id: scene.morning_lighting
   - service: script.turn_on
-    entity_id:
-      - script.ecobee_resume_mode
-      - script.kitchen_evening_lights_hue_scene
+    entity_id: script.ecobee_resume_mode
   - service: lock.unlock
     entity_id: lock.lock_garage_door_lock
   - service: input_select.select_option
@@ -1138,7 +1142,10 @@
 - alias: Reset Sonos Volume
   trigger:
   - platform: state
-    entity_id: remote.living_room_harmony_hub
+    entity_id: media_player.living_room
+    to: 'paused'
+    for:
+      minutes: 40
   action:
   - service: media_player.volume_set
     data_template:

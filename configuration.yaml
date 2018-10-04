@@ -415,3 +415,4 @@ script: !include scripts.yaml
 alert: !include alerts.yaml
 history: !include history.yaml
 camera: !include cameras.yaml
+scene: !include scenes.yaml
