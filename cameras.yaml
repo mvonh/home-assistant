@@ -28,3 +28,6 @@
   username: hass
   password: !secret camera_nvr_password
   authentication: digest
+#- platform: ffmpeg
+#  input: !secret camera_doorbell_url
+#  name: Front Door

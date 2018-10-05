@@ -12,6 +12,12 @@
           - Disarmed
           - Armed (Home)
           - Armed (Away)
+  work_location:
+      name: Work Location
+      options:
+          - Avis
+          - Base
+          - CACI
 
   lock_zwave_option_3:
       name: Enable or disable the beeper.

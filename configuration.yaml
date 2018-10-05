@@ -339,6 +339,9 @@ input_number:
 
 python_script:
 
+ffmpeg:
+  ffmpeg_bin: /usr/bin/avconv
+
 switch:
   - platform: command_line
     switches:

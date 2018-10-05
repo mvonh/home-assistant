@@ -22,6 +22,7 @@ door_ui:
     - group.garage_door
     - group.door_open_close_sensors
     - group.garage_door_automation_status
+    - group.home_mode_and_security_monitor
 
 CCTV:
   view: Yes
@@ -36,7 +37,7 @@ CCTV:
     - automation.cameras_back_gate_picture
     - automation.cameras_drive_way_1_picture
     - automation.cameras_drive_way_2_picture
-    - group.cameras_view
+#    - group.cameras_view
     
 home_mode_and_presence:
   name: Presence and Alerts
@@ -55,8 +56,7 @@ home_mode_and_presence:
     - sensor.time_to_get_to_soul_mate
     - group.alerts
     - group.house_presence
-    - group.home_mode_and_security_monitor
-    - group.household_routines
+    - group.work_location
     - group.notify_selection
 
 weather_forcast:
@@ -83,17 +83,18 @@ automation_view:
   view: Yes
   icon: mdi:home-automation
   entities:
+    - group.household_routines
     - group.all_presence_sensors
     - group.front_door_info
     - group.back_door_info
     - group.garage_door_info
     - group.indoor_motion_sensors
-    - group.motion_sensor_front_door
-    - group.motion_sensor_attic
+#    - group.motion_sensor_front_door
+#    - group.motion_sensor_attic
     - group.batteries
     - group.all_automations
     - group.all_scripts
-    - group.zwave_door_lock_options
+#    - group.zwave_door_lock_options
 
 local_conditions:
   name: Local Conditions
@@ -587,6 +588,12 @@ notify_selection:
   entities:    
     - input_boolean.notify_paul
     - input_boolean.notify_tracy
+
+work_location:
+  name: Work Location
+  view: no
+  entities:  
+    - input_select.work_location
 
 all_presence_sensors:
   name: Presence and status

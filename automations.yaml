@@ -1206,10 +1206,12 @@
 ##########################################
 - alias: "Notify Paul when its time to leave for work"
   trigger:
-  - platform: state
-    entity_id: sensor.time_to_leave_for_caci
-    to: 'True'
-    from: 'False'
+  - platform: template
+    value_template: >
+      {{ is_state('sensor.time_to_leave_for_base', 'True') and
+         is_state('input_select.work_location', 'Base')  or
+         is_state('sensor.time_to_leave_for_caci', 'True') and
+         is_state('input_select.work_location', 'CACI')  }}
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -1217,38 +1219,17 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
-  - condition: time
-    weekday:
-      - mon
-      - wed
-      - thu
-      - fri
   action:
   - service: script.audio_notify
     data_template:
-      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today."
-      mplayer: "main"
-
-- alias: "Notify Paul when its time to leave for base"
-  trigger:
-  - platform: state
-    entity_id: sensor.time_to_leave_for_navy_base
-    to: 'True'
-    from: 'False'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1    
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: time
-    weekday:
-      - tue
-  action:
-  - service: script.audio_notify
-    data_template:
-      tts_msg: "Based on current traffic, you have 10 minutes to leave if you want to get the Navy base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today."
+      tts_msg: >-
+        {% if states.input_select.work_location == 'Base' %}
+          Based on current traffic, you have 10 minutes to leave if you want to get to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
+        {% elif states.input_select.work_location == 'CACI' %}
+          Based on current traffic, you have 10 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
+        {% else %}
+          I'm not sure where you're going today
+        {% endif %}
       mplayer: "main"
       
 - alias: "Notify Tracy when its time to leave for work"
@@ -1520,6 +1501,8 @@
     entity_id: timer.camera_action
     state: 'active'
   action:
+  - service: timer.cancel
+    entity_id: timer.camera_action
   - service: camera.snapshot
     data:
       entity_id: camera.front_door
@@ -1538,8 +1521,6 @@
       title: "Front Door Motion"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       imagename: "/tmp/frontdoor.jpg"
-  - service: timer.cancel
-    entity_id: timer.camera_action
   - condition: state
     entity_id: sun.sun
     state: 'below_horizon'
