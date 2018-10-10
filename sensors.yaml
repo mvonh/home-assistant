@@ -28,19 +28,19 @@
       - 'date_time'
       - 'time_date'
 
-#  # Pauls commute to home
-#  - platform: google_travel_time
-#    name: Pauls Time to Home
-#    api_key: !secret google_maps_api_key
-#    origin: device_tracker.paul
-#    destination: zone.home
-#  
-#  # Tracys commute to Home
-#  - platform: google_travel_time
-#    name: Tracy's Time to Home
-#    api_key: !secret google_maps_api_key
-#    origin: device_tracker.tracy
-#    destination: zone.home 
+  # Pauls commute to home
+  - platform: google_travel_time
+    name: Pauls Time to Home
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.paul
+    destination: zone.home
+  
+  # Tracys commute to Home
+  - platform: google_travel_time
+    name: Tracy's Time to Home
+    api_key: !secret google_maps_api_key
+    origin: device_tracker.tracy
+    destination: zone.home 
 #  
 #  # Commute to CACI
 #  - platform: google_travel_time
@@ -63,19 +63,19 @@
 #    origin: device_tracker.tracy
 #    destination: zone.avis
 #
-  # Pauls commute to home
-  - platform: waze_travel_time
-    name: Pauls Time to Home
-    origin: device_tracker.paul
-    destination: zone.home
-    region: 'US'
-  
-  # Tracys commute to Home
-  - platform: waze_travel_time
-    name: Tracy's Time to Home
-    origin: device_tracker.tracy
-    destination: zone.home 
-    region: 'US'
+#  # Pauls commute to home
+#  - platform: waze_travel_time
+#    name: Pauls Time to Home
+#    origin: device_tracker.paul
+#    destination: zone.home
+#    region: 'US'
+#  
+#  # Tracys commute to Home
+#  - platform: waze_travel_time
+#    name: Tracy's Time to Home
+#    origin: device_tracker.tracy
+#    destination: zone.home 
+#    region: 'US'
   
   # Commute to CACI
   - platform: waze_travel_time

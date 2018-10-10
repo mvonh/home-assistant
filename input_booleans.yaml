@@ -35,3 +35,9 @@ notify_paul:
   name: Notify Paul
 notify_tracy:
   name: Notify Tracy
+wheres_tracy:
+  name: Where is Tracy
+  icon: mdi:account
+wheres_paul:
+  name: Where is Paul
+  icon: mdi:account

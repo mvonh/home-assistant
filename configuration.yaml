@@ -142,6 +142,8 @@ cloud:
         - script.ecobee_away_mode
         - input_boolean.goodnight_switch
         - input_boolean.goodmorning_switch
+        - input_boolean.wheres_tracy
+        - input_boolean.wheres_paul
 
 homekit:
   filter:
@@ -192,6 +194,10 @@ sun:
 # Text to speech
 tts:
   - platform: google
+  - platform: voicerss
+    api_key: 0baf593ad6bf4792afe6c258b4494ce7
+    codec: mp3
+    format: '44khz_16bit_stereo'
 
 # iOS Additions
 ios:
@@ -228,7 +234,7 @@ device_tracker:
     name: Paul_All
     entity_id:
       - device_tracker.paul
-#      - device_tracker.pauls_iphone
+      - device_tracker.pauls_iphone
       - device_tracker.pauls_iphone_2
       - device_tracker.paulsapplewatch
       - binary_sensor.homekit_presence_Paul
@@ -236,7 +242,7 @@ device_tracker:
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
-#      - device_tracker.tracys_iphone
+      - device_tracker.tracys_iphone
       - device_tracker.tracys_iphone_2
       - device_tracker.tracysapplewatch
       - binary_sensor.homekit_presence_tracy
@@ -336,6 +342,12 @@ input_number:
     name: Commute Start Time
     min: 0
     max: 100000000000
+  speech_volume:
+    name: Speech Volume
+    icon: mdi:message-processing
+    min: 1
+    max: 20
+    step: 1
 
 python_script:
 
@@ -401,7 +413,7 @@ media_player:
   - platform: vizio
     host: 192.168.1.82
     access_token: Zj1lgc5dk9
-    suppress_warning: true
+#    suppress_warning: true
     
 # View all events in a logbook
 logbook: !include logbook.yaml

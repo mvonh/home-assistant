@@ -4,8 +4,8 @@
     entity_id: cover.garage_door_opener
     state: 'open'
     repeat:
+      - 10
       - 30
-      - 60
     can_acknowledge: True
     skip_first: True
     notifiers:

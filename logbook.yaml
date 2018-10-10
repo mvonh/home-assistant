@@ -44,14 +44,14 @@
 #      - device_tracker.tracys_iphone_2
       - fan.frog_fan
       - fan.living_room_fan
-      - input_boolean.goodnight_switch
+#      - input_boolean.goodnight_switch
       - input_boolean.open_garage_for_paul
       - input_boolean.open_garage_for_tracy
-      - input_select.house_mode
-      - input_select.paul_status_dropdown
-      - input_select.presence
-      - input_select.security_system
-      - input_select.tracy_status_dropdown
+#      - input_select.house_mode
+#      - input_select.paul_status_dropdown
+#      - input_select.presence
+#      - input_select.security_system
+#      - input_select.tracy_status_dropdown
       - light.alcove_light
       - light.ashleys_room_lamp
       - light.bedroom_ceiling_light
