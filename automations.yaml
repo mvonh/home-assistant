@@ -22,8 +22,7 @@
 #    service: zwave.heal_network
 
 - alias: Battery Alert
-  trigger:
-   
+  trigger: 
     - platform: time
       at: '09:55:00'
     - platform: time
@@ -175,16 +174,16 @@
 
 - alias: Home Mode - Arriving
   trigger:
-   - platform: state
-     entity_id:
-       - input_boolean.guests_present
-     to: 'on'
-   - platform: state
-     entity_id:
-       - device_tracker.paul_all
-       - device_tracker.tracy_all
-       - group.extra_device_trackers
-     to: 'home'
+  - platform: state
+    entity_id:
+      - binary_sensor.paul_presence
+      - binary_sensor.tracy_presence
+      - input_boolean.guests_present
+    to: 'on'
+  - platform: state
+    entity_id:
+      - group.extra_device_trackers
+    to: 'home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -223,20 +222,18 @@
 ##########################################
 - alias: Paul Just Arrived Timer
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.paul_all
-     to: 'home'
+  - platform: state
+    entity_id: binary_sensor.paul_presence
+    to: 'on'
   action:
   - service: timer.start
     entity_id: timer.paul_just_arrived
 
 - alias: Tracy just Arrived Timer
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.tracy_all
-     to: 'home'
+  - platform: state
+    entity_id: binary_sensor.tracy_presence
+    to: 'on'
   action:
   - service: timer.start
     entity_id: timer.tracy_just_arrived
@@ -244,8 +241,7 @@
 - alias: Guests Just Arrived Timer
   trigger:
    - platform: state
-     entity_id:
-       - group.extra_device_trackers
+     entity_id: group.extra_device_trackers
      to: 'home'
   condition:
   - condition: template
@@ -260,15 +256,12 @@
 
 - alias: 'Switch resets when people leave'
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.paul_all
-       - device_tracker.tracy_all
-     to: 'not_home'
-   - platform: state
-     entity_id:
-       - group.extra_device_trackers
-     to: 'off'
+  - platform: state
+    entity_id:
+      - binary_sensor.paul_presence
+      - binary_sensor.tracy_presence
+      - group.extra_device_trackers
+    to: 'off'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -277,9 +270,9 @@
   - service: input_boolean.turn_off
     data_template:
       entity_id: >-
-        {% if trigger.entity_id == 'device_tracker.paul_all' %}
+        {% if trigger.entity_id == 'binary_sensor.paul_presence' %}
           input_boolean.paul_present,input_boolean.back_door_opened_for_paul,input_boolean.open_garage_for_paul
-        {% elif trigger.entity_id == 'device_tracker.tracy_all' %}
+        {% elif trigger.entity_id == 'binary_sensor.tracy_presence' %}
           input_boolean.tracy_present,input_boolean.back_door_opened_for_tracy,input_boolean.open_garage_for_tracy
         {% else %}
           input_boolean.back_door_opened_for_guests
@@ -964,7 +957,7 @@
     state: 'on'
   - condition: state
     entity_id: group.primary_presence
-    state: 'not_home'
+    state: 'off'
   action:
   - service: script.sms_notify_with_images
     data_template:
@@ -1034,9 +1027,8 @@
 - alias: 'Garage Door For Tracy when she gets home'
   trigger:
    - platform: state
-     entity_id:
-       - device_tracker.tracy_all
-     to: 'home' 
+     entity_id: binary_sensor.tracy_presence
+     to: 'on'  
   condition:
   - condition: state
     entity_id: input_boolean.open_garage_for_tracy
@@ -1052,9 +1044,8 @@
 - alias: 'Garage Door For Paul when he gets home'
   trigger:
    - platform: state
-     entity_id:
-       - device_tracker.paul_all
-     to: 'home'  
+     entity_id: binary_sensor.paul_presence
+     to: 'on'  
   condition:
   - condition: state
     entity_id: input_boolean.open_garage_for_paul
@@ -1675,7 +1666,7 @@
     above: 1
   - condition: state
     entity_id: group.primary_presence
-    state: 'home'
+    state: 'off'
   action:
   - service: script.audio_notify
     data_template:
@@ -1736,8 +1727,8 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   - condition: state
-    entity_id: device_tracker.paul_all
-    state: 'home'
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
   - condition: template
     value_template: "{{ trigger.from_state.state != 'home' }}"
   action:

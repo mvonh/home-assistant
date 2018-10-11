@@ -235,17 +235,17 @@ device_tracker:
     entity_id:
       - device_tracker.paul
       - device_tracker.pauls_iphone
-      - device_tracker.pauls_iphone_2
-      - device_tracker.paulsapplewatch
-      - binary_sensor.homekit_presence_Paul
+#      - device_tracker.pauls_iphone_2
+#      - device_tracker.paulsapplewatch
+#      - binary_sensor.homekit_presence_Paul
   - platform: composite
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
       - device_tracker.tracys_iphone
-      - device_tracker.tracys_iphone_2
-      - device_tracker.tracysapplewatch
-      - binary_sensor.homekit_presence_tracy
+#      - device_tracker.tracys_iphone_2
+#      - device_tracker.tracysapplewatch
+#      - binary_sensor.homekit_presence_tracy
 
 notify:
   - platform: ios

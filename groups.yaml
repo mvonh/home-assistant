@@ -360,8 +360,8 @@ primary_presence:
   icon: mdi:account-multiple
   view: no
   entities:
-    - device_tracker.paul_all
-    - device_tracker.tracy_all
+    - binary_sensor.paul_presence
+    - binary_sensor.tracy_presence
 
 downstairs_climate_info:
   name: Downstairs Room Temperatures

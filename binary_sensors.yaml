@@ -99,7 +99,7 @@
        friendly_name: People Home
        device_class: presence
        value_template: >
-         {{ is_state('group.primary_presence', 'home') or
+         {{ is_state('group.primary_presence', 'on') or
             is_state('input_boolean.guests_present', 'on') or
             is_state('group.extra_device_trackers', 'home')  }}
        entity_id: group.primary_presence,input_boolean.guests_present,group.extra_device_trackers
@@ -161,21 +161,21 @@
    prior: 0.6
    name: Paul Presence
    probability_threshold: 0.9
-   device_class: presence
+#   device_class: presence
    observations:
    - entity_id: 'input_boolean.paul_present'
-     prob_given_true: 0.9
-     prob_given_false: 0.2
+     prob_given_true: 0.8
+     prob_given_false: 0.4
      platform: 'state'
      to_state: 'on'
-   - entity_id: 'device_tracker.pauls_iphone'
-     prob_given_true: 0.9
+   - entity_id: 'device_tracker.pauls_iphone_2'
+     prob_given_true: 0.8
      prob_given_false: 0.4
      platform: 'state'
      to_state: 'home'
-   - entity_id: 'device_tracker.pauls_iphone_2'
+   - entity_id: 'device_tracker.pauls_iphone'
      prob_given_true: 0.9
-     prob_given_false: 0.2
+     prob_given_false: 0.4
      platform: 'state'
      to_state: 'home'
    - entity_id: 'device_tracker.paul'
@@ -188,21 +188,21 @@
    prior: 0.6
    name: Tracy Presence
    probability_threshold: 0.9
-   device_class: presence
+#   device_class: presence
    observations:
    - entity_id: 'input_boolean.tracy_present'
-     prob_given_true: 0.9
-     prob_given_false: 0.2
+     prob_given_true: 0.8
+     prob_given_false: 0.4
      platform: 'state'
      to_state: 'on'
-   - entity_id: 'device_tracker.tracys_iphone'
-     prob_given_true: 0.9
-     prob_given_false: 0.5
+   - entity_id: 'device_tracker.tracys_iphone_2'
+     prob_given_true: 0.8
+     prob_given_false: 0.4
      platform: 'state'
      to_state: 'home'
-   - entity_id: 'device_tracker.tracys_iphone_2'
+   - entity_id: 'device_tracker.tracys_iphone'
      prob_given_true: 0.9
-     prob_given_false: 0.2
+     prob_given_false: 0.4
      platform: 'state'
      to_state: 'home'
    - entity_id: 'device_tracker.tracy'
