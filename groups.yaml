@@ -339,8 +339,8 @@ house_presence:
   view: no
   entities:
 #    - binary_sensor.people_home
-    - device_tracker.paul_all
-    - device_tracker.tracy_all
+    - device_tracker.paul
+    - device_tracker.tracy
     - device_tracker.carolsiphone
     - device_tracker.jimsiphone
     - input_boolean.guests_present

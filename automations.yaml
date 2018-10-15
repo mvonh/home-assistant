@@ -1356,7 +1356,7 @@
 - alias: "Leave any zone"
   trigger:
   - platform: state
-    entity_id: device_tracker.paul_all
+    entity_id: device_tracker.paul
     to: 'not_home'
   action:
   - service: input_number.set_value
@@ -1371,32 +1371,32 @@
 - alias: "Enter any zone"
   trigger:
   - platform: state
-    entity_id: device_tracker.paul_all
+    entity_id: device_tracker.paul
     from: 'not_home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1    
   - condition: template
-    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.paul_all') }}"
+    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.paul') }}"
   action:
   - service: ifttt.trigger
     data_template:
       event: CommuteLog
       value1: '{{ states("input_text.commute_start_zone") }}'
-      value2: '{{ states("device_tracker.paul_all") }}'
+      value2: '{{ states("device_tracker.paul") }}'
       value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
       condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Commute Logged"
-      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul_all') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
+      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
 
 - alias: "Tracy Leaving Location Alert"
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy_all
+    entity_id: device_tracker.tracy
     to: 'not_home'
   condition:
   - condition: numeric_state
@@ -1417,7 +1417,7 @@
 - alias: "Tracy Arriving at Location Alert"
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy_all
+    entity_id: device_tracker.tracy
     from: 'not_home'
   condition:
   - condition: numeric_state
@@ -1429,7 +1429,25 @@
       service: notify.sms_paul
       condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Location Alert"
-      message: "Tracy arrived at {{ states('device_tracker.tracy_all') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
+      message: "Tracy arrived at {{ states('device_tracker.tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
+
+- alias: Turn off Alerts at Barre
+  trigger:
+  - platform: state
+    entity_id: device_tracker.tracy
+    to: 'Barre'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.notify_tracy
+
+- alias: Turn on Alerts leaving Barre
+  trigger:
+  - platform: state
+    entity_id: device_tracker.tracy
+    from: 'Barre'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.notify_tracy
 
 ##########################################
 ## Roku Key Mapping for Harmony         ##
@@ -1546,6 +1564,7 @@
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
+      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Gate Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       imagename: "/tmp/backgate.jpg"
@@ -1573,6 +1592,7 @@
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
+      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Side Yard Line Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       imagename: "/tmp/sideyard.jpg"
@@ -1720,7 +1740,7 @@
 - alias: Tracy Travel Notice
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy_all
+    entity_id: device_tracker.tracy
     to: 'not_home'
   condition:
   - condition: numeric_state
@@ -1758,12 +1778,12 @@
   - service: script.audio_notify
     data_template:
       tts_msg: >-
-        {% if states('device_tracker.tracy_all') == 'not_home' %}
+        {% if states('device_tracker.tracy') == 'not_home' %}
           Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
-        {% elif states('device_tracker.tracy_all') == 'home' %}
-          Tracy is at {{ states('device_tracker.tracy_all') }}
+        {% elif states('device_tracker.tracy') == 'home' %}
+          Tracy is at {{ states('device_tracker.tracy') }}
         {% else %}
-          Tracy is at {{ states('device_tracker.tracy_all') }} and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
+          Tracy is at {{ states('device_tracker.tracy') }} and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
         {% endif %}
       mplayer: "living_room_echo"
 
@@ -1783,12 +1803,12 @@
   - service: script.audio_notify
     data_template:
       tts_msg: >-
-        {% if states('device_tracker.paul_all') == 'not_home' %}
+        {% if states('device_tracker.paul') == 'not_home' %}
           Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
-        {% elif states('device_tracker.paul_all') == 'home' %}
-          Paul is at {{ states('device_tracker.paul_all') }}
+        {% elif states('device_tracker.paul') == 'home' %}
+          Paul is at {{ states('device_tracker.paul') }}
         {% else %}
-          Paul is at {{ states('device_tracker.paul_all') }} and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
+          Paul is at {{ states('device_tracker.paul') }} and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
         {% endif %}
       mplayer: "living_room_echo"
 

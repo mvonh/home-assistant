@@ -161,11 +161,11 @@
       pauls_traffic_density_to_caci:
         friendly_name: Traffic to CACI
         value_template: >
-          {% if states("sensor.time_to_caci") | int >= 30 %}
+          {% if states("sensor.time_to_caci") | int >= 32 %}
             Heavy
-          {% elif states("sensor.time_to_caci") | int < 30 and states("sensor.time_to_caci") | int >= 25 %}
+          {% elif states("sensor.time_to_caci") | int < 32 and states("sensor.time_to_caci") | int >= 27 %}
             Moderate
-          {% elif states("sensor.time_to_caci") | int < 25 and states("sensor.time_to_caci") | int >= 10 %}
+          {% elif states("sensor.time_to_caci") | int < 27 and states("sensor.time_to_caci") | int >= 10 %}
             Normal
           {% else %}
             unknown
@@ -175,11 +175,11 @@
       pauls_traffic_density_to_base:
         friendly_name: Traffic to Base
         value_template: >-
-          {% if states("sensor.time_to_base") | float >= 33 %}
+          {% if states("sensor.time_to_base") | float >= 34 %}
             Heavy
-          {% elif states("sensor.time_to_base") | float < 33 and states("sensor.time_to_base") | float >= 27 %}
+          {% elif states("sensor.time_to_base") | float < 34 and states("sensor.time_to_base") | float >= 28 %}
             Moderate
-          {% elif states("sensor.time_to_base") | float < 27 and states("sensor.time_to_base") | float >= 10 %}
+          {% elif states("sensor.time_to_base") | float < 28 and states("sensor.time_to_base") | float >= 10 %}
             Normal
           {% else %}
             unknown
