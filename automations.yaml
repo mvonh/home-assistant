@@ -1835,7 +1835,7 @@
   trigger:
   - platform: state
     entity_id: input_select.house_mode
-    to: 'Home'
+    from: 'Away'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
