@@ -153,6 +153,8 @@
   - platform: state
     entity_id: binary_sensor.people_home
     to: 'off'
+    for:
+      minutes: 1
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -165,8 +167,6 @@
     entity_id: input_select.house_mode
     data:
       option: 'Away'
-  - delay:
-      seconds: 75
   - service: input_select.select_option
     entity_id: input_select.security_system
     data:
@@ -872,7 +872,7 @@
     entity_id: binary_sensor.doors_unlocked
     to: 'on'
     for:
-      minutes: 1
+      minutes: 4
   condition:
   - condition: state
     entity_id: input_select.security_system
@@ -880,6 +880,8 @@
   - condition: state
     entity_id: binary_sensor.doors_unlocked
     state: 'on'
+    for:
+      minutes: 3
   action:
   - service: script.sms_notify_with_images
     data_template:

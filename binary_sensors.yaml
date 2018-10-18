@@ -156,7 +156,6 @@
    country: 'UnitedStates'
    workdays: [mon, tue, wed, thu, fri]
 
-
  - platform: bayesian
    prior: 0.6
    name: Paul Presence
@@ -175,12 +174,12 @@
      to_state: 'home'
    - entity_id: 'device_tracker.pauls_iphone'
      prob_given_true: 0.9
-     prob_given_false: 0.4
+     prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
    - entity_id: 'device_tracker.paul'
      prob_given_true: 0.9
-     prob_given_false: 0.2
+     prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
 
@@ -202,11 +201,11 @@
      to_state: 'home'
    - entity_id: 'device_tracker.tracys_iphone'
      prob_given_true: 0.9
-     prob_given_false: 0.4
+     prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
    - entity_id: 'device_tracker.tracy'
      prob_given_true: 0.9
-     prob_given_false: 0.2
+     prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
