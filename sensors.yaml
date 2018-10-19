@@ -140,7 +140,7 @@
       time_to_leave_for_caci:
         value_template: >
           {% set t = strptime(states.sensor.time.state,'%H:%M') %}
-          {{ ( t.hour + t.minute / 60 ) > ( 8.33 - states.sensor.time_to_caci.state | int / 60) }}
+          {{ ( t.hour + t.minute / 60 ) > ( 8.25 - states.sensor.time_to_caci.state | int / 60) }}
         friendly_name: 'Time to Leave for CACI'
         entity_id: sensor.time
 
@@ -154,10 +154,10 @@
       time_to_leave_for_base:
         value_template: >
           {% set t = strptime(states.sensor.time.state,'%H:%M') %}
-          {{ ( t.hour + t.minute / 60 ) > ( 8.33 - states.sensor.time_to_base.state | int / 60) }}
+          {{ ( t.hour + t.minute / 60 ) > ( 8.25 - states.sensor.time_to_base.state | int / 60) }}
         friendly_name: 'Time to leave for Base'
         entity_id: sensor.time
-        
+
       pauls_traffic_density_to_caci:
         friendly_name: Traffic to CACI
         value_template: >

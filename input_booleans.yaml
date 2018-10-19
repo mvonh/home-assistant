@@ -41,3 +41,6 @@ wheres_tracy:
 wheres_paul:
   name: Where is Paul
   icon: mdi:account
+whats_going_on:
+  name: Whats Going On
+  icon: mdi:account
