@@ -29,12 +29,18 @@
   trigger:
   - platform: state
     entity_id:
-      - binary_sensor.paul_presence
-      - binary_sensor.tracy_presence
+      - input_boolean.paul_present
+      - input_boolean.tracy_present
       - input_boolean.guests_present
     to: 'on'
   - platform: state
     entity_id:
+      - device_tracker.paul
+      - device_tracker.pauls_iphone
+      - device_tracker.pauls_iphone_2
+      - device_tracker.tracy
+      - device_tracker.tracys_iphone
+      - device_tracker.tracys_iphone_2
       - group.extra_device_trackers
     to: 'home'
   condition:
@@ -113,6 +119,13 @@
       - binary_sensor.tracy_presence
       - group.extra_device_trackers
     to: 'off'
+  - platform: state
+    entity_id:
+      - device_tracker.paul_all
+      - device_tracker.tracy_all
+    to: 'not_home'
+    for:
+      minutes: 1
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -121,9 +134,9 @@
   - service: input_boolean.turn_off
     data_template:
       entity_id: >-
-        {% if trigger.entity_id == 'binary_sensor.paul_presence' %}
+        {% if trigger.entity_id == 'binary_sensor.paul_presence' or trigger.entity_id == 'device_tracker.paul_all' %}
           input_boolean.paul_present,input_boolean.back_door_opened_for_paul,input_boolean.open_garage_for_paul
-        {% elif trigger.entity_id == 'binary_sensor.tracy_presence' %}
+        {% elif trigger.entity_id == 'binary_sensor.tracy_presence' or trigger.entity_id == 'device_tracker.tracy_all'%}
           input_boolean.tracy_present,input_boolean.back_door_opened_for_tracy,input_boolean.open_garage_for_tracy
         {% else %}
           input_boolean.back_door_opened_for_guests
@@ -1051,7 +1064,7 @@
   - service: media_player.volume_set
     data_template:
       entity_id: media_player.living_room
-      volume_level: 0.35
+      volume_level: 0.30
 
 - alias: 'Turn off TV if left on after bed'
   trigger:
@@ -1132,39 +1145,7 @@
           I'm not sure where you're going today
         {% endif %}
       mplayer: "main"
-  - condition: state
-    entity_id: binary_sensor.paul_presence
-    state: 'on'
-  - delay:
-      minutes: 10
-  - service: script.audio_notify
-    data_template:
-      tts_msg: >-
-        {% if states('input_select.work_location') == 'Base' %}
-          Based on current traffic, you have 5 minutes to leave if you want to get to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
-        {% elif states('input_select.work_location') == 'CACI' %}
-          Based on current traffic, you have 5 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
-        {% else %}
-          I'm not sure where you're going today
-        {% endif %}
-      mplayer: "main"
-  - condition: state
-    entity_id: binary_sensor.paul_presence
-    state: 'on'
-  - delay:
-      minutes: 5
-  - service: script.audio_notify
-    data_template:
-      tts_msg: >-
-        {% if states('input_select.work_location') == 'Base' %}
-          Based on current traffic, You're gonna be late getting to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
-        {% elif states('input_select.work_location') == 'CACI' %}
-          Based on current traffic, You're gonna be late getting to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
-        {% else %}
-          I'm not sure where you're going today
-        {% endif %}
-      mplayer: "main"
-      
+
 - alias: "Notify Tracy when its time to leave for work"
   trigger:
   - platform: state
@@ -1233,6 +1214,67 @@
           white
         {% endif %}
 
+- alias: Travel time increases to Base
+  trigger:
+  - platform: state
+    entity_id: sensor.time_to_base
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: state
+    entity_id: input_select.work_location
+    state: 'Base'
+  - condition: state
+    entity_id: sensor.time_to_leave_for_base
+    state: 'true'
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.notify_paul_when_its_time_to_leave_for_work.attributes.last_triggered) | int < 1800 }}' 
+  - condition: template
+    value_template: >
+      {{ trigger.to_state is not none and trigger.from_state is not none and
+         trigger.to_state.state|int > trigger.from_state.state|int }}
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Traffic to the Navy Base just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_base') }} minutes."
+      mplayer: "main"
+
+- alias: Travel time increases to CACI
+  trigger:
+  - platform: state
+    entity_id: sensor.time_to_caci
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: state
+    entity_id: input_select.work_location
+    state: 'CACI'
+  - condition: state
+    entity_id: sensor.time_to_leave_for_caci
+    state: 'true'
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.notify_paul_when_its_time_to_leave_for_work.attributes.last_triggered) | int < 1800 }}' 
+  - condition: template
+    value_template: >
+      {{ trigger.to_state is not none and trigger.from_state is not none and
+         trigger.to_state.state|int > trigger.from_state.state|int }}
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Traffic to khaki just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_caci') }} minutes."
+      mplayer: "main"
+
 #- alias: Set alcove light color based on Traffic to AVIS
 #  trigger:
 #  - platform: state
@@ -1268,8 +1310,14 @@
 - alias: "Leave any zone"
   trigger:
   - platform: state
-    entity_id: device_tracker.paul
+    entity_id: device_tracker.paul_all
     to: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1  
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.leave_any_zone.attributes.last_triggered) | int > 120 }}'
   action:
   - service: input_number.set_value
     data_template:
@@ -1283,37 +1331,41 @@
 - alias: "Enter any zone"
   trigger:
   - platform: state
-    entity_id: device_tracker.paul
+    entity_id: device_tracker.paul_all
     from: 'not_home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 1    
+    above: 1  
   - condition: template
-    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.paul') }}"
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.enter_any_zone.attributes.last_triggered) | int > 120 }}'
+  - condition: template
+    value_template: "{{ states('input_text.commute_start_zone') != states('device_tracker.paul_all') }}"
   action:
   - service: ifttt.trigger
     data_template:
       event: CommuteLog
       value1: '{{ states("input_text.commute_start_zone") }}'
-      value2: '{{ states("device_tracker.paul") }}'
+      value2: '{{ states("device_tracker.paul_all") }}'
       value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
       condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Commute Logged"
-      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
+      message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul_all') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
 
 - alias: "Tracy Leaving Location Alert"
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy
+    entity_id: device_tracker.tracy_all
     to: 'not_home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.tracy_leaving_location_alert.attributes.last_triggered) | int > 120 }}'
   action:
   - service: input_text.set_value
     data_template:
@@ -1329,19 +1381,21 @@
 - alias: "Tracy Arriving at Location Alert"
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy
+    entity_id: device_tracker.tracy_all
     from: 'not_home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.tracy_arriving_at_location_alert.attributes.last_triggered) | int > 120 }}'
   action:
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
       condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Location Alert"
-      message: "Tracy arrived at {{ states('device_tracker.tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
+      message: "Tracy arrived at {{ states('device_tracker.tracy_all') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
 
 - alias: Turn off Alerts at Barre
   trigger:
@@ -1643,19 +1697,20 @@
 - alias: Tracy Travel Notice
   trigger:
   - platform: state
-    entity_id: device_tracker.tracy
+    entity_id: device_tracker.tracy_all
     to: 'not_home'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.tracy_travel_notice.attributes.last_triggered) | int > 120 }}'
   - condition: state
     entity_id: binary_sensor.paul_presence
     state: 'on'
   - condition: template
     value_template: "{{ trigger.from_state.state != 'home' }}"
   action:
-  - delay: 00:00:03
   - service: input_text.set_value
     data_template:
       entity_id: input_text.commute_start_zone_tracy
@@ -2019,6 +2074,34 @@
     - service: persistent_notification.dismiss
       data:
         notification_id: low-battery-alert
+
+- alias: Set Schlage Lock Options
+  trigger:
+    - platform: state
+      entity_id:
+        - input_select.lock_zwave_option_3
+        - input_select.lock_zwave_option_4
+        - input_select.lock_zwave_option_5
+        - input_select.lock_zwave_option_7
+        - input_select.lock_zwave_option_8
+        - input_select.lock_zwave_option_9
+        - input_select.lock_zwave_option_10
+        - input_select.lock_zwave_option_11
+        - input_select.lock_zwave_option_15
+        - input_select.lock_zwave_option_16
+  action:
+    - service: zwave.set_config_parameter
+      data_template:
+        node_id: 104
+          
+        parameter: >-
+          {% set object_id = "trigger.entity_id" %}
+          {% set parameter = ("_".join(object_id.split("_")[4]) |int) %}
+          {{ parameter }}
+
+        value: >-
+          {% set zwave_parameter = 'lock_zwave_option_' ~ parameter %}
+          {{ states['input_select'][zwave_parameter].state }}
 
 #############################################
 ## Misc Automations for future use         ##

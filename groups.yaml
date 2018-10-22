@@ -21,7 +21,7 @@ door_ui:
     - group.door_lock_information
     - group.garage_door
     - group.door_open_close_sensors
-    - group.garage_door_automation_status
+#    - group.garage_door_automation_status
     - group.home_mode_and_security_monitor
 
 CCTV:
@@ -33,16 +33,16 @@ CCTV:
     - camera.driveway_one
     - camera.driveway_two
     - camera.side_yard
-    - automation.camera_side_yard_picture
-    - automation.cameras_back_gate_picture
-    - automation.cameras_drive_way_1_picture
-    - automation.cameras_drive_way_2_picture
+#    - automation.camera_side_yard_picture
+#    - automation.cameras_back_gate_picture
+#    - automation.cameras_drive_way_1_picture
+#    - automation.cameras_drive_way_2_picture
 #    - group.cameras_view
     
 home_mode_and_presence:
   name: Presence and Alerts
   view: Yes
-  icon: mdi:walk
+  icon: mdi:account
   entities:
 #    - device_tracker.paul_all
 #    - device_tracker.tracy_all
@@ -75,8 +75,8 @@ house_climate_info:
     - group.thermostats
     - group.downstairs_climate_info
     - group.upstairs_climate_info
-    - group.zigbee_sensors_temp_output
-    - group.room_occupancy_sensors
+#    - group.zigbee_sensors_temp_output
+#    - group.room_occupancy_sensors
 
 automation_view:
   name: Automation
@@ -94,7 +94,7 @@ automation_view:
     - group.batteries
     - group.all_automations
     - group.all_scripts
-#    - group.zwave_door_lock_options
+    - group.zwave_door_lock_options
 
 local_conditions:
   name: Local Conditions
@@ -364,16 +364,18 @@ primary_presence:
     - binary_sensor.tracy_presence
 
 downstairs_climate_info:
-  name: Downstairs Room Temperatures
+  name: Downstairs Climate Info
   view: no
   entities:
     - sensor.downstairs_temperature
     - sensor.living_room_temperature
     - sensor.office_temperature
+    - sensor.motion_sensor_garage_temp
+    - sensor.temp_garage_fridge
     - sensor.downstairs_humidity
 
 upstairs_climate_info:
-  name: Upstairs Room Temperatures
+  name: Upstairs Climate Info
   view: no
   entities:
     - sensor.upstairs_temperature
@@ -465,7 +467,7 @@ room_occupancy_sensors:
    - binary_sensor.office_occupancy
 
 door_open_close_sensors:
-  name: Open Close Sensors
+  name: Doors and Windows
   view: no
   entities:
   - binary_sensor.open_close_sensor_front_door
@@ -527,8 +529,8 @@ front_door_info:
     - sensor.front_door_report
     - sensor.frontdoor_code
 #    - sensor.lock_front_door_deadbolt_access_control
-    - sensor.lock_front_door_deadbolt_alarm_level
-    - sensor.lock_front_door_deadbolt_alarm_type
+#    - sensor.lock_front_door_deadbolt_alarm_level
+#    - sensor.lock_front_door_deadbolt_alarm_type
 #    - sensor.lock_front_door_deadbolt_burglar
 #    - sensor.lock_front_door_deadbolt_power_management
 #    - sensor.lock_front_door_deadbolt_sourcenodeid
@@ -542,8 +544,8 @@ back_door_info:
     - sensor.back_door_report
     - sensor.backdoor_code
 #    - sensor.lock_back_door_deadbolt_access_control
-    - sensor.lock_back_door_deadbolt_alarm_level
-    - sensor.lock_back_door_deadbolt_alarm_type
+#    - sensor.lock_back_door_deadbolt_alarm_level
+#    - sensor.lock_back_door_deadbolt_alarm_type
 #    - sensor.lock_back_door_deadbolt_burglar
 #    - sensor.lock_back_door_deadbolt_power_management
 #    - sensor.lock_back_door_deadbolt_sourcenodeid
@@ -563,15 +565,15 @@ zigbee_sensors_temp_output:
   name: Temp info from Sensors
   view: no
   entities:
-    - sensor.temp_garage_fridge
-    - sensor.motion_sensor_garage_temp
-    - sensor.open_close_sensor_front_door_temp
-    - sensor.open_close_sensor_garage_door_temp
-    - sensor.open_close_sensor_back_door_temp
-    - sensor.motion_sensor_hallway_temp
-    - sensor.motion_sensor_office_temp
-    - sensor.motion_sensor_living_room_temp
-    - sensor.motion_sensor_kitchen_temp
+#    - sensor.temp_garage_fridge
+#    - sensor.motion_sensor_garage_temp
+#    - sensor.open_close_sensor_front_door_temp
+#    - sensor.open_close_sensor_garage_door_temp
+#    - sensor.open_close_sensor_back_door_temp
+#    - sensor.motion_sensor_hallway_temp
+#    - sensor.motion_sensor_office_temp
+#    - sensor.motion_sensor_living_room_temp
+#    - sensor.motion_sensor_kitchen_temp
 
 household_routines:
   name: House Routines
@@ -590,10 +592,11 @@ notify_selection:
     - input_boolean.notify_tracy
 
 work_location:
-  name: Work Location
+  name: Work Details for Paul
   view: no
   entities:  
     - input_select.work_location
+    - input_datetime.work_time_paul
 
 all_presence_sensors:
   name: Presence and status
