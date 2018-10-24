@@ -78,20 +78,20 @@
 ##########################################
 - alias: Paul Just Arrived Timer
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.paul_all
-     to: 'home'
+  - platform: state
+    entity_id:
+      - binary_sensor.paul_presence
+    to: 'on'
   action:
   - service: timer.start
     entity_id: timer.paul_just_arrived
 
 - alias: Tracy just Arrived Timer
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.tracy_all
-     to: 'home'
+  - platform: state
+    entity_id:
+      - binary_sensor.tracy_presence
+    to: 'on'
   action:
   - service: timer.start
     entity_id: timer.tracy_just_arrived
@@ -632,12 +632,10 @@
 - alias: 'Unlock Back Door for Paul'
   trigger:
   - platform: state
-    entity_id: binary_sensor.backyard_line_crossing
-    to: 'on'    
+    entity_id:
+      - binary_sensor.paul_presence
+    to: 'on' 
   condition:
-  - condition: state
-    entity_id: timer.paul_just_arrived
-    state: 'active'
   - condition: state
     entity_id: input_boolean.back_door_opened_for_paul
     state: 'off'
@@ -650,12 +648,13 @@
 - alias: 'Unlock Back Door for Tracy'
   trigger:
   - platform: state
-    entity_id: binary_sensor.backyard_line_crossing
-    to: 'on'    
+    entity_id:
+      - binary_sensor.tracy_presence
+    to: 'on' 
   condition:
-  - condition: state
-    entity_id: timer.tracy_just_arrived
-    state: 'active'
+#  - condition: state
+#    entity_id: timer.tracy_just_arrived
+#    state: 'active'
   - condition: state
     entity_id: input_boolean.back_door_opened_for_tracy
     state: 'off'  
@@ -945,10 +944,10 @@
 ##########################################
 - alias: 'Garage Door For Tracy when she gets home'
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.tracy_all
-     to: 'home' 
+  - platform: state
+    entity_id:
+      - binary_sensor.tracy_presence
+    to: 'on'
   condition:
   - condition: state
     entity_id: input_boolean.open_garage_for_tracy
@@ -963,10 +962,10 @@
 
 - alias: 'Garage Door For Paul when he gets home'
   trigger:
-   - platform: state
-     entity_id:
-       - device_tracker.tracy_all
-     to: 'home'
+  - platform: state
+    entity_id:
+      - binary_sensor.paul_presence
+    to: 'on'
   condition:
   - condition: state
     entity_id: input_boolean.open_garage_for_paul
@@ -1606,7 +1605,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 1
+    above: 2
   action:
   - service: script.audio_notify
     data_template:
@@ -1657,7 +1656,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 1
+    above: 2
   action:
   - service: script.audio_notify
     data_template:

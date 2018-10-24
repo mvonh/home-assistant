@@ -214,6 +214,9 @@ ios:
 
 # Device Trackers
 device_tracker:
+  - platform: google_maps
+    username: !secret notificationemail
+    password: !secret gmailpassword
   - platform: asuswrt
     host: !secret router_ip
     username: !secret router_user
@@ -236,17 +239,17 @@ device_tracker:
     entity_id:
       - device_tracker.paul
       - device_tracker.pauls_iphone
-      - device_tracker.pauls_iphone_2
-      - device_tracker.paulsapplewatch
-      - binary_sensor.homekit_presence_Paul
+#      - device_tracker.pauls_iphone_2
+#      - device_tracker.paulsapplewatch
+#      - binary_sensor.homekit_presence_Paul
   - platform: composite
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
       - device_tracker.tracys_iphone
-      - device_tracker.tracys_iphone_2
-      - device_tracker.tracysapplewatch
-      - binary_sensor.homekit_presence_tracy
+#      - device_tracker.tracys_iphone_2
+#      - device_tracker.tracysapplewatch
+#      - binary_sensor.homekit_presence_tracy
 
 notify:
   - platform: ios
@@ -382,6 +385,10 @@ switch:
       save_frontdoor:
         command_on: "python /home/homeassistant/.homeassistant/scripts/frontdoor.py"
         command_off: ""
+        
+  - platform: command_line
+    name: Last Used Echo
+    command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
 
 #shell_command:
 #  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh
