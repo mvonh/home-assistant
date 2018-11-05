@@ -1185,6 +1185,8 @@
     entity_id: sensor.pauls_traffic_density_to_base
   - platform: time
     at: '07:00:00'
+  - platform: state
+    entity_id: input_select.work_location
   condition:
   - condition: state
     entity_id: binary_sensor.workday_sensor
@@ -1365,6 +1367,12 @@
     above: 1
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.tracy_leaving_location_alert.attributes.last_triggered) | int > 120 }}'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ states('device_tracker.paul_all') != trigger.from_state.state }}"
+    - condition: template
+      value_template: "{{ ( states('input_text.commute_start_zone') != trigger.from_state.state ) and ( ( as_timestamp(now) - as_timestamp(states.input_text.commute_start_zone.last_updated) ) < 300 ) }}"
   action:
   - service: input_text.set_value
     data_template:

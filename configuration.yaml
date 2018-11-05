@@ -239,6 +239,7 @@ device_tracker:
     entity_id:
       - device_tracker.paul
       - device_tracker.pauls_iphone
+      - device_tracker.google_maps_118013912887885302155
 #      - device_tracker.pauls_iphone_2
 #      - device_tracker.paulsapplewatch
 #      - binary_sensor.homekit_presence_Paul
@@ -247,6 +248,7 @@ device_tracker:
     entity_id:
       - device_tracker.tracy
       - device_tracker.tracys_iphone
+      - device_tracker.google_maps_116112519745623760034
 #      - device_tracker.tracys_iphone_2
 #      - device_tracker.tracysapplewatch
 #      - binary_sensor.homekit_presence_tracy
@@ -387,8 +389,10 @@ switch:
         command_off: ""
         
   - platform: command_line
-    name: Last Used Echo
-    command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
+    switches:
+      last_echo_used:
+        command_on: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
+        command_off: ""
 
 #shell_command:
 #  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh

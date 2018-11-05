@@ -75,6 +75,11 @@
          {{ is_state('input_boolean.tracy_present', 'on') }}
        entity_id: input_boolean.tracy_present
 
+ - platform: template
+   sensors:
+     dark_outside:
+       value_template: "{{ is_state('sun.sun', 'below_horizon') }}"
+       friendly_name: "Dark Outside"
 # - platform: template
 #   sensors:
 #     multiple_presence_paul:
