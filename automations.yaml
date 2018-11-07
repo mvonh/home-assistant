@@ -1786,55 +1786,55 @@
   - service: light.turn_off
     entity_id: light.alexa_virtual
     
-- alias: Where is Tracy
-  trigger:
-  - platform: state
-    entity_id: input_boolean.wheres_tracy
-    to: 'on'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: input_boolean.turn_off
-    entity_id:
-      - input_boolean.wheres_tracy
-  - service: script.audio_notify
-    data_template:
-      tts_msg: >-
-        {% if states('device_tracker.tracy') == 'not_home' %}
-          Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
-        {% elif states('device_tracker.tracy') == 'home' %}
-          Tracy is at {{ states('device_tracker.tracy') }}
-        {% else %}
-          Tracy is at {{ states('device_tracker.tracy') }} and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
-        {% endif %}
-      mplayer: "living_room_echo"
-
-- alias: Where is Paul
-  trigger:
-  - platform: state
-    entity_id: input_boolean.wheres_paul
-    to: 'on'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1
-  action:
-  - service: input_boolean.turn_off
-    entity_id:
-      - input_boolean.wheres_paul
-  - service: script.audio_notify
-    data_template:
-      tts_msg: >-
-        {% if states('device_tracker.paul') == 'not_home' %}
-          Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
-        {% elif states('device_tracker.paul') == 'home' %}
-          Paul is at {{ states('device_tracker.paul') }}
-        {% else %}
-          Paul is at {{ states('device_tracker.paul') }} and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
-        {% endif %}
-      mplayer: "living_room_echo"
+#- alias: Where is Tracy
+#  trigger:
+#  - platform: state
+#    entity_id: input_boolean.wheres_tracy
+#    to: 'on'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: input_boolean.turn_off
+#    entity_id:
+#      - input_boolean.wheres_tracy
+#  - service: script.audio_notify
+#    data_template:
+#      tts_msg: >-
+#        {% if states('device_tracker.tracy') == 'not_home' %}
+#          Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
+#        {% elif states('device_tracker.tracy') == 'home' %}
+#          Tracy is at {{ states('device_tracker.tracy') }}
+#        {% else %}
+#          Tracy is at {{ states('device_tracker.tracy') }} and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
+#        {% endif %}
+#      mplayer: "living_room_echo"
+#
+#- alias: Where is Paul
+#  trigger:
+#  - platform: state
+#    entity_id: input_boolean.wheres_paul
+#    to: 'on'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: input_boolean.turn_off
+#    entity_id:
+#      - input_boolean.wheres_paul
+#  - service: script.audio_notify
+#    data_template:
+#      tts_msg: >-
+#        {% if states('device_tracker.paul') == 'not_home' %}
+#          Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
+#        {% elif states('device_tracker.paul') == 'home' %}
+#          Paul is at {{ states('device_tracker.paul') }}
+#        {% else %}
+#          Paul is at {{ states('device_tracker.paul') }} and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
+#        {% endif %}
+#      mplayer: "living_room_echo"
 
 - alias: Whats going on outside
   trigger:
