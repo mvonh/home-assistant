@@ -105,9 +105,10 @@
     destination: device_tracker.tracy_all
     region: 'US'
     
-  - platform: command_line
-    name: Last Used Echo
-    command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
+#  - platform: command_line
+#    name: Last Used Echo
+#    command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
+#    entity_id: switch.last_echo_used
     
   - platform: template
     sensors:

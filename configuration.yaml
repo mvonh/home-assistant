@@ -115,6 +115,7 @@ cloud:
         - light.kitchen_island_light
         - light.living_room_ceiling_light
         - light.living_room_fan_light
+        - light.alexa_virtual
         - lock.lock_front_door_lock
         - lock.lock_back_door_lock 
         - lock.lock_garage_door_lock
@@ -393,6 +394,15 @@ switch:
       last_echo_used:
         command_on: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
         command_off: ""
+
+light:
+  - platform: template
+    lights:
+      alexa_virtual:
+        friendly_name: "Alexa Dummy Light"
+        turn_on:
+        turn_off:
+        set_level:
 
 #shell_command:
 #  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh

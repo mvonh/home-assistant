@@ -1748,6 +1748,44 @@
       tts_msg: "Paul is on his way and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
       mplayer: "main"
 
+- alias: "Alexa Report"
+  trigger:
+  - platform: state
+    entity_id: light.alexa_virtual
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: >-
+        {% if (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 1 and states('device_tracker.tracy_all') == 'not_home' %}
+          Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 1 and states('device_tracker.tracy_all') != 'home' %}
+          Tracy is at {{ states('device_tracker.tracy_all') }} and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 1 and states('device_tracker.tracy_all') == 'home' %}
+          Tracy is at home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 2 and states('device_tracker.paul_all') == 'not_home' %}
+          Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 2 and states('device_tracker.paul_all') != 'home' %}
+          Paul is at {{ states('device_tracker.paul_all') }} and is approximately {{ states('sensor.paul_time_to_home') }} minutes from home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 2 and states('device_tracker.paul_all') == 'home' %}
+          Paul is at home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 3 %}
+          Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 3 %}
+          Something other than what you've already said
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 4 %}
+          Something other than what you've already said
+        {% else %}
+         {{ states('light.alexa_virtual.attributes.brightness') }}
+        {% endif %}
+      mplayer: "living_room_echo"
+  - service: light.turn_off
+    entity_id: light.alexa_virtual
+    
 - alias: Where is Tracy
   trigger:
   - platform: state
