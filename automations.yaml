@@ -1758,6 +1758,9 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
+  - service: homeassistant.update_entity
+    data:
+      entity_id: sensor.last_used_echo
   - service: script.audio_notify
     data_template:
       tts_msg: >-
@@ -1782,7 +1785,7 @@
         {% else %}
          {{ states('light.alexa_virtual.attributes.brightness') }}
         {% endif %}
-      mplayer: "living_room_echo"
+      mplayer: "{{ states('sensor.last_used_echo') }}"
   - service: light.turn_off
     entity_id: light.alexa_virtual
     
