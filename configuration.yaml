@@ -97,56 +97,6 @@ cover:
 ecobee:
   api_key: !secret ecobee_api_key
   
-# Cloud
-cloud:
-  alexa:
-    filter:
-      include_entities:
-        - cover.garage_door_opener
-        - fan.frog_fan
-        - fan.living_room_fan
-        - light.ashleys_room_lamp
-        - light.bedroom_ceiling_light
-        - light.frog_ceiling_light 
-        - light.frog_fan_light
-        - light.guest_bedroom_lamp
-        - light.hallway_light
-        - light.kitchen_counter_light
-        - light.kitchen_island_light
-        - light.living_room_ceiling_light
-        - light.living_room_fan_light
-        - light.alexa_virtual
-        - lock.lock_front_door_lock
-        - lock.lock_back_door_lock 
-        - lock.lock_garage_door_lock
-        - switch.back_porch_light
-        - switch.bedroom_fan
-        - switch.fireplace
-        - switch.front_porch_light
-        - switch.garage_light_indoor
-        - switch.garage_light_outdoor
-        - switch.lamp_post
-        - switch.lava_lamp_plug
-        - switch.lava_lamp_two
-        - switch.living_room_plug_one
-        - switch.living_room_plug_three
-        - switch.living_room_plug_two
-        - switch.office_lamp_one
-        - switch.rope_lights
-        - switch.stairwell_light
-        - switch.sconce_light
-        - automation.motion_lighting_in_the_kitchen
-        - automation.motion_lighting_in_the_Office
-        - automation.motion_lighting_in_the_garage
-        - automation.driveway_line_crossing_alerts
-        - automation.tracy_travel_notice
-        - script.ecobee_away_mode
-        - input_boolean.goodnight_switch
-        - input_boolean.goodmorning_switch
-        - input_boolean.wheres_tracy
-        - input_boolean.wheres_paul
-        - input_boolean.whats_going_on
-
 homekit:
   filter:
     include_entities:
@@ -169,12 +119,6 @@ http:
 duckdns:
   domain: !secret ha_domain_name
   access_token: !secret duckdns_access_token
-
-# Checks for available updates
-# Note: This component will send some information about your system to
-# the developers to assist with development of Home Assistant.
-# For more information, please see:
-# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
 
 # Discover some devices automatically
 #discovery:
@@ -218,6 +162,7 @@ device_tracker:
   - platform: google_maps
     username: !secret notificationemail
     password: !secret gmailpassword
+    max_gps_accuracy: 150
   - platform: asuswrt
     host: !secret router_ip
     username: !secret router_user
@@ -226,10 +171,10 @@ device_tracker:
     interval_seconds: 15
     consider_home: 60
     track_new_devices: yes
-#Life360 tracking - https://github.com/pnbruckner/homeassistant-config/blob/master/docs/life360.md
   - platform: life360
     username: !secret life360_user
     password: !secret life360_password
+    max_gps_accuracy: 150
 #    show_as_state: places, moving
     interval_seconds: 12
     driving_speed: 12
@@ -239,107 +184,16 @@ device_tracker:
     name: Paul_All
     entity_id:
       - device_tracker.paul
-      - device_tracker.pauls_iphone
+#      - device_tracker.pauls_iphone
       - device_tracker.google_maps_118013912887885302155
-#      - device_tracker.pauls_iphone_2
-#      - device_tracker.paulsapplewatch
-#      - binary_sensor.homekit_presence_Paul
+
   - platform: composite
     name: Tracy_All
     entity_id:
       - device_tracker.tracy
-      - device_tracker.tracys_iphone
+#      - device_tracker.tracys_iphone
       - device_tracker.google_maps_116112519745623760034
-#      - device_tracker.tracys_iphone_2
-#      - device_tracker.tracysapplewatch
-#      - binary_sensor.homekit_presence_tracy
 
-notify:
-  - platform: ios
-#  - name: Pushover_Notifications
-#    platform: pushover
-#    api_key: !secret pushover_api_key
-#    user_key: !secret pushover_user_key
-  - name: PushBullet_Notifications
-    platform: pushbullet
-    api_key: !secret pushbullet_api_key
-  - platform: nfandroidtv
-    name: Sony TV
-    host: 192.168.1.80
-    duration: 8
-  - name: gmail_house_archive
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret notificationemail
-    encryption: starttls
-    username: !secret notificationemail
-    password: !secret gmailpassword
-    recipient:
-      - !secret notificationemail
-    sender_name: The House
-  - name: gmail_all
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret notificationemail
-    encryption: starttls
-    username: !secret notificationemail
-    password: !secret gmailpassword
-    recipient:
-      - !secret pauls_secret_gmail
-      - !secret tracys_secret_gmail
-    sender_name: The House
-  - name: gmail_paul
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret notificationemail
-    encryption: starttls
-    username: !secret notificationemail
-    password: !secret gmailpassword
-    recipient:
-      - !secret pauls_secret_gmail
-    sender_name: The House
-  - name: sms_paul
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret notificationemail
-    encryption: starttls
-    username: !secret notificationemail
-    password: !secret gmailpassword
-    recipient:
-      - !secret pauls_secret_sms
-    sender_name: The House
-  - name: gmail_tracy
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret notificationemail
-    encryption: starttls
-    username: !secret notificationemail
-    password: !secret gmailpassword
-    recipient:
-      - !secret tracys_secret_gmail
-    sender_name: The House
-  - name: sms_tracy
-    platform: smtp
-    server: smtp.gmail.com
-    port: 587
-    timeout: 15
-    sender: !secret notificationemail
-    encryption: starttls
-    username: !secret notificationemail
-    password: !secret gmailpassword
-    recipient:
-      - !secret tracys_secret_sms
-    sender_name: The House
 
 ifttt:
   key: !secret ifttt_key 
@@ -356,39 +210,10 @@ input_number:
     max: 20
     step: 1
 
-python_script:
-
 ffmpeg:
   ffmpeg_bin: /usr/bin/avconv
 
 switch:
-  - platform: command_line
-    switches:
-      save_driveway1:
-        command_on: "python /home/homeassistant/.homeassistant/scripts/driveway1.py"
-        command_off: ""  
-  - platform: command_line
-    switches:
-      save_driveway2:
-        command_on: "python /home/homeassistant/.homeassistant/scripts/driveway2.py"
-        command_off: ""
-  - platform: command_line
-    switches:
-      save_backgate:
-        command_on: "python /home/homeassistant/.homeassistant/scripts/backgate.py"
-        command_off: ""
-  - platform: command_line
-    switches:
-      save_sideyard:
-        command_on: "python /home/homeassistant/.homeassistant/scripts/sideyard.py"
-        command_off: ""
-        
-  - platform: command_line
-    switches:
-      save_frontdoor:
-        command_on: "python /home/homeassistant/.homeassistant/scripts/frontdoor.py"
-        command_off: ""
-        
   - platform: command_line
     switches:
       last_echo_used:
@@ -439,6 +264,8 @@ media_player:
     
 # View all events in a logbook
 logbook: !include logbook.yaml
+cloud: !include cloud.yaml
+notify: !include notify.yaml
 zone: !include zones.yaml
 binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml

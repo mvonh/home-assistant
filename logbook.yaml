@@ -39,19 +39,17 @@
       - binary_sensor.open_close_sensor_living_room_window
       - cover.garage_door_opener
       - device_tracker.paul
-#      - device_tracker.pauls_iphone_2
+      - device_tracker.pauls_iphone
+      - device_tracker.pauls_iphone_2
+      - device_tracker.google_maps_118013912887885302155
       - device_tracker.tracy
-#      - device_tracker.tracys_iphone_2
+      - device_tracker.tracys_iphone
+      - device_tracker.tracys_iphone_2
+      - device_tracker.google_maps_116112519745623760034
       - fan.frog_fan
       - fan.living_room_fan
-#      - input_boolean.goodnight_switch
       - input_boolean.open_garage_for_paul
       - input_boolean.open_garage_for_tracy
-#      - input_select.house_mode
-#      - input_select.paul_status_dropdown
-#      - input_select.presence
-#      - input_select.security_system
-#      - input_select.tracy_status_dropdown
       - light.alcove_light
       - light.ashleys_room_lamp
       - light.bedroom_ceiling_light
@@ -73,6 +71,7 @@
       - light.right_shelf_lights
       - light.tv_backlights
       - light.hallway_light
+      - light.alexa_virtual
 #      - lock.lock_back_door_lock
 #      - lock.lock_front_door_lock
       - lock.lock_garage_door_lock
@@ -98,4 +97,3 @@
       - switch.office_lamp_one
       - switch.rope_lights
       - switch.stairwell_light
-

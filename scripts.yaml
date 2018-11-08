@@ -76,13 +76,13 @@ audio_notify:
       data_template:       
         entity_id: >
           {% if (mplayer == "all") %}
-            media_player.bedroom_spot,media_player.kitchen,media_player.office,media_player.living_room_echo,media_player.garage,media_player.media_room
+            media_player.bedroom,media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage,media_player.frog
           {% elif (mplayer == "downstairs_media_players") %}
-            media_player.kitchen,media_player.office,media_player.living_room_echo,media_player.garage
+            media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage
           {% elif (mplayer == "upstairs_media_players") %}
-            media_player.bedroom_spot,media_player.media_room
+            media_player.bedroom,media_player.frog
           {% elif (mplayer == "main") %}
-            media_player.bedroom_spot,media_player.media_room,media_player.kitchen,media_player.garage
+            media_player.bedroom,media_player.frog,media_player.kitchen,media_player.garage
           {% else %}
             media_player.{{ mplayer }}
           {% endif %} 

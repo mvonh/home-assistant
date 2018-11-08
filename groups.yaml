@@ -339,8 +339,8 @@ house_presence:
   view: no
   entities:
 #    - binary_sensor.people_home
-    - device_tracker.paul
-    - device_tracker.tracy
+    - device_tracker.paul_all
+    - device_tracker.tracy_all
     - device_tracker.carolsiphone
     - device_tracker.jimsiphone
     - input_boolean.guests_present
@@ -604,18 +604,20 @@ all_presence_sensors:
   view: no
   entities:
     - binary_sensor.people_home
+    - device_tracker.paul_all
+    - device_tracker.paul
+    - device_tracker.google_maps_118013912887885302155
     - device_tracker.pauls_iphone
     - device_tracker.pauls_iphone_2
-    - device_tracker.paul
     - binary_sensor.homekit_presence_paul
     - binary_sensor.paul_presence
-    - device_tracker.paul_all
+    - device_tracker.tracy_all
+    - device_tracker.tracy
+    - device_tracker.google_maps_116112519745623760034
     - device_tracker.tracys_iphone
     - device_tracker.tracys_iphone_2
-    - device_tracker.tracy
     - binary_sensor.homekit_presence_tracy
     - binary_sensor.tracy_presence
-    - device_tracker.tracy_all
     - input_boolean.guests_present
 
 tracy_iphone_presence:

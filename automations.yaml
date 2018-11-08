@@ -35,11 +35,9 @@
     to: 'on'
   - platform: state
     entity_id:
-      - device_tracker.paul
-      - device_tracker.pauls_iphone
+      - device_tracker.paul_all
       - device_tracker.pauls_iphone_2
-      - device_tracker.tracy
-      - device_tracker.tracys_iphone
+      - device_tracker.tracy_all
       - device_tracker.tracys_iphone_2
       - group.extra_device_trackers
     to: 'home'
@@ -60,41 +58,41 @@
     data:
       option: 'Disarmed'
 
-- alias: Mark house as extended away
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.people_home
-    to: 'off'
-    for:
-      hours: 24
-  action:
-  - service: input_select.select_option
-    entity_id: input_select.house_mode
-    data:
-      option: 'Extended Away'
+#- alias: Mark house as extended away
+#  trigger:
+#  - platform: state
+#    entity_id: binary_sensor.people_home
+#    to: 'off'
+#    for:
+#      hours: 24
+#  action:
+#  - service: input_select.select_option
+#    entity_id: input_select.house_mode
+#    data:
+#      option: 'Extended Away'
 
 ##########################################
 ## Just Arrived timers used for stuff   ##
 ##########################################
-- alias: Paul Just Arrived Timer
-  trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.paul_presence
-    to: 'on'
-  action:
-  - service: timer.start
-    entity_id: timer.paul_just_arrived
+#- alias: Paul Just Arrived Timer
+#  trigger:
+#  - platform: state
+#    entity_id:
+#      - binary_sensor.paul_presence
+#    to: 'on'
+#  action:
+#  - service: timer.start
+#    entity_id: timer.paul_just_arrived
 
-- alias: Tracy just Arrived Timer
-  trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.tracy_presence
-    to: 'on'
-  action:
-  - service: timer.start
-    entity_id: timer.tracy_just_arrived
+#- alias: Tracy just Arrived Timer
+#  trigger:
+#  - platform: state
+#    entity_id:
+#      - binary_sensor.tracy_presence
+#    to: 'on'
+#  action:
+#  - service: timer.start
+#    entity_id: timer.tracy_just_arrived
 
 - alias: Guests Just Arrived Timer
   trigger:
@@ -210,9 +208,6 @@
   - platform: state
     entity_id: input_select.house_mode
     from: 'Away'
-  - platform: state
-    entity_id: input_select.house_mode
-    from: 'Extended Away'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -320,8 +315,8 @@
     state: 'Armed (Home)'
     for:
       minutes: 150
-  - condition: time
-    after: '05:00:00'
+#  - condition: time
+#    after: '05:00:00'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.goodmorning_switch
@@ -449,9 +444,9 @@
   - condition: state
     entity_id: timer.frog_tv_reset
     state: 'idle'
-  - condition: state
-    entity_id: input_select.house_mode
-    state: 'Home' 
+#  - condition: state
+#    entity_id: input_select.house_mode
+#    state: 'Home' 
   action:
   - service: switch.turn_on
     data:
@@ -465,9 +460,9 @@
     entity_id: media_player.vizio_smartcast
     to: 'off'
   condition:
-  - condition: state
-    entity_id: input_select.house_mode
-    state: 'Home' 
+#  - condition: state
+#    entity_id: input_select.house_mode
+#    state: 'Home' 
   action:
   - service: light.turn_on
     data:
@@ -480,6 +475,11 @@
   trigger:
   - platform: state
     entity_id: remote.theater_room_harmony_hub
+    to: 'off'
+    for:
+      minutes: 1
+  - platform: state
+    entity_id: media_player.vizio_smartcast
     to: 'off'
     for:
       minutes: 1
@@ -652,9 +652,6 @@
       - binary_sensor.tracy_presence
     to: 'on' 
   condition:
-#  - condition: state
-#    entity_id: timer.tracy_just_arrived
-#    state: 'active'
   - condition: state
     entity_id: input_boolean.back_door_opened_for_tracy
     state: 'off'  
@@ -1063,7 +1060,7 @@
   - service: media_player.volume_set
     data_template:
       entity_id: media_player.living_room
-      volume_level: 0.30
+      volume_level: 0.25
 
 - alias: 'Turn off TV if left on after bed'
   trigger:
@@ -1132,6 +1129,9 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: time
+    after: '06:00:00'
+    before: '10:00:00'
   action:
   - service: script.audio_notify
     data_template:
@@ -1196,7 +1196,7 @@
     state: Home
   - condition: time
     after: '07:00:00'
-    before: '08:35:00'
+    before: '10:00:00'
   action:
   - service: light.turn_on
     data_template:
@@ -1741,6 +1741,9 @@
   - condition: state
     entity_id: binary_sensor.paul_presence
     state: 'off'
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home' 
   action:
   - delay: 00:00:03
   - service: script.audio_notify
@@ -1777,8 +1780,8 @@
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 2 and states('device_tracker.paul_all') == 'home' %}
           Paul is at home.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 3 %}
-          Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
-        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 3 %}
+          Here is your local surf report.  The next tide is {{ states('sensor.noaa_tides') }}.  The waves are currently {{ states('sensor.virgina_beach_surf_report_forecast') }}
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 4 %}
           Something other than what you've already said
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 4 %}
           Something other than what you've already said
@@ -2181,7 +2184,3 @@
 #      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
 #      title: "Testing of iPhone Charging"
 #      message: "Pauls phone is on the charger"
-
-
-
-

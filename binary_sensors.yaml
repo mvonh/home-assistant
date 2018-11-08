@@ -182,6 +182,11 @@
      prob_given_false: 0.3
      platform: 'state'
      to_state: 'home'
+   - entity_id: 'device_tracker.google_maps_118013912887885302155'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
    - entity_id: 'device_tracker.paul'
      prob_given_true: 0.8
      prob_given_false: 0.3
@@ -205,6 +210,11 @@
      platform: 'state'
      to_state: 'home'
    - entity_id: 'device_tracker.tracys_iphone'
+     prob_given_true: 0.8
+     prob_given_false: 0.3
+     platform: 'state'
+     to_state: 'home'
+   - entity_id: 'device_tracker.google_maps_116112519745623760034'
      prob_given_true: 0.8
      prob_given_false: 0.3
      platform: 'state'

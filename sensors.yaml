@@ -7,7 +7,7 @@
     unit_of_measurement: minutes
 
   - platform: magicseaweed
-    name: Virgia Beach Surf Report
+    name: Virgina Beach Surf Report
     api_key: !secret magicseaweed_api_key
     spot_id: 396
     monitored_conditions:

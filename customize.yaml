@@ -75,7 +75,9 @@ device_tracker.pauls_iphone:
 device_tracker.pauls_iphone_2:
   friendly_name: Paul Presence (Router)
 device_tracker.paul:
-  friendly_name: Paul
+  friendly_name: Paul (360)
+device_tracker.google_maps_118013912887885302155:
+  friendly_name: Paul (Google)
 binary_sensor.homekit_presence_Paul:
   friendly_name: Paul Presence (HomeKit)
 binary_sensor.paul_presence:
@@ -87,7 +89,9 @@ device_tracker.tracys_iphone:
 device_tracker.tracys_iphone_2:
   friendly_name: Tracy Presence (Router)
 device_tracker.Tracy:
-  friendly_name: Tracy
+  friendly_name: Tracy (360)
+device_tracker.google_maps_116112519745623760034:
+  friendly_name: Tracy (Google)
 binary_sensor.homekit_presence_tracy:
   friendly_name: Tracy Presence (HomeKit)
 binary_sensor.tracy_presence:

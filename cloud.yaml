@@ -1,0 +1,47 @@
+  alexa:
+    filter:
+      include_entities:
+        - cover.garage_door_opener
+        - fan.frog_fan
+        - fan.living_room_fan
+        - light.ashleys_room_lamp
+        - light.bedroom_ceiling_light
+        - light.frog_ceiling_light 
+        - light.frog_fan_light
+        - light.guest_bedroom_lamp
+        - light.hallway_light
+        - light.kitchen_counter_light
+        - light.kitchen_island_light
+        - light.living_room_ceiling_light
+        - light.living_room_fan_light
+        - light.alexa_virtual
+        - lock.lock_front_door_lock
+        - lock.lock_back_door_lock 
+        - lock.lock_garage_door_lock
+        - switch.back_porch_light
+        - switch.bedroom_fan
+        - switch.fireplace
+        - switch.front_porch_light
+        - switch.garage_light_indoor
+        - switch.garage_light_outdoor
+        - switch.lamp_post
+        - switch.lava_lamp_plug
+        - switch.lava_lamp_two
+        - switch.living_room_plug_one
+        - switch.living_room_plug_three
+        - switch.living_room_plug_two
+        - switch.office_lamp_one
+        - switch.rope_lights
+        - switch.stairwell_light
+        - switch.sconce_light
+        - automation.motion_lighting_in_the_kitchen
+        - automation.motion_lighting_in_the_Office
+        - automation.motion_lighting_in_the_garage
+        - automation.driveway_line_crossing_alerts
+        - automation.tracy_travel_notice
+#        - script.ecobee_away_mode
+        - input_boolean.goodnight_switch
+        - input_boolean.goodmorning_switch
+#        - input_boolean.wheres_tracy
+#        - input_boolean.wheres_paul
+        - input_boolean.whats_going_on
