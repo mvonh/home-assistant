@@ -74,25 +74,35 @@
 ##########################################
 ## Just Arrived timers used for stuff   ##
 ##########################################
-#- alias: Paul Just Arrived Timer
-#  trigger:
-#  - platform: state
-#    entity_id:
-#      - binary_sensor.paul_presence
-#    to: 'on'
-#  action:
-#  - service: timer.start
-#    entity_id: timer.paul_just_arrived
+- alias: Paul Just Arrived Timer
+  trigger:
+  - platform: state
+    entity_id:
+      - input_boolean.paul_present
+    to: 'on'
+  - platform: state
+    entity_id:
+      - device_tracker.paul_all
+      - device_tracker.pauls_iphone_2
+    to: 'home'
+  action:
+  - service: timer.start
+    entity_id: timer.paul_just_arrived
 
-#- alias: Tracy just Arrived Timer
-#  trigger:
-#  - platform: state
-#    entity_id:
-#      - binary_sensor.tracy_presence
-#    to: 'on'
-#  action:
-#  - service: timer.start
-#    entity_id: timer.tracy_just_arrived
+- alias: Tracy just Arrived Timer
+  trigger:
+  - platform: state
+    entity_id:
+      - input_boolean.tracy_present
+    to: 'on'
+  - platform: state
+    entity_id:
+      - device_tracker.tracy_all
+      - device_tracker.tracy_iphone_2
+    to: 'home'
+  action:
+  - service: timer.start
+    entity_id: timer.tracy_just_arrived
 
 - alias: Guests Just Arrived Timer
   trigger:
@@ -632,10 +642,12 @@
 - alias: 'Unlock Back Door for Paul'
   trigger:
   - platform: state
-    entity_id:
-      - binary_sensor.paul_presence
-    to: 'on' 
+    entity_id: binary_sensor.backyard_line_crossing
+    to: 'on'    
   condition:
+  - condition: state
+    entity_id: timer.paul_just_arrived
+    state: 'active'
   - condition: state
     entity_id: input_boolean.back_door_opened_for_paul
     state: 'off'
@@ -648,10 +660,12 @@
 - alias: 'Unlock Back Door for Tracy'
   trigger:
   - platform: state
-    entity_id:
-      - binary_sensor.tracy_presence
-    to: 'on' 
+    entity_id: binary_sensor.backyard_line_crossing
+    to: 'on'    
   condition:
+  - condition: state
+    entity_id: timer.tracy_just_arrived
+    state: 'active'
   - condition: state
     entity_id: input_boolean.back_door_opened_for_tracy
     state: 'off'  
@@ -1751,6 +1765,30 @@
       tts_msg: "Paul is on his way and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
       mplayer: "main"
 
+- alias: Tracy Travel Notice nearing Home
+  trigger:
+  - platform: template
+    value_template: "{{ states('sensor.tracys_time_to_home')| int < 8 }}"
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.tracy_presence
+    state: 'off'
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home' 
+  action:
+  - delay: 00:00:03
+  - service: script.audio_notify
+    data_template:
+      tts_msg: "Tracy is on her way and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
+      mplayer: "main"
+
 - alias: "Alexa Report"
   trigger:
   - platform: state
@@ -1780,11 +1818,13 @@
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 2 and states('device_tracker.paul_all') == 'home' %}
           Paul is at home.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 3 %}
-          Here is your local surf report.  The next tide is {{ states('sensor.noaa_tides') }}.  The waves are currently {{ states('sensor.virgina_beach_surf_report_forecast') }}
+          Here is your local surf report.  The next tide is {{ states('sensor.noaa_tides') }}.  The waves are currently {{ states('sensor.virgina_beach_surf_report_forecast') }} feet.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 4 %}
-          Something other than what you've already said
-        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 4 %}
-          Something other than what you've already said
+          At the moment, your commute to the Navy Base will take {{ states('sensor.time_to_base') }} minutes.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 5 %}
+          At the moment, your commute to CACI will take {{ states('sensor.time_to_caci') }} minutes.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 6 %}
+          At the moment, your commute to AVIS will take {{ states('sensor.time_to_avis_tracy') }} minutes.  Traffic is {{ states('sensor.tracys_traffic_density_to_avis') }} at the moment.
         {% else %}
          {{ states('light.alexa_virtual.attributes.brightness') }}
         {% endif %}
@@ -1792,56 +1832,6 @@
   - service: light.turn_off
     entity_id: light.alexa_virtual
     
-#- alias: Where is Tracy
-#  trigger:
-#  - platform: state
-#    entity_id: input_boolean.wheres_tracy
-#    to: 'on'
-#  condition:
-#  - condition: numeric_state
-#    entity_id: sensor.ha_runtime_in_minutes
-#    above: 1
-#  action:
-#  - service: input_boolean.turn_off
-#    entity_id:
-#      - input_boolean.wheres_tracy
-#  - service: script.audio_notify
-#    data_template:
-#      tts_msg: >-
-#        {% if states('device_tracker.tracy') == 'not_home' %}
-#          Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
-#        {% elif states('device_tracker.tracy') == 'home' %}
-#          Tracy is at {{ states('device_tracker.tracy') }}
-#        {% else %}
-#          Tracy is at {{ states('device_tracker.tracy') }} and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
-#        {% endif %}
-#      mplayer: "living_room_echo"
-#
-#- alias: Where is Paul
-#  trigger:
-#  - platform: state
-#    entity_id: input_boolean.wheres_paul
-#    to: 'on'
-#  condition:
-#  - condition: numeric_state
-#    entity_id: sensor.ha_runtime_in_minutes
-#    above: 1
-#  action:
-#  - service: input_boolean.turn_off
-#    entity_id:
-#      - input_boolean.wheres_paul
-#  - service: script.audio_notify
-#    data_template:
-#      tts_msg: >-
-#        {% if states('device_tracker.paul') == 'not_home' %}
-#          Paul is away and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
-#        {% elif states('device_tracker.paul') == 'home' %}
-#          Paul is at {{ states('device_tracker.paul') }}
-#        {% else %}
-#          Paul is at {{ states('device_tracker.paul') }} and is approximately {{ states('sensor.pauls_time_to_home') }} minutes from home.
-#        {% endif %}
-#      mplayer: "living_room_echo"
-
 - alias: Whats going on outside
   trigger:
   - platform: state
@@ -1854,38 +1844,6 @@
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.whats_going_on
-#  - service: camera.snapshot
-#    data:
-#      entity_id: camera.front_door
-#      filename: '/tmp/frontdoor.jpg'
-#  - service: notify.sony_tv
-#    data:
-#      message: Front Door Picture
-#      title: As Requested
-#      data:
-#        fontsize: max
-#        position: center
-#        transparency: "0%"
-#        file:
-#          path: /tmp/frontdoor.jpg
-#  - delay:
-#      seconds: 1
-#  - service: camera.snapshot
-#    data:
-#      entity_id: camera.back_gate
-#      filename: '/tmp/backgate.jpg'
-#  - service: notify.sony_tv
-#    data:
-#      message: Back Yard Picture
-#      title: As Requested
-#      data:
-#        fontsize: max
-#        position: center
-#        transparency: "0%"
-#        file:
-#          path: /tmp/backgate.jpg
-#  - delay:
-#      seconds: 1
   - service: camera.snapshot
     data:
       entity_id: camera.side_yard

@@ -504,7 +504,7 @@ outdoor_to_turn_off:
   view: no
   entities:
     - switch.garage_light_indoor
-    - switch.garage_light_outdoor  
+#    - switch.garage_light_outdoor  
 
 goodbye_lights_and_switches:
   name: Lights and switches not including Outdoor Night lights

@@ -38,14 +38,20 @@
       - binary_sensor.open_close_sensor_office_window
       - binary_sensor.open_close_sensor_living_room_window
       - cover.garage_door_opener
+      - device_tracker.paul_all
       - device_tracker.paul
+      - device_tracker.google_maps_118013912887885302155
       - device_tracker.pauls_iphone
       - device_tracker.pauls_iphone_2
-      - device_tracker.google_maps_118013912887885302155
+      - binary_sensor.homekit_presence_paul
+      - binary_sensor.paul_presence
+      - device_tracker.tracy_all
       - device_tracker.tracy
+      - device_tracker.google_maps_116112519745623760034
       - device_tracker.tracys_iphone
       - device_tracker.tracys_iphone_2
-      - device_tracker.google_maps_116112519745623760034
+      - binary_sensor.homekit_presence_tracy
+      - binary_sensor.tracy_presence
       - fan.frog_fan
       - fan.living_room_fan
       - input_boolean.open_garage_for_paul

@@ -169,7 +169,7 @@ device_tracker:
     password: !secret router_password
     protocol: ssh
     interval_seconds: 15
-    consider_home: 60
+    consider_home: 30
     track_new_devices: yes
   - platform: life360
     username: !secret life360_user
@@ -186,7 +186,6 @@ device_tracker:
       - device_tracker.paul
 #      - device_tracker.pauls_iphone
       - device_tracker.google_maps_118013912887885302155
-
   - platform: composite
     name: Tracy_All
     entity_id:
