@@ -273,14 +273,18 @@
       condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       title: "Good Night Routine Ran"
       message: "Lights off, doors locked, garage closed"
-  - delay:
-      seconds: 60
   - service: automation.turn_on
     entity_id:
       - automation.cameras_back_gate_picture
       - automation.cameras_drive_way_1_picture
       - automation.cameras_drive_way_2_picture
       - automation.camera_side_yard_picture
+  - condition: state
+    entity_id: remote.theater_room_harmony_hub
+    state: 'off'
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.upstairs_frog
 
 - alias: 'Automatic Goodnight'
   trigger:
@@ -503,13 +507,8 @@
   - delay:
       seconds: 60
   - service: homeassistant.turn_off
-    data:
-      entity_id:
-        - light.frog_ceiling_light
-        - light.frog_fan_light
-        - switch.lava_lamp_plug
-        - switch.lava_lamp_two
-        - fan.frog_fan
+    entity_id:
+      - group.upstairs_frog
   - service: script.turn_on
     entity_id: script.theater_room_soundbar_reset
   - delay:
@@ -957,8 +956,13 @@
   trigger:
   - platform: state
     entity_id:
-      - binary_sensor.tracy_presence
+      - input_boolean.tracy_present
     to: 'on'
+  - platform: state
+    entity_id:
+      - device_tracker.tracy_all
+      - device_tracker.tracys_iphone_2
+    to: 'home'
   condition:
   - condition: state
     entity_id: input_boolean.open_garage_for_tracy
@@ -975,8 +979,13 @@
   trigger:
   - platform: state
     entity_id:
-      - binary_sensor.paul_presence
+      - input_boolean.paul_present
     to: 'on'
+  - platform: state
+    entity_id:
+      - device_tracker.paul_all
+      - device_tracker.pauls_iphone_2
+    to: 'home'
   condition:
   - condition: state
     entity_id: input_boolean.open_garage_for_paul
@@ -1392,6 +1401,8 @@
     data_template:
       entity_id: input_text.commute_start_zone_tracy
       value: '{{ trigger.from_state.state }}'
+  - condition: template
+    value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 1 }}"
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1822,7 +1833,7 @@
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 4 %}
           At the moment, your commute to the Navy Base will take {{ states('sensor.time_to_base') }} minutes.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} at the moment.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 5 %}
-          At the moment, your commute to CACI will take {{ states('sensor.time_to_caci') }} minutes.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.
+          At the moment, your commute to khaki will take {{ states('sensor.time_to_caci') }} minutes.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 6 %}
           At the moment, your commute to AVIS will take {{ states('sensor.time_to_avis_tracy') }} minutes.  Traffic is {{ states('sensor.tracys_traffic_density_to_avis') }} at the moment.
         {% else %}

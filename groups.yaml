@@ -314,6 +314,26 @@ upstairs_zwave_devices:
     - switch.bedroom_fan
     - fan.frog_fan
 
+upstairs_lights:
+  name: Upstairs Lights
+  view: no
+  control: hidden
+  entities:
+    - light.hallway_light
+    - light.guest_bedroom_lamp
+    - light.ashleys_room_lamp
+
+upstairs_frog:
+  name: Upstairs Frog Lights
+  view: no
+  control: hidden
+  entities:
+    - light.frog_ceiling_light
+    - light.frog_fan_light
+    - fan.frog_fan
+    - switch.lava_lamp_plug
+    - switch.lava_lamp_two
+
 outdoor:
   name: Outdoor Lights
   view: no
@@ -485,8 +505,7 @@ good_night_lights:
     - group.kitchen_zwave_lights
     - group.livingroom_zwave_devices
     - group.livingroom_plugs
-    - group.upstairs_hue_lights
-    - group.upstairs_rooms
+    - group.upstairs_lights
     - switch.rope_lights
 
 outdoor_lights_sunset:
