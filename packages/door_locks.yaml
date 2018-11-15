@@ -802,13 +802,8 @@ group:
     name: Door Locks
     entities:
        - lock.lock_back_door_lock
-#       - sensor.door_lock_batteries_back_door
-#       - sensor.back_door_report
        - lock.lock_front_door_lock
-#       - sensor.door_lock_batteries_front_door
-#       - sensor.front_door_report
        - lock.lock_garage_door_lock
-#       - sensor.door_lock_batteries_garage_door
 
   door_keypad_1:
     control: hidden
