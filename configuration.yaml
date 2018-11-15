@@ -20,10 +20,10 @@ homeassistant:
     - '/home/homeassistant/.homeassistant/scripts/cameraimages'
     - '/tmp'
 auth:
-logger:
-  default: warning
-  logs:
-   homeassistant.components.light.hue: debug
+#logger:
+#  default: warning
+#  logs:
+#   homeassistant.components.light.hue: debug
  
 google:
   client_id: !secret google_calendar_id
@@ -262,7 +262,7 @@ media_player:
     name: Samsung Speaker
   - platform: vizio
     host: 192.168.1.82
-    access_token: Zj1lgc5dk9
+    access_token: Z6xoq7pviz
 #    suppress_warning: true
     
 # View all events in a logbook

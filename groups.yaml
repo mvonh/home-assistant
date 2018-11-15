@@ -85,16 +85,12 @@ automation_view:
   entities:
     - group.household_routines
     - group.all_presence_sensors
-    - group.front_door_info
-    - group.back_door_info
-    - group.garage_door_info
     - group.indoor_motion_sensors
 #    - group.motion_sensor_front_door
 #    - group.motion_sensor_attic
     - group.batteries
     - group.all_automations
     - group.all_scripts
-    - group.zwave_door_lock_options
 
 local_conditions:
   name: Local Conditions
@@ -540,46 +536,6 @@ goodbye_lights_and_switches:
     - group.outdoor_to_turn_off
     - group.all_remotes
 
-front_door_info:
-  name: Front Door Info
-  view: no
-  entities:    
-    - lock.lock_front_door_lock
-    - sensor.front_door_report
-    - sensor.frontdoor_code
-#    - sensor.lock_front_door_deadbolt_access_control
-#    - sensor.lock_front_door_deadbolt_alarm_level
-#    - sensor.lock_front_door_deadbolt_alarm_type
-#    - sensor.lock_front_door_deadbolt_burglar
-#    - sensor.lock_front_door_deadbolt_power_management
-#    - sensor.lock_front_door_deadbolt_sourcenodeid
-#    - sensor.lock_front_door_deadbolt_system
-    - zwave.lock_front_door_deadbolt
-
-back_door_info:
-  name: Back Door Info
-  entities:    
-    - lock.lock_back_door_lock
-    - sensor.back_door_report
-    - sensor.backdoor_code
-#    - sensor.lock_back_door_deadbolt_access_control
-#    - sensor.lock_back_door_deadbolt_alarm_level
-#    - sensor.lock_back_door_deadbolt_alarm_type
-#    - sensor.lock_back_door_deadbolt_burglar
-#    - sensor.lock_back_door_deadbolt_power_management
-#    - sensor.lock_back_door_deadbolt_sourcenodeid
-#    - sensor.lock_back_door_deadbolt_system
-    - zwave.lock_back_door_deadbolt
-
-garage_door_info:
-  name: Garage Door Info
-  entities:  
-    - lock.lock_garage_door_lock
-    - sensor.garagedoor_code
-#    - sensor.lock_garage_door_lock_alarm_level
-#    - sensor.lock_garage_doorlock_alarm_type
-    - zwave.lock_garage_door_lock
-
 zigbee_sensors_temp_output:
   name: Temp info from Sensors
   view: no
@@ -656,21 +612,6 @@ paul_iphone_presence:
     - device_tracker.paul
     - device_tracker.pauls_iphone
     - device_tracker.pauls_iphone_2
-    
-zwave_door_lock_options:
-  name: zwave configs for schlages
-  view: no
-  entities:
-    - input_select.lock_zwave_option_3
-    - input_select.lock_zwave_option_4
-    - input_select.lock_zwave_option_5
-    - input_select.lock_zwave_option_7
-    - input_select.lock_zwave_option_8
-    - input_select.lock_zwave_option_9
-    - input_select.lock_zwave_option_10
-    - input_select.lock_zwave_option_11
-    - input_select.lock_zwave_option_15
-    - input_select.lock_zwave_option_16
 
 all_zigbee:
   name: Zigbee Devices

@@ -317,6 +317,15 @@
       entity_id:
         - light.hallway_light
       brightness: 20
+  - condition: state
+    entity_id: binary_sensor.master_bedroom_occupancy
+    state: 'off'
+  - service: light.turn_on
+    data:
+      entity_id:
+        - light.bedroom_lamp_one
+        - light.bedroom_lamp_two
+      brightness: 50
 
 - alias: Good Morning Switch
   trigger:
@@ -2118,109 +2127,6 @@
       data:
         notification_id: low-battery-alert
 
-- alias: Set Schlage Lock Options
-  trigger:
-    - platform: state
-      entity_id:
-        - input_select.lock_zwave_option_3
-        - input_select.lock_zwave_option_4
-        - input_select.lock_zwave_option_5
-        - input_select.lock_zwave_option_7
-        - input_select.lock_zwave_option_8
-        - input_select.lock_zwave_option_9
-        - input_select.lock_zwave_option_10
-        - input_select.lock_zwave_option_11
-        - input_select.lock_zwave_option_15
-        - input_select.lock_zwave_option_16
-  action:
-    - service: zwave.set_config_parameter
-      data_template:
-        node_id: 104
-          
-        parameter: >-
-          {% set object_id = "trigger.to_state.object_id" %}
-          {% set test = "_".join(object_id.split("_")[4]) %}
-          {{ test | int }}
-
-        value: >-
-          {{ trigger.to_state.state }}
-          
-    - service: script.sms_notify_with_images
-      data_template:
-        service: notify.sms_paul
-        condition: "{{ is_state('input_boolean.notify_paul','on') }}"
-        title: "Testing of zwave entities"
-        message: "
-       
-         1: {{ trigger.to_state.state }}
-         
-         
-         2: {{ trigger.to_state }}
-         
-         
-         3: {{ parameter }}
-         
-         
-         4: {{ trigger.to_state.attributes.friendly_name }}
-         
-         
-         5: {{ trigger.from_state.entity_id }}
-         
-         
-         6: {{ trigger.to_state.object_id }}
-             
-         
-         {% if trigger.entity_id == 'input_select.lock_zwave_option_3' %}
-         7: WORKING
-         {% endif %}          
-                 
-       {{now().strftime('%Y-%m-%d %H:%M:%S')}}"   
-
-#- alias: Set Schlage Lock Options
-#  trigger:
-#    - platform: state
-#      entity_id:
-#        - input_select.lock_zwave_option_3
-#        - input_select.lock_zwave_option_4
-#        - input_select.lock_zwave_option_5
-#        - input_select.lock_zwave_option_7
-#        - input_select.lock_zwave_option_8
-#        - input_select.lock_zwave_option_9
-#        - input_select.lock_zwave_option_10
-#        - input_select.lock_zwave_option_11
-#        - input_select.lock_zwave_option_15
-#        - input_select.lock_zwave_option_16
-#  action:
-#  - service: script.sms_notify_with_images
-#    data_template:
-#      service: notify.sms_paul
-#      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
-#      title: "Testing of zwave entities"
-#      message: "
-#     
-#       1: {{ trigger.from_state }}
-#       
-#       
-#       2: {{ trigger.to_state }}
-#       
-#       
-#       3: {{ trigger.from_state.attributes.friendly_name }}
-#       
-#       
-#       4: {{ trigger.to_state.attributes.friendly_name }}
-#       
-#       
-#       5: {{ trigger.from_state.entity_id }}
-#       
-#       
-#       6: {{ trigger.to_state.entity_id }}
-#           
-#       
-#       {% if trigger.entity_id == 'linput_select.lock_zwave_option_3' %}
-#       7: WORKING
-#       {% endif %}          
-#                 
-#       {{now().strftime('%Y-%m-%d %H:%M:%S')}}"   
 #############################################
 ## Misc Automations for future use         ##
 #############################################
