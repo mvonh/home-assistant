@@ -719,7 +719,7 @@ group:
   keypads:
     name: Door Lock Information, Codes and Configuration
     view: yes
-    icon: mdi:dialpad
+    icon: mdi:lock-smart
     entities:
       - group.door_keypad_1
       - group.door_keypad_2
