@@ -671,3 +671,22 @@ zwave_door_lock_options:
     - input_select.lock_zwave_option_11
     - input_select.lock_zwave_option_15
     - input_select.lock_zwave_option_16
+
+all_zigbee:
+  name: Zigbee Devices
+  view: no
+  icon: mdi:lock-outline
+  entities:
+    - zha.motion_sensor_garage
+    - zha.motion_sensor_hallway
+    - zha.motion_sensor_kitchen
+    - zha.motion_sensor_office
+    - zha.motion_sensor_sensor_living_room
+    - zha.office_lamp_one
+    - zha.open_close_sensor_back_door
+    - zha.open_close_sensor_front_door
+    - zha.open_close_sensor_garage_door
+    - zha.open_close_sensor_garage_fridge
+    - zha.open_close_sensor_mailbox
+    - zha.water_sensor_kitchen
+    - zha.zigbee_plug_one

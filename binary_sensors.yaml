@@ -156,6 +156,15 @@
          {% set unlocked = locks | selectattr('state','eq','unlocked') | list %}
          {{ unlocked | length >= 1 }}
        friendly_name: 'Are doors unlocked?'
+
+ - platform: template
+   sensors:
+     zigbee_offline:
+       value_template: >
+         {% set zigbee = [  states.zha.motion_sensor_garage, states.zha.motion_sensor_hallway, states.zha.motion_sensor_kitchen, states.zha.motion_sensor_office, states.zha.motion_sensor_sensor_living_room, states.zha.office_lamp_one, states.zha.open_close_sensor_back_door, states.zha.open_close_sensor_front_door, states.zha.open_close_sensor_garage_door, states.zha.open_close_sensor_garage_fridge, states.zha.open_close_sensor_mailbox, states.zha.water_sensor_kitchen, states.zha.zigbee_plug_one ] %}
+         {% set offline = zigbee | selectattr('state','eq','offline') | list %}
+         {{ offline | length >= 1 }}
+       friendly_name: 'Zigbee Devices Offline?'
        
  - platform: workday
    country: 'UnitedStates'
@@ -164,7 +173,7 @@
  - platform: bayesian
    prior: 0.6
    name: Paul Presence
-   probability_threshold: 0.9
+   probability_threshold: 0.92
 #   device_class: presence
    observations:
    - entity_id: 'input_boolean.paul_present'
@@ -196,7 +205,7 @@
  - platform: bayesian
    prior: 0.6
    name: Tracy Presence
-   probability_threshold: 0.9
+   probability_threshold: 0.92
 #   device_class: presence
    observations:
    - entity_id: 'input_boolean.tracy_present'

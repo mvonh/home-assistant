@@ -20,7 +20,11 @@ homeassistant:
     - '/home/homeassistant/.homeassistant/scripts/cameraimages'
     - '/tmp'
 auth:
-
+logger:
+  default: warning
+  logs:
+   homeassistant.components.light.hue: debug
+ 
 google:
   client_id: !secret google_calendar_id
   client_secret: !secret google_calendar_secret

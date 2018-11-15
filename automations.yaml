@@ -435,7 +435,9 @@
   - platform: state
     entity_id: binary_sensor.open_close_sensor_garage_door
     from: 'on'
-    to: 'off' 
+    to: 'off'
+    for:
+      seconds: 5
   condition:
   - condition: state
     entity_id: binary_sensor.motion_sensor_garage_motion
@@ -779,6 +781,27 @@
       message: >
           {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
           The following locks are unlocked: {{ unlocked }}
+
+- alias: Zigbee Device Offline
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.zigbee_offline
+    to: 'on'
+    for:
+      minutes: 15
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+  action:
+  - service: script.sms_notify_with_images
+    data_template:
+      service: notify.sms_paul
+      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
+      title: Zigbee Devices Offline
+      message: >
+          {% set offline = states | selectattr('entity_id', 'in', state_attr('group.all_zigbee','entity_id')) | selectattr('state','eq','offline') | map(attribute='name') | join(', ') %}
+          The following zigbee devices are offline: {{ offline }}
 
 - alias: Notify who unlocked door with timestamp
   trigger:
@@ -2115,14 +2138,89 @@
         node_id: 104
           
         parameter: >-
-          {% set object_id = "trigger.entity_id" %}
-          {% set parameter = ("_".join(object_id.split("_")[4]) |int) %}
-          {{ parameter }}
+          {% set object_id = "trigger.to_state.object_id" %}
+          {% set test = "_".join(object_id.split("_")[4]) %}
+          {{ test | int }}
 
         value: >-
-          {% set zwave_parameter = 'lock_zwave_option_' ~ parameter %}
-          {{ states['input_select'][zwave_parameter].state }}
+          {{ trigger.to_state.state }}
+          
+    - service: script.sms_notify_with_images
+      data_template:
+        service: notify.sms_paul
+        condition: "{{ is_state('input_boolean.notify_paul','on') }}"
+        title: "Testing of zwave entities"
+        message: "
+       
+         1: {{ trigger.to_state.state }}
+         
+         
+         2: {{ trigger.to_state }}
+         
+         
+         3: {{ parameter }}
+         
+         
+         4: {{ trigger.to_state.attributes.friendly_name }}
+         
+         
+         5: {{ trigger.from_state.entity_id }}
+         
+         
+         6: {{ trigger.to_state.object_id }}
+             
+         
+         {% if trigger.entity_id == 'input_select.lock_zwave_option_3' %}
+         7: WORKING
+         {% endif %}          
+                 
+       {{now().strftime('%Y-%m-%d %H:%M:%S')}}"   
 
+#- alias: Set Schlage Lock Options
+#  trigger:
+#    - platform: state
+#      entity_id:
+#        - input_select.lock_zwave_option_3
+#        - input_select.lock_zwave_option_4
+#        - input_select.lock_zwave_option_5
+#        - input_select.lock_zwave_option_7
+#        - input_select.lock_zwave_option_8
+#        - input_select.lock_zwave_option_9
+#        - input_select.lock_zwave_option_10
+#        - input_select.lock_zwave_option_11
+#        - input_select.lock_zwave_option_15
+#        - input_select.lock_zwave_option_16
+#  action:
+#  - service: script.sms_notify_with_images
+#    data_template:
+#      service: notify.sms_paul
+#      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
+#      title: "Testing of zwave entities"
+#      message: "
+#     
+#       1: {{ trigger.from_state }}
+#       
+#       
+#       2: {{ trigger.to_state }}
+#       
+#       
+#       3: {{ trigger.from_state.attributes.friendly_name }}
+#       
+#       
+#       4: {{ trigger.to_state.attributes.friendly_name }}
+#       
+#       
+#       5: {{ trigger.from_state.entity_id }}
+#       
+#       
+#       6: {{ trigger.to_state.entity_id }}
+#           
+#       
+#       {% if trigger.entity_id == 'linput_select.lock_zwave_option_3' %}
+#       7: WORKING
+#       {% endif %}          
+#                 
+#       {{now().strftime('%Y-%m-%d %H:%M:%S')}}"   
 #############################################
 ## Misc Automations for future use         ##
 #############################################
