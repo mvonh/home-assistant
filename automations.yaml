@@ -457,6 +457,34 @@
   - service: switch.turn_off
     entity_id: switch.garage_light_indoor
 
+- alias: Motion Lighting in the Closet on
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.closet_motion_sensor
+    from: 'off'
+    to: 'on'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id:
+        - light.closet_light_1
+        - light.closet_light_2
+
+- alias: Motion Lighting in the Closet off
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.closet_motion_sensor
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+  - service: light.turn_off
+    data:
+      entity_id:
+        - light.closet_light_1
+        - light.closet_light_2
+
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
   - platform: state
@@ -513,6 +541,9 @@
     entity_id: timer.frog_tv_reset
     state: 'idle'
   action:
+  - delay:
+      seconds: 30
+  - wait_template: "{{ is_state('binary_sensor.motion_delay_frog', 'off') }}"
   - service: timer.start
     entity_id: timer.frog_tv_reset
   - delay:
@@ -967,7 +998,7 @@
   - service: script.audio_notify
     data_template:
       tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} has been opened."
-      mplayer: "bedroom_spot"
+      mplayer: "bedroom"
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1454,6 +1485,8 @@
   - condition: template
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.tracy_arriving_at_location_alert.attributes.last_triggered) | int > 120 }}'
   action:
+  - condition: template
+    value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 1 }}"
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul

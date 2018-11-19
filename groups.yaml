@@ -270,7 +270,8 @@ master_bedroom:
     - light.bedroom_lamp_one
     - light.bedroom_lamp_two
     - light.bedroom_ceiling_light
-    - switch.bedroom_fan
+    - light.closet_light_1
+    - light.closet_light_2
 
 upstairs_rooms:
   name: Upstairs Rooms

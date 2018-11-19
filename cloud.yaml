@@ -6,6 +6,8 @@
         - fan.living_room_fan
         - light.ashleys_room_lamp
         - light.bedroom_ceiling_light
+        - light.closet_light_1
+        - light.closet_light_2
         - light.frog_ceiling_light 
         - light.frog_fan_light
         - light.guest_bedroom_lamp

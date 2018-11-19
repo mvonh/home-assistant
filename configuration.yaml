@@ -89,6 +89,14 @@ zwave:
       polling_intensity: 1
       refresh_value: True
       delay: 3
+    light.closet_light_1:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
+    light.closet_light_2:
+      polling_intensity: 1
+      refresh_value: True
+      delay: 3
     switch.fireplace:
       polling_intensity: 1
       refresh_value: True

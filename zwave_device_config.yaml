@@ -1,3 +1,12 @@
 switch.unknown_node_106_switch:
   ignored: false
   polling_intensity: 1
+binary_sensor.linear_wadwaz1_doorwindow_sensor_sensor:
+  ignored: true
+  polling_intensity: 0
+binary_sensor.linear_wadwaz1_doorwindow_sensor_sensor_2:
+  ignored: true
+  polling_intensity: 0
+binary_sensor.linear_wapirz1_motion_sensor_sensor:
+  ignored: true
+  polling_intensity: 0
