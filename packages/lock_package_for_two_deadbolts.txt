@@ -1,9 +1,11 @@
 #################################################################
 # Rename your Entity ID's Names for the lock, alarm type & level#
-# zwave.lock_front_door_deadbolt                                #
-# lock.lock_front_door_lock                                     #
+# zwave.lock_front_door_deadbolt, zwave.lock_back_door_deadbolt #
+# lock.lock_front_door_lock, lock.lock_back_door_lock           #
 # sensor.lock_front_door_deadbolt_alarm_type,                   #
 # sensor.lock_front_door_deadbolt_alarm_level                   #
+# sensor.lock_back_door_deadbolt_alarm_type,                    #
+# sensor.lock_back_door_deadbolt_alarm_level                    #
 # also recommend you use the recorder component in your         #
 # configuration.yaml, as well as the uptime sensor component    #
 # and for notifications I use pushbullet, but replace with      #
@@ -33,6 +35,24 @@ automation:
           - input_boolean.door_keypad_16_front_switch
           - input_boolean.door_keypad_17_front_switch
           - input_boolean.door_keypad_18_front_switch
+          - input_boolean.door_keypad_1_back_switch
+          - input_boolean.door_keypad_2_back_switch
+          - input_boolean.door_keypad_3_back_switch
+          - input_boolean.door_keypad_4_back_switch
+          - input_boolean.door_keypad_5_back_switch
+          - input_boolean.door_keypad_6_back_switch
+          - input_boolean.door_keypad_7_back_switch
+          - input_boolean.door_keypad_8_back_switch
+          - input_boolean.door_keypad_9_back_switch
+          - input_boolean.door_keypad_10_back_switch
+          - input_boolean.door_keypad_11_back_switch
+          - input_boolean.door_keypad_12_back_switch
+          - input_boolean.door_keypad_13_back_switch
+          - input_boolean.door_keypad_14_back_switch
+          - input_boolean.door_keypad_15_back_switch
+          - input_boolean.door_keypad_16_back_switch
+          - input_boolean.door_keypad_17_back_switch
+          - input_boolean.door_keypad_18_back_switch
 
     condition:
       - condition: template
@@ -87,6 +107,24 @@ automation:
           - input_boolean.door_keypad_16_front_switch
           - input_boolean.door_keypad_17_front_switch
           - input_boolean.door_keypad_18_front_switch
+          - input_boolean.door_keypad_1_back_switch
+          - input_boolean.door_keypad_2_back_switch
+          - input_boolean.door_keypad_3_back_switch
+          - input_boolean.door_keypad_4_back_switch
+          - input_boolean.door_keypad_5_back_switch
+          - input_boolean.door_keypad_6_back_switch
+          - input_boolean.door_keypad_7_back_switch
+          - input_boolean.door_keypad_8_back_switch
+          - input_boolean.door_keypad_9_back_switch
+          - input_boolean.door_keypad_10_back_switch
+          - input_boolean.door_keypad_11_back_switch
+          - input_boolean.door_keypad_12_back_switch
+          - input_boolean.door_keypad_13_back_switch
+          - input_boolean.door_keypad_14_back_switch
+          - input_boolean.door_keypad_15_back_switch
+          - input_boolean.door_keypad_16_back_switch
+          - input_boolean.door_keypad_17_back_switch
+          - input_boolean.door_keypad_18_back_switch
     
     condition:
       - condition: template
@@ -203,6 +241,78 @@ automation:
           - !secret pauls_secret_email
           - !secret tracys_secret_email
 
+  - alias: Keypad temporary code start (Back)
+    trigger:
+      - platform: state
+        to: 'True'
+        entity_id:
+          - sensor.keypad_1_temp_lock_turn_on
+          - sensor.keypad_2_temp_lock_turn_on
+          - sensor.keypad_3_temp_lock_turn_on
+          - sensor.keypad_4_temp_lock_turn_on
+          - sensor.keypad_5_temp_lock_turn_on
+          - sensor.keypad_6_temp_lock_turn_on
+          - sensor.keypad_7_temp_lock_turn_on
+          - sensor.keypad_8_temp_lock_turn_on
+          - sensor.keypad_9_temp_lock_turn_on
+          - sensor.keypad_10_temp_lock_turn_on
+          - sensor.keypad_11_temp_lock_turn_on
+          - sensor.keypad_12_temp_lock_turn_on
+          - sensor.keypad_13_temp_lock_turn_on
+          - sensor.keypad_14_temp_lock_turn_on
+          - sensor.keypad_15_temp_lock_turn_on
+# if you changed the name of your switch from "back" change below to match
+    condition:
+      - condition: template
+        value_template: >-
+          {% set object_id = trigger.to_state.object_id %}
+          {% set code_slot = object_id[7:-18] %}
+          {% set input = 'door_keypad_' ~ code_slot ~ '_back_switch' %}
+          {{ states['input_boolean'][input].state == 'on' }}
+  
+    action:
+      - service: lock.set_usercode
+        data_template:
+          usercode: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {% set input = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {{ states['input_text'][input].state }}
+
+          node_id: >-
+            {{ states['lock']['lock_back_door_lock'].attributes.node_id }}
+
+          code_slot: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {{ code_slot }}
+
+      - service: notify.pushbullet_notifications
+        data_template:
+          message: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {% set usercode_input = 'door_keypad_' ~ code_slot ~ '_code' %}
+            {% set usercode = states['input_text'][usercode_input].state %}
+            {% set name_input = 'door_keypad_' ~ code_slot ~ '_name' %}
+            {% set name = states['input_text'][name_input].state %}
+            {% set start_input = 'door_keypad_' ~ code_slot ~ '_date_start' %}
+            {% set start = states['input_datetime'][start_input].state %}
+            {% set end_input = 'door_keypad_' ~ code_slot ~ '_date_end' %}
+            {% set end = states['input_datetime'][end_input].state %}
+            The pin code {{ usercode }} is now temporarily enabled for {{ name }} from {{ start }} to {{ end }}.
+
+          title: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-18] %}
+            {% set switch_input = 'door_keypad_' ~ code_slot ~ '_back_switch' %}
+            {% set switch_name = states['input_boolean'][switch_input].attributes.friendly_name %}
+            Beach House: Temporary code enabled on {{ switch_name }}
+
+          target:
+          - !secret pauls_secret_email
+          - !secret tracys_secret_email
+
   - alias: Keypad temporary code end
     trigger:
       - platform: state
@@ -242,6 +352,16 @@ automation:
 #            {% set code_slot = object_id[7:-19] %}
 #            {{ code_slot }}
 #         
+#      - service: lock.set_usercode
+#        data_template:
+#          usercode: >-
+#            {{ range(1000, 9999) | random }}
+## Back Door Deadbolt.   You must put in the zwave node id's here 
+#          node_id: 99
+#          code_slot: >-
+#            {% set object_id = trigger.to_state.object_id %}
+#            {% set code_slot = object_id[7:-19] %}
+#            {{ code_slot }}
       - service: lock.clear_usercode
         data_template:
 # Front Door Deadbolt.  You must put in the zwave node id's here         
@@ -250,6 +370,14 @@ automation:
             {% set object_id = trigger.to_state.object_id %}
             {% set code_slot = object_id[7:-19] %}
             {{ code_slot }}   
+      - service: lock.clear_usercode
+        data_template:
+# Back Door Deadbolt.   You must put in the zwave node id's here         
+          node_id: 105
+          code_slot: >-
+            {% set object_id = trigger.to_state.object_id %}
+            {% set code_slot = object_id[7:-19] %}
+            {{ code_slot }}
 
       - service: notify.pushbullet_notifications
         data_template:
@@ -311,6 +439,7 @@ automation:
       - platform: numeric_state
         entity_id:
           - sensor.lock_front_door_deadbolt_alarm_level
+          - sensor.lock_back_door_deadbolt_alarm_level
         above: 15
         below: 19
     condition:
@@ -404,6 +533,54 @@ automation:
           value: >-
             {{ trigger.to_state.state }}
   
+  - alias: Set Back Door Lock Options
+    trigger:
+      - platform: state
+        entity_id:
+          - input_select.lock_zwave_option_3_back
+          - input_select.lock_zwave_option_4_back
+          - input_select.lock_zwave_option_5_back
+          - input_select.lock_zwave_option_7_back
+          - input_select.lock_zwave_option_8_back
+          - input_select.lock_zwave_option_9_back
+          - input_select.lock_zwave_option_10_back
+          - input_select.lock_zwave_option_11_back
+          - input_select.lock_zwave_option_15_back
+          - input_select.lock_zwave_option_16_back
+    action:
+      - service: zwave.set_config_parameter
+        data_template:
+# Back Door Deadbolt.  You must put in the zwave node id's here 
+          node_id: 105
+            
+          parameter: >-
+            {% if trigger.entity_id == 'input_select.lock_zwave_option_3_back' %}
+              3
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_4_back' %}
+              4
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_5_back' %}
+              5
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_7_back' %}
+              7
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_8_back' %}
+              8
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_9_back' %}
+              9
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_10_back' %}
+              10
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_11_back' %}
+              11
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_15_back' %}
+              15
+            {% elif trigger.entity_id == 'input_select.lock_zwave_option_16_back' %}
+              16
+            {% else %}
+              0
+            {% endif %}
+  
+          value: >-
+            {{ trigger.to_state.state }}
+
 group:
 # you can choose to hide your main entry codes so they will not show in the UI, but, they are still visible in the States
 # so its not really possible to hide the codes from the UI at this time.
@@ -431,7 +608,9 @@ group:
       - group.door_keypad_17
       - group.door_keypad_18
       - group.zwave_front_door_lock_options
+      - group.zwave_back_door_lock_options
       - group.front_door_info
+      - group.back_door_info
 
   zwave_front_door_lock_options:
     name: Front Door Configuration Options
@@ -448,6 +627,21 @@ group:
       - input_select.lock_zwave_option_15_front
       - input_select.lock_zwave_option_16_front
   
+  zwave_back_door_lock_options:
+    name: Back Door Configuration Options
+    view: no
+    entities:
+      - input_select.lock_zwave_option_3_back
+      - input_select.lock_zwave_option_4_back
+      - input_select.lock_zwave_option_5_back
+      - input_select.lock_zwave_option_7_back
+      - input_select.lock_zwave_option_8_back
+      - input_select.lock_zwave_option_9_back
+      - input_select.lock_zwave_option_10_back
+      - input_select.lock_zwave_option_11_back
+      - input_select.lock_zwave_option_15_back
+      - input_select.lock_zwave_option_16_back
+
   front_door_info:
     name: Front Door Info
     view: no
@@ -455,11 +649,19 @@ group:
       - lock.lock_front_door_lock
       - sensor.front_door_report
       - sensor.frontdoor_code
- 
+  
+  back_door_info:
+    name: Back Door Info
+    entities:    
+      - lock.lock_back_door_lock
+      - sensor.back_door_report
+      - sensor.backdoor_code
+  
 # again use the names for your locks if named different
   door_lock_information:
     name: Door Locks
     entities:
+       - lock.lock_back_door_lock
        - lock.lock_front_door_lock
 
   door_keypad_1:
@@ -472,6 +674,7 @@ group:
       - input_datetime.door_keypad_1_date_start
       - input_datetime.door_keypad_1_date_end
       - input_boolean.door_keypad_1_front_switch
+      - input_boolean.door_keypad_1_back_switch
       - script.door_keypad_1_delete
   door_keypad_2:
     control: hidden
@@ -483,6 +686,7 @@ group:
       - input_datetime.door_keypad_2_date_start
       - input_datetime.door_keypad_2_date_end
       - input_boolean.door_keypad_2_front_switch
+      - input_boolean.door_keypad_2_back_switch
       - script.door_keypad_2_delete
   door_keypad_3:
     control: hidden
@@ -494,6 +698,7 @@ group:
       - input_datetime.door_keypad_3_date_start
       - input_datetime.door_keypad_3_date_end
       - input_boolean.door_keypad_3_front_switch
+      - input_boolean.door_keypad_3_back_switch
       - script.door_keypad_3_delete
   door_keypad_4:
     control: hidden
@@ -505,6 +710,7 @@ group:
       - input_datetime.door_keypad_4_date_start
       - input_datetime.door_keypad_4_date_end
       - input_boolean.door_keypad_4_front_switch
+      - input_boolean.door_keypad_4_back_switch
       - script.door_keypad_4_delete
   door_keypad_5:
     control: hidden
@@ -516,6 +722,7 @@ group:
       - input_datetime.door_keypad_5_date_start
       - input_datetime.door_keypad_5_date_end
       - input_boolean.door_keypad_5_front_switch
+      - input_boolean.door_keypad_5_back_switch
       - script.door_keypad_5_delete
   door_keypad_6:
     control: hidden
@@ -527,6 +734,7 @@ group:
       - input_datetime.door_keypad_6_date_start
       - input_datetime.door_keypad_6_date_end
       - input_boolean.door_keypad_6_front_switch
+      - input_boolean.door_keypad_6_back_switch
       - script.door_keypad_6_delete
   door_keypad_7:
     control: hidden
@@ -538,6 +746,7 @@ group:
       - input_datetime.door_keypad_7_date_start
       - input_datetime.door_keypad_7_date_end
       - input_boolean.door_keypad_7_front_switch
+      - input_boolean.door_keypad_7_back_switch
       - script.door_keypad_7_delete
   door_keypad_8:
     control: hidden
@@ -549,6 +758,7 @@ group:
       - input_datetime.door_keypad_8_date_start
       - input_datetime.door_keypad_8_date_end
       - input_boolean.door_keypad_8_front_switch
+      - input_boolean.door_keypad_8_back_switch
       - script.door_keypad_8_delete
   door_keypad_9:
     control: hidden
@@ -560,6 +770,7 @@ group:
       - input_datetime.door_keypad_9_date_start
       - input_datetime.door_keypad_9_date_end
       - input_boolean.door_keypad_9_front_switch
+      - input_boolean.door_keypad_9_back_switch
       - script.door_keypad_9_delete
   door_keypad_10:
     control: hidden
@@ -571,6 +782,7 @@ group:
       - input_datetime.door_keypad_10_date_start
       - input_datetime.door_keypad_10_date_end
       - input_boolean.door_keypad_10_front_switch
+      - input_boolean.door_keypad_10_back_switch
       - script.door_keypad_10_delete
 
   door_keypad_11:
@@ -583,6 +795,7 @@ group:
       - input_datetime.door_keypad_11_date_start
       - input_datetime.door_keypad_11_date_end
       - input_boolean.door_keypad_11_front_switch
+      - input_boolean.door_keypad_11_back_switch
       - script.door_keypad_11_delete
   door_keypad_12:
     control: hidden
@@ -594,6 +807,7 @@ group:
       - input_datetime.door_keypad_12_date_start
       - input_datetime.door_keypad_12_date_end
       - input_boolean.door_keypad_12_front_switch
+      - input_boolean.door_keypad_12_back_switch
       - script.door_keypad_12_delete
   door_keypad_13:
     control: hidden
@@ -605,6 +819,7 @@ group:
       - input_datetime.door_keypad_13_date_start
       - input_datetime.door_keypad_13_date_end
       - input_boolean.door_keypad_13_front_switch
+      - input_boolean.door_keypad_13_back_switch
       - script.door_keypad_13_delete
   door_keypad_14:
     control: hidden
@@ -616,6 +831,7 @@ group:
       - input_datetime.door_keypad_14_date_start
       - input_datetime.door_keypad_14_date_end
       - input_boolean.door_keypad_14_front_switch
+      - input_boolean.door_keypad_14_back_switch
       - script.door_keypad_14_delete
   door_keypad_15:
     control: hidden
@@ -627,6 +843,7 @@ group:
       - input_datetime.door_keypad_15_date_start
       - input_datetime.door_keypad_15_date_end
       - input_boolean.door_keypad_15_front_switch
+      - input_boolean.door_keypad_15_back_switch
       - script.door_keypad_15_delete
   door_keypad_16:
     control: hidden
@@ -636,6 +853,7 @@ group:
       - input_text.door_keypad_16_name
       - input_text.door_keypad_16_code
       - input_boolean.door_keypad_16_front_switch
+      - input_boolean.door_keypad_16_back_switch
       - script.door_keypad_16_delete
   door_keypad_17:
     control: hidden
@@ -645,6 +863,7 @@ group:
       - input_text.door_keypad_17_name
       - input_text.door_keypad_17_code
       - input_boolean.door_keypad_17_front_switch
+      - input_boolean.door_keypad_17_back_switch
       - script.door_keypad_17_delete
   door_keypad_18:
     control: hidden
@@ -654,6 +873,7 @@ group:
       - input_text.door_keypad_18_name
       - input_text.door_keypad_18_code
       - input_boolean.door_keypad_18_front_switch
+      - input_boolean.door_keypad_18_back_switch
       - script.door_keypad_18_delete
 
 input_text:
@@ -931,6 +1151,79 @@ input_select:
           - 7
           - 8
 
+  lock_zwave_option_3_back:
+      name: Enable or disable the beeper.
+      options:
+          - Enable Beeper
+          - Disable Beeper
+
+  lock_zwave_option_4_back:
+      name: Prevents all user codes from unlocking the deadbolt
+      options:
+          - Disable Vacation Mode
+          - Enable Vacation Mode
+
+  lock_zwave_option_5_back:
+      name: Press the Outside Schlage Button to lock the deadbolt
+      options:
+          - Enable Lock & Leave
+          - Disable Lock & Leave
+
+  lock_zwave_option_7_back:
+      name: Alarm sounds based on door activity
+      options:
+          - Alarm Off
+          - Activity
+          - Tamper
+          - Forced Entry
+
+  lock_zwave_option_8_back:
+      name: Activity Alarm Sensitivity
+      options:
+          - Medium Sensitivity
+          - Most Sensitive
+          - Medium/high Sensitivity
+          - Medium/low Sensitivity
+          - Least Sensitivity
+
+  lock_zwave_option_9_back:
+      name: Tamper Alarm Sensitivity
+      options:
+          - Medium Sensitivity
+          - Most Sensitive
+          - Medium/high Sensitivity
+          - Medium/low Sensitivity
+          - Least Sensitivity
+
+  lock_zwave_option_10_back:
+      name: Forced Entry Alarm Sensitivity
+      options:
+          - Medium Sensitivity
+          - Most Sensitive
+          - Medium/high Sensitivity
+          - Medium/low Sensitivity
+          - Least Sensitivity
+
+  lock_zwave_option_11_back:
+      name: Disable Local Alarm Controls
+      options:
+          - Enable local alarm controls
+          - Disable local alarm controls
+
+  lock_zwave_option_15_back:
+      name: Auto lock
+      options:
+          - Disable auto lock
+          - Enable auto lock
+
+  lock_zwave_option_16_back:
+      name: User code pin length (changing Length erases all codes)
+      options:
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
 input_datetime:
   door_keypad_1_date_start:
     name: Start Time
@@ -1056,40 +1349,76 @@ input_datetime:
 input_boolean:
   door_keypad_1_front_switch:
     name: Front Door
+  door_keypad_1_back_switch:
+    name: Back Door
   door_keypad_2_front_switch:
     name: Front Door
+  door_keypad_2_back_switch:
+    name: Back Door
   door_keypad_3_front_switch:
     name: Front Door
+  door_keypad_3_back_switch:
+    name: Back Door
   door_keypad_4_front_switch:
     name: Front Door
+  door_keypad_4_back_switch:
+    name: Back Door
   door_keypad_5_front_switch:
     name: Front Door
+  door_keypad_5_back_switch:
+    name: Back Door
   door_keypad_6_front_switch:
     name: Front Door
+  door_keypad_6_back_switch:
+    name: Back Door
   door_keypad_7_front_switch:
     name: Front Door
+  door_keypad_7_back_switch:
+    name: Back Door
   door_keypad_8_front_switch:
     name: Front Door
+  door_keypad_8_back_switch:
+    name: Back Door
   door_keypad_9_front_switch:
     name: Front Door
+  door_keypad_9_back_switch:
+    name: Back Door
   door_keypad_10_front_switch:
     name: Front Door
+  door_keypad_10_back_switch:
+    name: Back Door
   door_keypad_11_front_switch:
     name: Front Door
+  door_keypad_11_back_switch:
+    name: Back Door
   door_keypad_12_front_switch:
     name: Front Door
+  door_keypad_12_back_switch:
+    name: Back Door
   door_keypad_13_front_switch:
     name: Front Door
+  door_keypad_13_back_switch:
+    name: Back Door
   door_keypad_14_front_switch:
     name: Front Door
+  door_keypad_14_back_switch:
+    name: Back Door
   door_keypad_15_front_switch:
     name: Front Door
+  door_keypad_15_back_switch:
+    name: Back Door
   door_keypad_16_front_switch:
     name: Front Door
+  door_keypad_16_back_switch:
+    name: Back Door
   door_keypad_17_front_switch:
     name: Front Door
+  door_keypad_17_back_switch:
+    name: Back Door
   door_keypad_18_front_switch:
     name: Front Door
+  door_keypad_18_back_switch:
+    name: Back Door
 
 script:
   door_keypad_1_delete:
@@ -1110,6 +1439,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_1_front_switch
+      - input_boolean.door_keypad_1_back_switch
 
   door_keypad_2_delete:
     alias: Delete Door Code 2
@@ -1129,6 +1459,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_2_front_switch
+      - input_boolean.door_keypad_2_back_switch
 
   door_keypad_3_delete:
     alias: Delete Door Code 3
@@ -1148,6 +1479,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_3_front_switch
+      - input_boolean.door_keypad_3_back_switch
 
   door_keypad_4_delete:
     alias: Delete Door Code 4
@@ -1167,6 +1499,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_4_front_switch
+      - input_boolean.door_keypad_4_back_switch
 
   door_keypad_5_delete:
     alias: Delete Door Code 5
@@ -1186,6 +1519,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_5_front_switch
+      - input_boolean.door_keypad_5_back_switch
 
   door_keypad_6_delete:
     alias: Delete Door Code 6
@@ -1205,6 +1539,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_6_front_switch
+      - input_boolean.door_keypad_6_back_switch
 
   door_keypad_7_delete:
     alias: Delete Door Code 7
@@ -1224,6 +1559,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_7_front_switch
+      - input_boolean.door_keypad_7_back_switch
 
   door_keypad_8_delete:
     alias: Delete Door Code 8
@@ -1243,6 +1579,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_8_front_switch
+      - input_boolean.door_keypad_8_back_switch
 
   door_keypad_9_delete:
     alias: Delete Door Code 9
@@ -1262,6 +1599,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_9_front_switch
+      - input_boolean.door_keypad_9_back_switch
 
   door_keypad_10_delete:
     alias: Delete Door Code 10
@@ -1281,6 +1619,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_10_front_switch
+      - input_boolean.door_keypad_10_back_switch
 
   door_keypad_11_delete:
     alias: Delete Door Code 11
@@ -1300,6 +1639,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_11_front_switch
+      - input_boolean.door_keypad_11_back_switch
 
   door_keypad_12_delete:
     alias: Delete Door Code 12
@@ -1319,6 +1659,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_12_front_switch
+      - input_boolean.door_keypad_12_back_switch
 
   door_keypad_13_delete:
     alias: Delete Door Code 13
@@ -1338,6 +1679,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_13_front_switch
+      - input_boolean.door_keypad_13_back_switch
 
   door_keypad_14_delete:
     alias: Delete Door Code 14
@@ -1357,6 +1699,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_14_front_switch
+      - input_boolean.door_keypad_14_back_switch
 
   door_keypad_15_delete:
     alias: Delete Door Code 15
@@ -1376,6 +1719,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_15_front_switch
+      - input_boolean.door_keypad_15_back_switch
 
   door_keypad_16_delete:
     alias: Delete Door Code 16
@@ -1395,6 +1739,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_16_front_switch
+      - input_boolean.door_keypad_16_back_switch
 
   door_keypad_17_delete:
     alias: Delete Door Code 17
@@ -1414,6 +1759,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_17_front_switch
+      - input_boolean.door_keypad_17_back_switch
 
   door_keypad_18_delete:
     alias: Delete Door Code 18
@@ -1433,6 +1779,7 @@ script:
     - service: input_boolean.turn_off
       entity_id:
       - input_boolean.door_keypad_18_front_switch
+      - input_boolean.door_keypad_18_back_switch
 
 sensor:
   - platform: template
@@ -1710,6 +2057,60 @@ sensor:
 
 # This Sensor uses the alarm type to determine what is happening with the lock.  The codes should be standard across locks
 # but not all locks will use all values. As before make sure the names matches your locks
+
+      back_door_report:
+        friendly_name: 'Back Door Report'
+        value_template: >
+          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set alarm_type_value = states('sensor.lock_back_door_deadbolt_alarm_type') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {% set alarm_type_value = '24' if (as_timestamp(now())-as_timestamp(states.lock.lock_back_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_back_door_lock.state) == 'locked' else alarm_type_value %}
+          {% set alarm_type_value = '25' if (as_timestamp(now())-as_timestamp(states.lock.lock_back_door_lock.last_changed)) < 15 and (as_timestamp(now())-as_timestamp(states.sensor.lock_back_door_deadbolt_alarm_type.last_changed)) > 15  and (states.lock.lock_back_door_lock.state) == 'unlocked' else alarm_type_value %}
+          {% set alarm_type_general_actions = {
+            '0':'No Status Reported',                     
+            '9':'Lock Jammed',
+            '17':'Keypad Lock Jammed',
+            '21':'Manual Lock',
+            '22':'Manual Unlock',
+            '23':'HA Lock Jammed',
+            '24':'HA Lock',
+            '25':'HA Unlock',
+            '26':'Auto Lock Jammed',
+            '27':'Auto Lock',
+            '32':'All Codes Deleted',
+            '161':'Bad Code Entered',
+            '167':'Battery Low',
+            '168':'Battery Critical',
+            '169':'Battery Too Low To Operate Lock' } %}
+          {% set alarm_type_lock_actions = {
+            '18':'Keypad Lock',
+            '19':'Keypad Unlock',
+            '162':'Lock Code Attempt Outside of Schedule' } %}
+          {% set alarm_type_code_actions = {
+            '33':'Code Deleted',
+            '112':'Code Changed',
+            '113':'Duplicate Code' } %}
+          {% if alarm_type_value in alarm_type_code_actions %}
+            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
+          {% elif alarm_type_value in alarm_type_lock_actions and number == '0' %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Schlage Button
+          {% elif alarm_type_value in alarm_type_lock_actions  %}
+            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{ number }} ({{ user }})
+          {% elif alarm_type_value in alarm_type_general_actions %}
+            {{ alarm_type_general_actions[alarm_type_value] }}
+          {% else %}
+            Unknown Alarm Type Value {{ states('sensor.lock_back_door_deadbolt_alarm_type') }}
+          {% endif %}
+# This sensor will just be a friendly name of whoever unlocked the door,  Use for other automations if you want.
+      backdoor_code:
+        friendly_name: 'Last Person to unlock with Keypad (Back Door)'
+        value_template: >
+          {% set number = states('sensor.lock_back_door_deadbolt_alarm_level') %}
+          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+          {% set user = 'Master' if number == '0' else states(entity_id) %}
+          {{ user }}
+
       front_door_report:
         friendly_name: 'Front Door Report'
         value_template: >
@@ -1776,6 +2177,29 @@ sensor:
         unit_of_measurement: '%'
         icon_template: >-
           {% set battery_level = states('sensor.door_lock_batteries_front_door')|int('unknown') %}
+          {% set battery_round = (battery_level|int / 10)|int * 10 %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
+
+      door_lock_batteries_back_door:
+        friendly_name: Back Door Lock Battery Level
+        value_template: "{% if states.zwave.lock_back_door_deadbolt %}
+            {{ states.zwave.lock_back_door_deadbolt.attributes.battery_level }}
+          {% else %}
+            unknown
+          {% endif %}"
+        unit_of_measurement: '%'
+        icon_template: >-
+          {% set battery_level = states('sensor.door_lock_batteries_back_door')|int('unknown') %}
           {% set battery_round = (battery_level|int / 10)|int * 10 %}
           {% if battery_level == 'unknown' %}
             mdi:battery-unknown
