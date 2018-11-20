@@ -2436,7 +2436,7 @@ sensor:
             {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
             {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
             {% set user = 'Master' if number == '0' else states(entity_id) %}
-            {% if is_state('input_select.hass_status_for_garage_door_lock'', 'HA Unlock') %}
+            {% if is_state('input_select.hass_status_for_garage_door_lock', 'HA Unlock') %}
               HA Unlock
             {% elif is_state('input_select.hass_status_for_garage_door_lock', 'HA Lock') %}
               HA Lock
