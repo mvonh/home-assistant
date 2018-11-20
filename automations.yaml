@@ -512,6 +512,9 @@
   - platform: state
     entity_id: media_player.vizio_smartcast
     to: 'off'
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'off'
   condition:
 #  - condition: state
 #    entity_id: input_select.house_mode

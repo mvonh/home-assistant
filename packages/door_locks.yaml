@@ -617,6 +617,41 @@ automation:
                 {% set script_to_run = 'script.door_keypad_' ~ code_slot ~ '_delete' %}
                 {{ script_to_run }}
 
+  - alias: "Garage Door Lock Remote Activity"
+    # Any change in lock state, lock or unlock
+    trigger:
+      - platform: state
+        entity_id: lock.lock_garage_door_lock
+    # Ensure user code has not been entered
+    condition:
+      condition: state
+      entity_id: sensor.garage_door_code_entered
+      state: '0'
+    # input_select is used for tracking
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.hass_status_for_garage_door_lock
+          option: >
+            {% if is_state("lock.lock_garage_door_lock", "locked") %}
+              HA Lock
+            {% else %}
+              HA Unlock
+            {% endif %}
+            
+  ## When door is locked and set to Auto Re-Lock, the lock state doesn't toggle when user codes are entered
+  - alias: "Garage Lock Code Used"
+    ## leaving a value of zero indicates a user code was entered
+    trigger:
+      - platform: state
+        entity_id: sensor.garage_door_code_entered
+        from: '0'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.hass_status_for_garage_door_lock
+          option: Unlocked with Code
+
   - alias: Set Front Door Lock Options
     trigger:
       - platform: state
@@ -794,7 +829,7 @@ group:
     name: Garage Door Info
     entities:  
       - lock.lock_garage_door_lock
-      - sensor.front_door_report
+      - sensor.garage_door_report
       - sensor.garagedoor_code
 
   # again use the names for your locks if named different
@@ -1383,6 +1418,16 @@ input_select:
           - 6
           - 7
           - 8
+
+  hass_status_for_garage_door_lock:
+    name: Garage Door Lock HASS Status
+    icon: mdi:lock
+    options:
+      - HA Lock
+      - HA Unlock
+      - Unlocked with Code
+      - Other
+      
 input_datetime:
   door_keypad_1_date_start:
     name: Start Time
@@ -2376,46 +2421,36 @@ sensor:
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
 
+      garage_door_code_entered:
+        value_template: >-
+          {% if ((as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.sensor.lock_garage_door_lock_alarm_level.last_changed)) < 1) %}
+            {{ states.sensor.lock_garage_door_lock_alarm_level.state }}
+          {% else %}
+            0
+          {% endif %}
+# These settings are for a Schlage FE599 which is a bit different.
       garage_door_report:
         friendly_name: 'Garage Door Report'
         value_template: >
-          {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
-          {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
-          {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
-          {% set user = 'Master' if number == '0' else states(entity_id) %}
-          {% set alarm_type_general_actions = {
-            '0':'No Status Reported',
-            '9':'Lock Jammed',
-            '17':'Keypad Lock Jammed',
-            '21':'Manual Lock',
-            '22':'Manual Unlock',
-            '23':'HA Lock Jammed',
-            '24':'HA Lock',
-            '25':'HA Unlock',
-            '26':'Auto Lock Jammed',
-            '27':'Auto Lock',
-            '32':'All Codes Deleted',
-            '161':'Bad Code Entered',
-            '167':'Battery Low',
-            '168':'Battery Critical',
-            '169':'Battery Too Low To Operate Lock' } %}
-          {% set alarm_type_lock_actions = {
-            '18':'Keypad Lock',
-            '19':'Keypad Unlock',
-            '162':'Lock Code Attempt Outside of Schedule' } %}
-          {% set alarm_type_code_actions = {
-            '33':'Code Deleted',
-            '112':'Code Changed',
-            '113':'Duplicate Code' } %}
-          {% if alarm_type_value in alarm_type_code_actions %}
-            {{ alarm_type_code_actions[alarm_type_value] }} (Code {{ number}})
-          {% elif alarm_type_value in alarm_type_lock_actions  %}
-            {{ alarm_type_lock_actions[alarm_type_value] }} with Code {{ number }} ({{ user }})
-          {% elif alarm_type_value in alarm_type_general_actions %}
-            {{ alarm_type_general_actions[alarm_type_value] }}
-          {% else %}
-            Unknown Alarm Type Value {{ states('sensor.lock_garage_door_lock_alarm_type') }}
-          {% endif %}
+            {% set number = states('sensor.lock_garage_door_lock_alarm_level') %}
+            {% set alarm_type_value = states('sensor.lock_garage_door_lock_alarm_type') %}
+            {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
+            {% set user = 'Master' if number == '0' else states(entity_id) %}
+            {% if is_state('with Code {{ number }} ({{ user }})_status_for_garage_door_lock', 'HA Unlock') %}
+              HA Unlock
+            {% elif is_state('input_select.hass_status_for_garage_door_lock', 'HA Lock') %}
+              HA Lock
+            {% elif is_state('sensor.garage_door_code_entered', '0') %}
+              {% if is_state('lock.lock_garage_door_lock', 'locked') %}
+                Auto Re-Locked. Last unlocked with Code {{ number }} ({{ user }})
+              {% else %}
+                Unlocked with Code {{ number }} ({{ user }})
+              {% endif %}
+            {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '16') %}
+                Unlocked with Code {{ number }} ({{ user }})
+            {% else %}
+              {{ states.lock_garage_door_lock.attributes.lock_status }}
+            {% endif %}
 
       garagedoor_code:
         friendly_name: 'Last Person to unlock with Keypad (Garage Door)'
@@ -2424,7 +2459,7 @@ sensor:
           {% set entity_id = 'input_text.door_keypad_' + number + '_name' %}
           {% set user = 'Master' if number == '0' else states(entity_id) %}
           {{ user }}
-          
+
 #  Battery info, use your custom name if needed.  Also I had some issues that I thought was related to this
 #  and had this commented out for a while, but it seems to be working well now, so might not be a problem
 #  if you notice any issues, try commenting this out

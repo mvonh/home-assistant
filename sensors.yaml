@@ -109,7 +109,7 @@
     name: Last Used Echo
     command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
     entity_id: switch.last_echo_used
-    
+          
   - platform: template
     sensors:
       security_system_state:
@@ -310,3 +310,4 @@
               {{ statemap[key] if key in statemap.keys() else "Unknown" }}
             friendly_name: 'Downstairs Smoke Alarm'
             entity_id: sensor.smoke_detector_downstairs_alarm_type
+
