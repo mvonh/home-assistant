@@ -231,6 +231,11 @@ switch:
         command_on: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
         command_off: ""
 
+  - platform: wake_on_lan
+    name: "Plex Server"
+    host: "192.168.1.11"
+    mac_address: "00-50-B6-21-0E-11"
+
 light:
   - platform: template
     lights:

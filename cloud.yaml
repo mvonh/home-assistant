@@ -4,13 +4,9 @@
         - cover.garage_door_opener
         - fan.frog_fan
         - fan.living_room_fan
-        - light.ashleys_room_lamp
         - light.bedroom_ceiling_light
-        - light.closet_light_1
-        - light.closet_light_2
         - light.frog_ceiling_light 
         - light.frog_fan_light
-        - light.guest_bedroom_lamp
         - light.hallway_light
         - light.kitchen_counter_light
         - light.kitchen_island_light
@@ -22,6 +18,7 @@
         - lock.lock_garage_door_lock
         - switch.back_porch_light
         - switch.bedroom_fan
+        - switch.closet_light
         - switch.fireplace
         - switch.front_porch_light
         - switch.garage_light_indoor

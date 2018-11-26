@@ -460,30 +460,24 @@
 - alias: Motion Lighting in the Closet on
   trigger:
   - platform: state
-    entity_id: binary_sensor.closet_motion_sensor
+    entity_id: binary_sensor.motion_sensor_closet
     from: 'off'
     to: 'on'
   action:
-  - service: light.turn_on
-    data:
-      entity_id:
-        - light.closet_light_1
-        - light.closet_light_2
+  - service: switch.turn_on
+    entity_id: switch.closet_light
 
 - alias: Motion Lighting in the Closet off
   trigger:
   - platform: state
-    entity_id: binary_sensor.closet_motion_sensor
+    entity_id: binary_sensor.motion_sensor_closet
     from: 'on'
     to: 'off'
     for:
       minutes: 1
   action:
-  - service: light.turn_off
-    data:
-      entity_id:
-        - light.closet_light_1
-        - light.closet_light_2
+  - service: switch.turn_off
+    entity_id: switch.closet_light
 
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
@@ -516,6 +510,9 @@
     entity_id: remote.theater_room_harmony_hub
     to: 'off'
   condition:
+  - condition: state
+    entity_id: timer.frog_tv_reset
+    state: 'idle'
 #  - condition: state
 #    entity_id: input_select.house_mode
 #    state: 'Home' 

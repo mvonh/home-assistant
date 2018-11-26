@@ -142,6 +142,9 @@ switch.office_lamp_one:
 switch.bedroom_fan:
   friendly_name: Bedroom Fan
   icon: mdi:fan
+switch.closet_light:
+  friendly_name: Closet Light
+  icon: mdi:lightbulb
 switch.garage_light_indoor:
   friendly_name: Garage Light (Indoor)
   icon: mdi:lightbulb

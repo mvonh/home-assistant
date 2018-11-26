@@ -61,10 +61,10 @@
    sensors:
      motion_delay_frog:
        friendly_name: FROG Lighting motion delay
-       value_template: "{{ is_state('binary_sensor.frog_motion_sensor', 'on') }}"
+       value_template: "{{ is_state('binary_sensor.motion_sensor_frog', 'on') }}"
        delay_off:
          seconds: 60
-       entity_id: binary_sensor.frog_motion_sensor
+       entity_id: binary_sensor.motion_sensor_frog
        device_class: motion
 
  - platform: template
@@ -161,7 +161,7 @@
 
  - platform: template
    sensors:
-     frog_motion_sensor:
+     motion_sensor_frog:
        value_template: "{{ is_state('sensor.motion_sensor_frog_alarm_level', '255') }}"
        friendly_name: "FROG Motion"
        device_class: motion

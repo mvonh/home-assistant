@@ -76,7 +76,7 @@ audio_notify:
       data_template:       
         entity_id: >
           {% if (mplayer == "all") %}
-            media_player.bedroom,media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage,media_player.frog
+            media_player.bedroom,media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage,media_player.frog,media_player.guestroom,media_player.ashleysroom
           {% elif (mplayer == "downstairs_media_players") %}
             media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage
           {% elif (mplayer == "upstairs_media_players") %}

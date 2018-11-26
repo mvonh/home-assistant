@@ -270,8 +270,8 @@ master_bedroom:
     - light.bedroom_lamp_one
     - light.bedroom_lamp_two
     - light.bedroom_ceiling_light
-    - light.closet_light_1
-    - light.closet_light_2
+    - switch.closet_light
+    - switch.bedroom_fan
 
 upstairs_rooms:
   name: Upstairs Rooms
@@ -421,7 +421,7 @@ router_connections:
     - device_tracker.plexserver
     - device_tracker.slingbox
     - device_tracker.sonos_sub_living_room
-    - device_tracker.sonosplaybar_living_room
+    - device_tracker.sonos_playbar_living_room
     - device_tracker.sony_tv_living_room
 
 cameras_view:
@@ -453,6 +453,8 @@ indoor_motion_sensors:
     - binary_sensor.motion_sensor_living_room_motion
     - binary_sensor.motion_sensor_kitchen_motion
     - binary_sensor.motion_sensor_front_door_motion
+    - binary_sensor.motion_sensor_closet
+    - binary_sensor.motion_sensor_frog
 
 downstairs_motion_sensors:
   name: Motion Sensors
@@ -619,6 +621,7 @@ all_zigbee:
   view: no
   icon: mdi:lock-outline
   entities:
+    - zha.motion_sensor_closet
     - zha.motion_sensor_garage
     - zha.motion_sensor_hallway
     - zha.motion_sensor_kitchen
