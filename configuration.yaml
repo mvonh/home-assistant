@@ -235,6 +235,7 @@ switch:
     name: "Plex Server"
     host: "192.168.1.11"
     mac_address: "00-50-B6-21-0E-11"
+wake_on_lan:
 
 light:
   - platform: template

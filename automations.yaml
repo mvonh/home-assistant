@@ -479,6 +479,29 @@
   - service: switch.turn_off
     entity_id: switch.closet_light
 
+- alias: Motion Lighting in the Hallway After Dark
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_hallway_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.hallway_light
+    state: 'off'
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Night'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id:
+        - light.hallway_light
+      brightness: 15
+  - wait_template: "{{ is_state('binary_sensor.motion_delay_hallway', 'off') }}"
+  - service: light.turn_off
+    entity_id: light.hallway_light
+
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
   - platform: state
