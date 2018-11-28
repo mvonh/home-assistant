@@ -305,6 +305,7 @@ upstairs_zwave_devices:
     - light.frog_ceiling_light
     - light.frog_fan_light
     - light.bedroom_ceiling_light
+    - light.hallway_light
     - light.ashleys_room_lamp
     - switch.lava_lamp_plug
     - switch.lava_lamp_two

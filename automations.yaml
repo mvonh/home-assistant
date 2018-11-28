@@ -486,6 +486,10 @@
     from: 'off'
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 1.0
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
