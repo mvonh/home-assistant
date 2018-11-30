@@ -168,6 +168,13 @@ ios:
             title: 'Cancel Alert'
           - identifier: 'CLOSE_GARAGE'
             title: 'Close Garage'
+      - name: Shopping Alerts
+        identifier: 'shopping_alert'
+        actions:
+          - identifier: 'CANCEL_SHOPPING_ALERT'
+            title: 'No'
+          - identifier: 'OPEN_GARAGE_WHEN_I_GET_HOME'
+            title: 'Yes'
 
 # Device Trackers
 device_tracker:
@@ -235,6 +242,7 @@ switch:
     name: "Plex Server"
     host: "192.168.1.11"
     mac_address: "00-50-B6-21-0E-11"
+
 wake_on_lan:
 
 light:
@@ -271,9 +279,6 @@ media_player:
     email: !secret amazon_id
     password: !secret amazon_password
     url: amazon.com
-  - platform: samsungtv
-    host: 192.168.1.61
-    name: Samsung Speaker
   - platform: vizio
     host: 192.168.1.82
     access_token: Z6xoq7pviz

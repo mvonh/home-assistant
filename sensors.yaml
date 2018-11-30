@@ -177,11 +177,11 @@
       pauls_traffic_density_to_base:
         friendly_name: Traffic to Base
         value_template: >-
-          {% if states("sensor.time_to_base") | float >= 34 %}
+          {% if states("sensor.time_to_base") | float >= 36 %}
             Heavy
-          {% elif states("sensor.time_to_base") | float < 34 and states("sensor.time_to_base") | float >= 28 %}
+          {% elif states("sensor.time_to_base") | float < 36 and states("sensor.time_to_base") | float >= 30 %}
             Moderate
-          {% elif states("sensor.time_to_base") | float < 28 and states("sensor.time_to_base") | float >= 10 %}
+          {% elif states("sensor.time_to_base") | float < 30 and states("sensor.time_to_base") | float >= 10 %}
             Normal
           {% else %}
             unknown

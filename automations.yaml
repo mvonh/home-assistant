@@ -2217,3 +2217,76 @@
 #      condition: "{{ is_state('input_boolean.notify_paul','on') }}"
 #      title: "Testing of iPhone Charging"
 #      message: "Pauls phone is on the charger"
+
+- alias: Actionable Garage Door Alert
+  trigger:
+  - platform: state
+    entity_id: cover.garage_door_opener
+    to: 'open'
+    for:
+      minutes: 3
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: notify.ios_pauls_phone
+    data:
+      message: "Garage Door is Open"
+      data:
+        push:
+          category: "garage_alert" 
+
+- alias: Actionable Open Garage Door When Tracy gets Home
+  trigger:
+  - platform: state
+    entity_id:
+      - device_tracker.tracy_all
+    to: 'Costco'
+    for:
+      minutes: 5
+  - platform: state
+    entity_id:
+      - device_tracker.tracy_all
+    to: 'Sams'
+    for:
+      minutes: 5
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: notify.ios_tracys_phone
+    data:
+      message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
+      data:
+        push:
+          category: "shopping_alert" 
+
+- alias: iOS Actionable Notification for Garage Door
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CLOSE_GARAGE
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+    service: cover.close_cover
+    entity_id: cover.garage_door_opener
+
+- alias: iOS Actionable Notification to open Garage when Tracy Gets Home
+  trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: OPEN_GARAGE_WHEN_I_GET_HOME
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.open_garage_for_tracy
