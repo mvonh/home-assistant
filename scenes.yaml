@@ -35,8 +35,8 @@
       
       light.alcove_light:
         state: on
-        brightness: 140
-        rgb_color: [140, 235, 255]
+        brightness: 75
+        color_temp: 444
 
   - name: Evening Lighting
     entities:
@@ -75,8 +75,8 @@
       
       light.alcove_light:
         state: on
-        brightness: 140
-        rgb_color: [140, 235, 255]
+        brightness: 75
+        color_temp: 444
 
   - name: Morning Lighting
     entities:
@@ -84,11 +84,33 @@
         state: on
         brightness: 254
         rgb_color: [255, 240, 198]
-      
+
       light.kitchen_cabinet_tops:
         state: on
         brightness: 254
         rgb_color: [255, 240, 198]
+
+      light.left_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+
+      light.right_shelf_lights:
+        state: on
+        brightness: 166
+        rgb_color: [255, 240, 198]
+
+      light.tv_backlights:
+        state: off
+
+      light.living_room_lamp_one:
+        state: off
+      
+      light.living_room_lamp_two:
+        state: off
+
+      light.alcove_light:
+        state: off
 
   - name: Casual Lighting
     entities:
@@ -127,5 +149,87 @@
       
       light.alcove_light:
         state: on
-        brightness: 140
-        rgb_color: [140, 235, 255]
+        brightness: 75
+        color_temp: 444
+
+  - name: Downstairs Color Loop
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.kitchen_cabinet_tops:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.living_room_lamp_one:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.living_room_lamp_two:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.left_shelf_lights:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.tv_backlights:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.right_shelf_lights:
+        state: on
+        transition: 15
+        effect: colorloop
+      
+      light.alcove_light:
+        state: on
+        transition: 15
+        effect: colorloop
+
+  - name: Downstairs Nightlight
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: on
+        brightness: 25
+        rgb_color: [255, 240, 198]
+       
+      light.kitchen_cabinet_tops:
+        state: on
+        brightness: 25
+        rgb_color: [164, 234, 255]
+      
+      light.living_room_lamp_one:
+        state: on
+        brightness: 25
+        rgb_color: [255, 207, 120]
+      
+      light.living_room_lamp_two:
+        state: on
+        brightness: 25
+        rgb_color: [255, 207, 120]
+      
+      light.left_shelf_lights:
+        state: on
+        brightness: 25
+        rgb_color: [255, 240, 198]
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: on
+        brightness: 25
+        rgb_color: [255, 240, 198]
+      
+      light.alcove_light:
+        state: on
+        brightness: 25
+        color_temp: 444

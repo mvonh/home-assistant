@@ -109,6 +109,10 @@ cover:
 ecobee:
   api_key: !secret ecobee_api_key
   
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_secret
+  
 homekit:
   filter:
     include_entities:
@@ -228,6 +232,8 @@ input_number:
     max: 20
     step: 1
 
+python_script:
+
 ffmpeg:
   ffmpeg_bin: /usr/bin/avconv
 
@@ -244,6 +250,8 @@ switch:
     mac_address: "00-50-B6-21-0E-11"
 
 wake_on_lan:
+
+api:
 
 light:
   - platform: template
@@ -286,7 +294,8 @@ media_player:
     
 # View all events in a logbook
 logbook: !include logbook.yaml
-cloud: !include cloud.yaml
+#cloud: !include cloud.yaml
+alexa: !include alexa.yaml
 notify: !include notify.yaml
 zone: !include zones.yaml
 binary_sensor: !include binary_sensors.yaml

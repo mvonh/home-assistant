@@ -4,8 +4,7 @@
     entity_id: cover.garage_door_opener
     state: 'open'
     repeat:
-      - 10
-      - 30
+      - 60
     can_acknowledge: True
     skip_first: True
     notifiers:
@@ -50,10 +49,10 @@
       - sony_tv
       - ios_tracys_iphone
       
-  smoke_detector_smoke:
-    name: Downstairs Smoke Alarm - Smoke Detected
+  smoke_detector_smoke_attic:
+    name: Attic Smoke Alarm - Smoke Detected
     done_message: Smoke has been cleared
-    entity_id: binary_sensor.downstairs_smoke_detector_smoke
+    entity_id: binary_sensor.attic_smoke_detector_smoke
     state: 'on'
     repeat: 5
     can_acknowledge: True
@@ -62,10 +61,10 @@
       - ios_tracys_iphone
       - sony_tv
 
-  smoke_detector_co2:
-    name: Downstairs Smoke Alarm - CO2 Detected
+  smoke_detector_co2_attic:
+    name: Attic Smoke Alarm - CO2 Detected
     done_message: CO2 has been cleared
-    entity_id: binary_sensor.downstairs_smoke_detector_co2
+    entity_id: binary_sensor.attic_smoke_detector_co2
     state: 'on'
     repeat: 5
     can_acknowledge: True
@@ -74,10 +73,10 @@
       - ios_tracys_iphone
       - sony_tv
       
-  smoke_detector_test:
-    name: Downstairs Smoke Alarm - Testing
+  smoke_detector_test_attic:
+    name: Attic Smoke Alarm - Testing
     done_message: Smoke Alarm Testing completed
-    entity_id: binary_sensor.downstairs_smoke_detector_testing
+    entity_id: binary_sensor.attic_smoke_detector_testing
     state: 'on'
     repeat: 5
     can_acknowledge: True

@@ -1818,6 +1818,62 @@
           {%- endif %}    
       title: "Leak Alert"
 
+- alias: Smoke Detected
+  trigger:
+  - platform: state
+    entity_id: sensor.downstairs_nest_protect_smoke_status
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: >-
+        The {{ trigger.to_state.name }} 
+          {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
+            {{ {'Ok': ' Alarm has Cleared.', 'warning': ' is reporting a smoke warning.', 'emergency': ' is reporting a fire. '} }}
+          {%- else -%}
+            {{ ' unknown' }}
+          {%- endif %}
+      mplayer: "all"
+  - condition: state
+    entity_id: sensor.downstairs_nest_protect_smoke_status
+    state: 'emergency'
+  - service: lock.unlock
+    entity_id: group.all_locks
+  - service: homeassistant.turn_on
+    entity_id:
+      - group.all_lights
+
+- alias: CO2 Detected
+  trigger:
+  - platform: state
+    entity_id: sensor.downstairs_nest_protect_co_status
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: >-
+        The {{ trigger.to_state.name }} 
+          {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
+            {{ {'Ok': ' alert has Cleared.', 'warning': ' is reporting a C O 2 warning.', 'emergency': ' is reporting C O 2 emergency '} }}
+          {%- else -%}
+            {{ ' unknown' }}
+          {%- endif %}
+      mplayer: "all"
+  - condition: state
+    entity_id: sensor.downstairs_nest_protect_co_status
+    state: 'emergency'
+#  - service: lock.unlock
+#    entity_id: group.all_locks
+#  - service: homeassistant.turn_on
+#    entity_id:
+#      - group.all_lights
+
 - alias: Tracy Travel Notice
   trigger:
   - platform: state
@@ -2224,13 +2280,13 @@
     entity_id: cover.garage_door_opener
     to: 'open'
     for:
-      minutes: 3
+      minutes: 30
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: notify.ios_pauls_phone
+  - service: notify.ios_pauls_iphone
     data:
       message: "Garage Door is Open"
       data:
@@ -2256,7 +2312,7 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: notify.ios_tracys_phone
+  - service: notify.ios_tracys_iphone
     data:
       message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
       data:

@@ -1,4 +1,4 @@
-  alexa:
+  smart_home:
     filter:
       include_entities:
         - cover.garage_door_opener

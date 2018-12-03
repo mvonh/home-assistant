@@ -1,53 +1,27 @@
 ##########################################
 ## Hue Lighting Scenes                  ##
 ##########################################
-kitchen_tv_lights_hue_scene:
-  alias: Hue Scene TV Lights (Kitchen)
-  sequence:
-    - service: hue.hue_activate_scene
-      data:
-        group_name: "Kitchen"
-        scene_name: "Evening TV"
-
-kitchen_evening_lights_hue_scene:
-  alias: Hue Scene Evening Lights (Kitchen)
-  sequence:
-    - service: hue.hue_activate_scene
-      data:
-        group_name: "Kitchen"
-        scene_name: "Evening Lights"
-
-kitchen_nightlight_hue_scene:
-  alias: Hue Scene Nightlight (Kitchen)
-  sequence:
-    - service: hue.hue_activate_scene
-      data:
-        group_name: "Kitchen"
-        scene_name: "Nightlights"
-
-living_room_tv_lights_hue_scene:
-  alias: Hue Scene TV Lights (Living Room)
-  sequence:
-    - service: hue.hue_activate_scene
-      data:
-        group_name: "Living Room"
-        scene_name: "TV Lighting"
-
-living_room_evening_lights_hue_scene:
-  alias: Hue Scene Evening Lights (Living Room)
-  sequence:
-    - service: hue.hue_activate_scene
-      data:
-        group_name: "Living Room"
-        scene_name: "Normal Lighting"
-
-living_room_nightlights_lights_hue_scene:
-  alias: Hue Scene Nightlight (Living Room)
-  sequence:
-    - service: hue.hue_activate_scene
-      data:
-        group_name: "Living Room"
-        scene_name: "Nightlight"
+#downstairs_moodlight:
+#  alias: Downstairs Color Loop
+#  sequence:
+#    - service: light.turn_on
+#      data:
+#        entity_id: light.living_room_lamp_one, light.living_room_lamp_two
+#        effect: colorloop
+#        brightness: 150
+#        transition: 5
+#    - service: light.turn_on
+#      data:
+#        entity_id: light.left_shelf_lights, light.tv_backlights, light.right_shelf_lights
+#        effect: colorloop
+#        brightness: 150
+#        transition: 5
+#    - service: light.turn_on
+#      data:
+#        entity_id: light.alcove_light, light.kitchen_cabinet_tops, light.kitchen_cabinet_bottoms
+#        effect: colorloop
+#        brightness: 150
+#        transition: 5
 
 ##########################################
 ## Theater Room AV Resets               ##

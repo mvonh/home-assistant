@@ -263,6 +263,20 @@ office_lights:
     - light.office_lamp_two
     - switch.office_lamp_one
 
+downstairs_color_hue_lights:
+  name: Downstairs Color Hue Lights
+  view: no
+  control: hidden
+  entities:
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.left_shelf_lights
+    - light.tv_backlights
+    - light.right_shelf_lights
+    - light.alcove_light
+    - light.kitchen_cabinet_tops
+    - light.kitchen_cabinet_bottoms
+
 master_bedroom:
   name: Master Bedroom
   view: no

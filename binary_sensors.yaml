@@ -132,26 +132,26 @@
 
  - platform: template
    sensors:
-     downstairs_smoke_detector_smoke:
-       value_template: "{{ is_state('sensor.smoke_detector_downstairs_alarm_type', '1') }}"
-       friendly_name: "Smoke Detector - Smoke"
+     attic_smoke_detector_smoke:
+       value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '1') }}"
+       friendly_name: "Attic Smoke Detector - Smoke"
        device_class: smoke
-       entity_id: sensor.smoke_detector_downstairs_alarm_type
+       entity_id: sensor.smoke_detector_attic_alarm_type
 
  - platform: template
    sensors:
-     downstairs_smoke_detector_co2:
-       value_template: "{{ is_state('sensor.smoke_detector_downstairs_alarm_type', '2') }}"
-       friendly_name: "Smoke Detector - CO2"
+     attic_smoke_detector_co2:
+       value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '2') }}"
+       friendly_name: "Attic Smoke Detector - CO2"
        device_class: gas
-       entity_id: sensor.smoke_detector_downstairs_alarm_type
+       entity_id: sensor.smoke_detector_attic_alarm_type
        
  - platform: template
    sensors:
-     downstairs_smoke_detector_testing:
-       value_template: "{{ is_state('sensor.smoke_detector_downstairs_alarm_type', '12') }}"
-       friendly_name: "Smoke Detector - Testing"
-       entity_id: sensor.smoke_detector_downstairs_alarm_type
+     attic_smoke_detector_testing:
+       value_template: "{{ is_state('sensor.smoke_detector_attic_alarm_type', '12') }}"
+       friendly_name: "Attic Smoke Detector - Testing"
+       entity_id: sensor.smoke_detector_attic_alarm_type
        
  - platform: template
    sensors:
