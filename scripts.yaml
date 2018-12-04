@@ -1,27 +1,30 @@
 ##########################################
 ## Hue Lighting Scenes                  ##
 ##########################################
-#downstairs_moodlight:
-#  alias: Downstairs Color Loop
-#  sequence:
-#    - service: light.turn_on
-#      data:
-#        entity_id: light.living_room_lamp_one, light.living_room_lamp_two
-#        effect: colorloop
-#        brightness: 150
-#        transition: 5
-#    - service: light.turn_on
-#      data:
-#        entity_id: light.left_shelf_lights, light.tv_backlights, light.right_shelf_lights
-#        effect: colorloop
-#        brightness: 150
-#        transition: 5
-#    - service: light.turn_on
-#      data:
-#        entity_id: light.alcove_light, light.kitchen_cabinet_tops, light.kitchen_cabinet_bottoms
-#        effect: colorloop
-#        brightness: 150
-#        transition: 5
+downstairs_colorloop:
+  alias: Downstairs Color Loop
+  sequence:
+    - service: light.turn_off
+      entity_id: group.downstairs_color_hue_lights
+    - delay: '00:00:02'
+    - service: light.turn_on
+      data:
+        entity_id: light.living_room_lamp_one, light.living_room_lamp_two
+        effect: colorloop
+        brightness: 150
+        transition: 5
+    - service: light.turn_on
+      data:
+        entity_id: light.left_shelf_lights, light.tv_backlights, light.right_shelf_lights
+        effect: colorloop
+        brightness: 150
+        transition: 5
+    - service: light.turn_on
+      data:
+        entity_id: light.alcove_light, light.kitchen_cabinet_tops, light.kitchen_cabinet_bottoms
+        effect: colorloop
+        brightness: 150
+        transition: 5
 
 ##########################################
 ## Theater Room AV Resets               ##
@@ -54,7 +57,7 @@ audio_notify:
           {% elif (mplayer == "downstairs_media_players") %}
             media_player.kitchen,media_player.office,media_player.livingroom,media_player.garage
           {% elif (mplayer == "upstairs_media_players") %}
-            media_player.bedroom,media_player.frog
+            media_player.bedroom,media_player.frog,media_player.guestroom,media_player.ashleysroom
           {% elif (mplayer == "main") %}
             media_player.bedroom,media_player.frog,media_player.kitchen,media_player.garage
           {% else %}

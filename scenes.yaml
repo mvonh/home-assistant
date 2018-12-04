@@ -35,7 +35,7 @@
       
       light.alcove_light:
         state: on
-        brightness: 75
+        brightness: 150
         color_temp: 444
 
   - name: Evening Lighting
@@ -75,7 +75,7 @@
       
       light.alcove_light:
         state: on
-        brightness: 75
+        brightness: 150
         color_temp: 444
 
   - name: Morning Lighting
@@ -149,7 +149,7 @@
       
       light.alcove_light:
         state: on
-        brightness: 75
+        brightness: 150
         color_temp: 444
 
   - name: Downstairs Color Loop

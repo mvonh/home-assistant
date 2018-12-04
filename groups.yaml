@@ -268,14 +268,14 @@ downstairs_color_hue_lights:
   view: no
   control: hidden
   entities:
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
     - light.left_shelf_lights
     - light.tv_backlights
     - light.right_shelf_lights
-    - light.alcove_light
     - light.kitchen_cabinet_tops
     - light.kitchen_cabinet_bottoms
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.alcove_light
 
 master_bedroom:
   name: Master Bedroom

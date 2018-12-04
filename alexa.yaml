@@ -39,7 +39,8 @@
         - automation.driveway_line_crossing_alerts
 #        - automation.tracy_travel_notice
 #        - script.ecobee_away_mode
-#        - script.downstairs_moodlight
+        - script.downstairs_colorloop
+        - script.toggle_cover
         - input_boolean.goodnight_switch
         - input_boolean.goodmorning_switch
 #        - input_boolean.wheres_tracy
@@ -48,5 +49,5 @@
         - scene.casual_lighting
         - scene.evening_lighting
         - scene.morning_lighting
-        - scene.downstairs_color_loop
+#        - scene.downstairs_color_loop
         - scene.downstairs_nightlight
