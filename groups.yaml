@@ -298,6 +298,7 @@ upstairs_rooms:
     - fan.frog_fan
     - switch.lava_lamp_plug
     - switch.lava_lamp_two
+    - light.guest_bedroom_light
     - light.guest_bedroom_lamp
     - light.ashleys_room_lamp
 

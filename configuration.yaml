@@ -89,11 +89,7 @@ zwave:
       polling_intensity: 1
       refresh_value: True
       delay: 3
-    light.closet_light_1:
-      polling_intensity: 1
-      refresh_value: True
-      delay: 3
-    light.closet_light_2:
+    light.guest_bedroom_light:
       polling_intensity: 1
       refresh_value: True
       delay: 3
@@ -172,7 +168,7 @@ ios:
             title: 'Cancel Alert'
           - identifier: 'CLOSE_GARAGE'
             title: 'Close Garage'
-      - name: Shopping Alerts
+      - name: Shopping Alert
         identifier: 'shopping_alert'
         actions:
           - identifier: 'CANCEL_SHOPPING_ALERT'

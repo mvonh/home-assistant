@@ -1,12 +1,13 @@
   smart_home:
     filter:
       include_entities:
-        - cover.garage_door_opener
+#        - cover.garage_door_opener
         - fan.frog_fan
         - fan.living_room_fan
         - light.bedroom_ceiling_light
         - light.frog_ceiling_light 
         - light.frog_fan_light
+        - light.guest_bedroom_light
         - light.hallway_light
         - light.kitchen_counter_light
         - light.kitchen_island_light
@@ -37,10 +38,16 @@
         - automation.motion_lighting_in_the_Office
         - automation.motion_lighting_in_the_garage
         - automation.driveway_line_crossing_alerts
+#        - automation.car_lock_car_doors
+#        - automation.car_start_car
 #        - automation.tracy_travel_notice
 #        - script.ecobee_away_mode
         - script.downstairs_colorloop
-        - script.toggle_cover
+        - script.reset_downstairs_lighting
+        - script.garage_door_open
+        - script.garage_door_close
+        - script.car_lock_car_doors
+        - script.car_start_car
         - input_boolean.goodnight_switch
         - input_boolean.goodmorning_switch
 #        - input_boolean.wheres_tracy

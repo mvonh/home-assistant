@@ -4,27 +4,33 @@
 downstairs_colorloop:
   alias: Downstairs Color Loop
   sequence:
-    - service: light.turn_off
+    - service: light.turn_on
       entity_id: group.downstairs_color_hue_lights
+      data_template:
+        hs_color:
+          - "{{ range(360)|random }}"
+          - "{{ range(80,101)|random }}"
+        brightness_pct: 100
     - delay: '00:00:02'
     - service: light.turn_on
-      data:
-        entity_id: light.living_room_lamp_one, light.living_room_lamp_two
+      entity_id: group.downstairs_color_hue_lights
+      data_template:
         effect: colorloop
-        brightness: 150
+        brightness: 190
         transition: 5
+        
+reset_downstairs_lighting:
+  alias: Reset Downstairs Lighting
+  sequence:
     - service: light.turn_on
+      entity_id: group.downstairs_color_hue_lights
       data:
-        entity_id: light.left_shelf_lights, light.tv_backlights, light.right_shelf_lights
-        effect: colorloop
         brightness: 150
-        transition: 5
-    - service: light.turn_on
-      data:
-        entity_id: light.alcove_light, light.kitchen_cabinet_tops, light.kitchen_cabinet_bottoms
-        effect: colorloop
-        brightness: 150
-        transition: 5
+        rgb_color: [255,200,118]
+    - delay: '00:00:01'
+    - service: scene.turn_on
+      entity_id: scene.casual_lighting
+
 
 ##########################################
 ## Theater Room AV Resets               ##
@@ -73,6 +79,32 @@ alexa_notify:
         entity_id: media_player.bedroom_spot,media_player.kitchen,media_player.office,media_player.living_room_echo,media_player.garage,media_player.media_room
         message: "An Alexa Timer has gone off"
 
+car_lock_car_doors:
+  alias: 'Car Lock Car Doors'
+  sequence: 
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.old_dot
+        message: "alexa. tell Blue Link to lock my Sonata"
+    - delay: 00:00:16
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.old_dot
+        message: !secret blue_link_pin
+
+car_start_car:
+  alias: 'Car Start Car'
+  sequence: 
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.old_dot
+        message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
+    - delay: 00:00:18
+    - service: media_player.alexa_tts
+      data_template:       
+        entity_id: media_player.old_dot
+        message: !secret blue_link_pin
+        
 sonos_say:
   alias: "Sonos TTS script"
   sequence:
@@ -129,6 +161,18 @@ toggle_cover:
         {% else %}
           cover.open_cover
         {% endif %}
+      entity_id: cover.garage_door_opener
+
+garage_door_open:
+  alias: 'Garage Door Open'
+  sequence:
+    - service: cover.open_cover
+      entity_id: cover.garage_door_opener
+
+garage_door_close:
+  alias: 'Garage Door Close'
+  sequence:
+    - service: cover.close_cover
       entity_id: cover.garage_door_opener
 
 ##########################################

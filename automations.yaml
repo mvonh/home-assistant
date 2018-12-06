@@ -164,10 +164,10 @@
     above: 1
   action:
   - service: light.turn_on
+    entity_id: group.downstairs_color_hue_lights
     data:
-      entity_id: light.alcove_light
-      brightness: 158
-      rgb_color: (255, 190, 44)
+      brightness: 254
+      rgb_color: [255,200,118]
   - delay:
       seconds: 1
   - service: cover.close_cover
@@ -248,6 +248,11 @@
   action:
   - service: script.turn_on
     entity_id: script.ecobee_sleep_mode
+  - service: light.turn_on
+    entity_id: group.downstairs_color_hue_lights
+    data:
+      brightness: 254
+      rgb_color: [255,200,118]
   - service: homeassistant.turn_off
     entity_id:
       - group.good_night_lights
@@ -1984,6 +1989,10 @@
           At the moment, your commute to khaki will take {{ states('sensor.time_to_caci') }} minutes.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} at the moment.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 6 %}
           At the moment, your commute to AVIS will take {{ states('sensor.time_to_avis_tracy') }} minutes.  Traffic is {{ states('sensor.tracys_traffic_density_to_avis') }} at the moment.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 7 %}
+          The Garage Door is currently {{ states('cover.garage_door_opener') }}.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 8 %}
+          nothing to see here
         {% else %}
          {{ states('light.alexa_virtual.attributes.brightness') }}
         {% endif %}
@@ -2312,7 +2321,7 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: notify.ios_tracys_iphone
+  - service: notify.ios_pauls_iphone
     data:
       message: "Looks like you're Shopping.  Do you want the garage to open when you get home?"
       data:
@@ -2346,3 +2355,49 @@
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.open_garage_for_tracy
+
+#############################################
+## Car Automations                         ##
+#############################################
+#- alias: Car Lock Car Doors
+#  trigger:
+#  - platform: state
+#    entity_id: cover.garage_door_opener
+#    to: 'never'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  action:
+#  - service: script.audio_notify
+#    data_template:
+#      tts_msg: "alexa. tell Blue Link to lock my Sonata"
+#      mplayer: "old_dot"
+#  - delay: 00:00:16
+#  - service: script.audio_notify
+#    data_template:
+#      tts_msg: !secret blue_link_pin
+#      mplayer: "old_dot"
+#
+#- alias: Car Start Car
+#  trigger:
+#  - platform: state
+#    entity_id: cover.garage_door_opener
+#    to: 'never'
+#  condition:
+#  - condition: numeric_state
+#    entity_id: sensor.ha_runtime_in_minutes
+#    above: 1
+#  - condition: state
+#    entity_id: input_select.house_mode
+#    state: 'Home'   
+#  action:
+#  - service: script.audio_notify
+#    data_template:
+#      tts_msg: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
+#      mplayer: "old_dot"
+#  - delay: 00:00:18
+#  - service: script.audio_notify
+#    data_template:
+#      tts_msg: !secret blue_link_pin
+#      mplayer: "old_dot"
