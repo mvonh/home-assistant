@@ -616,7 +616,10 @@
   - platform: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    below: 2.0    
+    below: 2.0
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.house_mode') != 'Night' }}"
   action:
   - service: homeassistant.turn_on
     entity_id: group.outdoor_lights_sunset
@@ -1027,10 +1030,9 @@
     entity_id: input_select.security_system
     state: 'Armed (Home)'
   action:
-  - service: script.audio_notify
+  - service: notify.bedroom
     data_template:
-      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} has been opened."
-      mplayer: "bedroom"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} has been opened."
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1251,9 +1253,9 @@
     after: '06:00:00'
     before: '10:00:00'
   action:
-  - service: script.audio_notify
+  - service: notify.bedroom
     data_template:
-      tts_msg: >-
+      message: >-
         {% if states('input_select.work_location') == 'Base' %}
           Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
         {% elif states('input_select.work_location') == 'CACI' %}
@@ -1261,7 +1263,16 @@
         {% else %}
           I'm not sure where you're going today
         {% endif %}
-      mplayer: "main"
+  - service: notify.kitchen
+    data_template:
+      message: >-
+        {% if states('input_select.work_location') == 'Base' %}
+          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
+        {% elif states('input_select.work_location') == 'CACI' %}
+          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
+        {% else %}
+          I'm not sure where you're going today
+        {% endif %}
 
 - alias: "Notify Tracy when its time to leave for work"
   trigger:
@@ -1360,10 +1371,9 @@
       {{ trigger.to_state is not none and trigger.from_state is not none and
          trigger.to_state.state|int > trigger.from_state.state|int }}
   action:
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: "Traffic to the Navy Base just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_base') }} minutes."
-      mplayer: "main"
+      message: "Traffic to the Navy Base just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_base') }} minutes."
 
 - alias: Travel time increases to CACI
   trigger:
@@ -1389,10 +1399,9 @@
       {{ trigger.to_state is not none and trigger.from_state is not none and
          trigger.to_state.state|int > trigger.from_state.state|int }}
   action:
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: "Traffic to khaki just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_caci') }} minutes."
-      mplayer: "main"
+      message: "Traffic to khaki just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_caci') }} minutes."
 
 #- alias: Set alcove light color based on Traffic to AVIS
 #  trigger:
@@ -1737,10 +1746,9 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 2
   action:
-  - service: script.audio_notify
+  - service: notify.kitchen
     data_template:
-      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} is: {{ trigger.to_state.state }}"
-      mplayer: "kitchen"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} is: {{ trigger.to_state.state }}"
 
 - alias: Doors or windows left opened
   trigger:
@@ -1759,10 +1767,9 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: "The {{ trigger.to_state.attributes.friendly_name }} is open"
-      mplayer: "main"
+      message: "The {{ trigger.to_state.attributes.friendly_name }} is open"
   - condition: state
     entity_id: binary_sensor.people_home
     state: 'off'
@@ -1788,16 +1795,15 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 2
   action:
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: >-
+      message: >-
         The {{ trigger.to_state.name }} is:
           {%- if trigger.to_state.state in ['on', 'off'] -%}
             {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
-      mplayer: "all"
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1832,16 +1838,15 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: script.audio_notify
+  - service: notify.all_alexas
     data_template:
-      tts_msg: >-
+      message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
             {{ {'Ok': ' Alarm has Cleared.', 'warning': ' is reporting a smoke warning.', 'emergency': ' is reporting a fire. '} }}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
-      mplayer: "all"
   - condition: state
     entity_id: sensor.downstairs_nest_protect_smoke_status
     state: 'emergency'
@@ -1860,16 +1865,15 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
-  - service: script.audio_notify
+  - service: notify.all_alexas
     data_template:
-      tts_msg: >-
+      message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
             {{ {'Ok': ' alert has Cleared.', 'warning': ' is reporting a C O 2 warning.', 'emergency': ' is reporting C O 2 emergency '} }}
           {%- else -%}
             {{ ' unknown' }}
           {%- endif %}
-      mplayer: "all"
   - condition: state
     entity_id: sensor.downstairs_nest_protect_co_status
     state: 'emergency'
@@ -1900,10 +1904,9 @@
     data_template:
       entity_id: input_text.commute_start_zone_tracy
       value: '{{ trigger.from_state.state }}'
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
-      mplayer: "main"
+      message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
 
 - alias: Paul Travel Notice
   trigger:
@@ -1924,10 +1927,9 @@
     state: 'Home' 
   action:
   - delay: 00:00:03
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: "Paul is on his way and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
-      mplayer: "main"
+      message: "Paul is on his way and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
 
 - alias: Tracy Travel Notice nearing Home
   trigger:
@@ -1948,10 +1950,9 @@
     state: 'Home' 
   action:
   - delay: 00:00:03
-  - service: script.audio_notify
+  - service: notify.main_echos
     data_template:
-      tts_msg: "Tracy is on her way and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
-      mplayer: "main"
+      message: "Tracy is on her way and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
 
 - alias: "Alexa Report"
   trigger:
@@ -1966,9 +1967,9 @@
   - service: homeassistant.update_entity
     data:
       entity_id: sensor.last_used_echo
-  - service: script.audio_notify
+  - service_template: "notify.{{ states('sensor.last_used_echo') }}"
     data_template:
-      tts_msg: >-
+      message: >-
         {% if (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 1 and states('device_tracker.tracy_all') == 'not_home' %}
           Tracy is away and is approximately {{ states('sensor.tracys_time_to_home') }} minutes from home.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 1 and states('device_tracker.tracy_all') != 'home' %}
@@ -1996,7 +1997,6 @@
         {% else %}
          {{ states('light.alexa_virtual.attributes.brightness') }}
         {% endif %}
-      mplayer: "{{ states('sensor.last_used_echo') }}"
   - service: light.turn_off
     entity_id: light.alexa_virtual
     
@@ -2359,45 +2359,18 @@
 #############################################
 ## Car Automations                         ##
 #############################################
-#- alias: Car Lock Car Doors
-#  trigger:
-#  - platform: state
-#    entity_id: cover.garage_door_opener
-#    to: 'never'
-#  condition:
-#  - condition: numeric_state
-#    entity_id: sensor.ha_runtime_in_minutes
-#    above: 1
-#  action:
-#  - service: script.audio_notify
-#    data_template:
-#      tts_msg: "alexa. tell Blue Link to lock my Sonata"
-#      mplayer: "old_dot"
-#  - delay: 00:00:16
-#  - service: script.audio_notify
-#    data_template:
-#      tts_msg: !secret blue_link_pin
-#      mplayer: "old_dot"
-#
-#- alias: Car Start Car
-#  trigger:
-#  - platform: state
-#    entity_id: cover.garage_door_opener
-#    to: 'never'
-#  condition:
-#  - condition: numeric_state
-#    entity_id: sensor.ha_runtime_in_minutes
-#    above: 1
-#  - condition: state
-#    entity_id: input_select.house_mode
-#    state: 'Home'   
-#  action:
-#  - service: script.audio_notify
-#    data_template:
-#      tts_msg: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
-#      mplayer: "old_dot"
-#  - delay: 00:00:18
-#  - service: script.audio_notify
-#    data_template:
-#      tts_msg: !secret blue_link_pin
-#      mplayer: "old_dot"
+- alias: "Car Auto Lock Car Doors home"
+  trigger:
+  - platform: state
+    entity_id: device_tracker.lucy
+    to: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: timer.paul_just_arrived
+    state: 'active'
+  action:
+  - service: script.turn_on
+    entity_id: script.car_lock_car_doors

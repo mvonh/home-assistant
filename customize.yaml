@@ -98,12 +98,6 @@ binary_sensor.tracy_presence:
   friendly_name: Tracy Presence (Bayesian)
 device_tracker.tracy_all:
   friendly_name: Tracy
-#input_boolean.paul_present :
-#  friendly_name: Paul Presence (HomeKit)
-#input_boolean.tracy_present:
-#  friendly_name: Tracy Presence (HomeKit)
-device_tracker.688470312b7a:
-  friendly_name: Lucy the Car
 light.bedroom_ceiling_light:
   friendly_name: Bedroom Ceiling Light
   icon: mdi:wall-sconce-flat

@@ -284,6 +284,7 @@ master_bedroom:
     - light.bedroom_lamp_one
     - light.bedroom_lamp_two
     - light.bedroom_ceiling_light
+    - light.bedroom_tv_lights
     - switch.closet_light
     - switch.bedroom_fan
 

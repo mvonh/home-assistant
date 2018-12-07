@@ -279,14 +279,16 @@ emulated_roku:
     - 8060
 
 media_player:
-  - platform: alexa
-    email: !secret amazon_id
-    password: !secret amazon_password
-    url: amazon.com
+#  - platform: alexa
+#    email: !secret amazon_id
+#    password: !secret amazon_password
+#    url: amazon.com
   - platform: vizio
     host: 192.168.1.82
     access_token: Z6xoq7pviz
-#    suppress_warning: true
+  - platform: vizio
+    host: 192.168.1.84
+    access_token: Zbo7pxfs55
     
 # View all events in a logbook
 logbook: !include logbook.yaml
