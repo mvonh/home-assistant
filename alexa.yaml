@@ -8,6 +8,7 @@
         - light.bedroom_tv_lights
         - light.frog_ceiling_light 
         - light.frog_fan_light
+        - light.frog_couch_backlight
         - light.guest_bedroom_light
         - light.hallway_light
         - light.kitchen_counter_light

@@ -82,29 +82,25 @@ alexa_notify:
 car_lock_car_doors:
   alias: 'Car Lock Car Doors'
   sequence: 
-    - service: media_player.alexa_tts
+    - service: notify.old_dot
       data_template:       
-        entity_id: media_player.old_dot
         message: "alexa. tell Blue Link to lock my Sonata"
     - delay: 00:00:16
-    - service: media_player.alexa_tts
+    - service: notify.old_dot
       data_template:       
-        entity_id: media_player.old_dot
         message: !secret blue_link_pin
 
 car_start_car:
   alias: 'Car Start Car'
   sequence: 
-    - service: media_player.alexa_tts
+    - service: notify.old_dot
       data_template:       
-        entity_id: media_player.old_dot
         message: "alexa. tell Blue Link to start my Sonata and set the temperature to 72 degrees"
     - delay: 00:00:18
-    - service: media_player.alexa_tts
+    - service: notify.old_dot
       data_template:       
-        entity_id: media_player.old_dot
         message: !secret blue_link_pin
-        
+
 sonos_say:
   alias: "Sonos TTS script"
   sequence:

@@ -323,3 +323,9 @@ light.tv_backlights:
 light.right_shelf_lights:
   friendly_name: Right Shelf Lights
   icon: mdi:drag-vertical
+media_player.vizio_smartcast:
+  friendly_name: Bedroom TV
+  icon: mdi:television
+media_player.vizio_smartcast_2:
+  friendly_name: Theater Room TV
+  icon: mdi:television

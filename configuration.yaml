@@ -286,9 +286,11 @@ media_player:
   - platform: vizio
     host: 192.168.1.82
     access_token: Z6xoq7pviz
+    name: Theater Room TV Control
   - platform: vizio
     host: 192.168.1.84
     access_token: Zbo7pxfs55
+    name: Bedroom TV Control
     
 # View all events in a logbook
 logbook: !include logbook.yaml

@@ -299,6 +299,7 @@ upstairs_rooms:
     - fan.frog_fan
     - switch.lava_lamp_plug
     - switch.lava_lamp_two
+    - light.frog_couch_backlight
     - light.guest_bedroom_light
     - light.guest_bedroom_lamp
     - light.ashleys_room_lamp
@@ -532,7 +533,6 @@ outdoor_lights_sunset:
     - switch.front_porch_light
     - switch.garage_light_outdoor
     - switch.lamp_post
-    - switch.sconce_light
 
 outdoor_to_turn_off:
   name: Outdoor Lights
@@ -638,17 +638,19 @@ all_zigbee:
   view: no
   icon: mdi:lock-outline
   entities:
+    - zha.bedroom_tv_lights
+    - zha.frog_couch_backlight
     - zha.motion_sensor_closet
     - zha.motion_sensor_garage
     - zha.motion_sensor_hallway
     - zha.motion_sensor_kitchen
     - zha.motion_sensor_office
     - zha.motion_sensor_sensor_living_room
-    - zha.office_lamp_one
     - zha.open_close_sensor_back_door
     - zha.open_close_sensor_front_door
     - zha.open_close_sensor_garage_door
     - zha.open_close_sensor_garage_fridge
     - zha.open_close_sensor_mailbox
     - zha.water_sensor_kitchen
-    - zha.zigbee_plug_one
+    - zha.zigbee_zwave_repeater_1
+    - zha.zigbee_zwave_repeater_2

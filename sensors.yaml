@@ -227,9 +227,9 @@
 #        entity_id: sensor.time
 
       battery_smoke_detector:
-        friendly_name: "Downstairs Smoke Detector Battery Level"
-        value_template: "{% if states.zwave.smoke_detector_downstairs %}
-            {{ states.zwave.smoke_detector_downstairs.attributes.battery_level }}
+        friendly_name: "Attic Smoke Detector Battery Level"
+        value_template: "{% if states.zwave.smoke_detector_attic %}
+            {{ states.zwave.smoke_detector_attic.attributes.battery_level }}
           {% else %}
             unknown
           {% endif %}"

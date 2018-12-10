@@ -517,8 +517,8 @@
     entity_id: remote.theater_room_harmony_hub
     to: 'on'
   - platform: state
-    entity_id: media_player.vizio_smartcast
-    to: 'on'
+    entity_id: media_player.theater_room_tv_control
+    from: 'off'
   condition:
   - condition: state
     entity_id: timer.frog_tv_reset
@@ -536,7 +536,7 @@
 - alias: Turn on Lights in FROG after TV turns off
   trigger:
   - platform: state
-    entity_id: media_player.vizio_smartcast
+    entity_id: media_player.theater_room_tv_control
     to: 'off'
   - platform: state
     entity_id: remote.theater_room_harmony_hub
@@ -564,7 +564,7 @@
     for:
       minutes: 1
   - platform: state
-    entity_id: media_player.vizio_smartcast
+    entity_id: media_player.theater_room_tv_control
     to: 'off'
     for:
       minutes: 1
@@ -607,7 +607,30 @@
     entity_id: fan.frog_fan
     data:
       speed: low
-      
+
+- alias: Turn on TV Backlights in Bedroom
+  trigger:
+  - platform: state
+    entity_id: media_player.bedroom_tv_control
+    from: 'off'
+  condition:
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.bedroom_tv_lights
+      brightness: 75
+      rgb_color: [246, 255, 254]
+
+- alias: Turn off TV Backlights in Bedroom
+  trigger:
+  - platform: state
+    entity_id: media_player.bedroom_tv_control
+    to: 'off'
+  condition:
+  action:
+  - service: light.turn_off
+    entity_id: light.bedroom_tv_lights
+
 ##########################################
 ## Lighting Based on Sunset/sunrise     ##
 ##########################################
@@ -670,7 +693,10 @@
     state: 'off'
   - condition: state
     entity_id: input_select.house_mode
-    state: 'Home' 
+    state: 'Home'
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 2
   action:
   - service: scene.turn_on
     entity_id: scene.casual_lighting
@@ -1798,7 +1824,7 @@
   - service: notify.main_echos
     data_template:
       message: >-
-        The {{ trigger.to_state.name }} is:
+        The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['on', 'off'] -%}
             {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
           {%- else -%}
@@ -1809,7 +1835,7 @@
       service: notify.sms_paul
       condition: "{{ is_state('input_boolean.notify_paul','on') }}"
       message: >-
-        The {{ trigger.to_state.name }} is:
+        The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['on', 'off'] -%}
             {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
           {%- else -%}
@@ -1821,7 +1847,7 @@
       service: notify.sms_tracy
       condition: "{{ is_state('input_boolean.notify_tracy','on') }}"
       message: >-
-        The {{ trigger.to_state.name }} is:
+        The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['on', 'off'] -%}
             {{ {'on': ' Detected a leak.', 'off': ' leak has cleared.'}[trigger.to_state.state] }}
           {%- else -%}
