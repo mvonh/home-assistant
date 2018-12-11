@@ -2444,7 +2444,7 @@ sensor:
               {% if is_state('lock.lock_garage_door_lock', 'locked') %}
                 Auto Re-Locked. Last unlocked with Code {{ number }} ({{ user }})
               {% else %}
-                Unlocked with Code {{ number }} ({{ user }})
+                Keypad Unlock with Code {{ number }} ({{ user }})
               {% endif %}
             {% elif is_state('sensor.lock_garage_door_lock_alarm_type', '16') %}
                 Unlocked with Code {{ number }} ({{ user }})
