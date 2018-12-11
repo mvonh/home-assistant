@@ -262,6 +262,8 @@ light:
 #  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh
 shell_command:
   delete_snapshots: 'rm -f /tmp/*.jpg'
+  alexa_vol: '/home/homeassistant/.homeassistant/alexa_remote_control.sh -d "{{ device }}" -e vol:{{ volume }} '
+  alexa_routine: '/home/homeassistant/.homeassistant/alexa_remote_control.sh -d "{{ device }}" -e automation:"{{ routine }}" '
 
 remote:
   - platform: harmony

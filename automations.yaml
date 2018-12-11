@@ -1283,9 +1283,9 @@
     data_template:
       message: >-
         {% if states('input_select.work_location') == 'Base' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
+          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
         {% elif states('input_select.work_location') == 'CACI' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
+          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
         {% else %}
           I'm not sure where you're going today
         {% endif %}
@@ -1293,9 +1293,9 @@
     data_template:
       message: >-
         {% if states('input_select.work_location') == 'Base' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
+          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
         {% elif states('input_select.work_location') == 'CACI' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by 8:30am.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
+          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
         {% else %}
           I'm not sure where you're going today
         {% endif %}
@@ -1532,7 +1532,7 @@
       entity_id: input_text.commute_start_zone_tracy
       value: '{{ trigger.from_state.state }}'
   - condition: template
-    value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 1 }}"
+    value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 2 }}"
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1553,7 +1553,7 @@
     value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.tracy_arriving_at_location_alert.attributes.last_triggered) | int > 120 }}'
   action:
   - condition: template
-    value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 1 }}"
+    value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 2 }}"
   - service: script.sms_notify_with_images
     data_template:
       service: notify.sms_paul
@@ -1932,7 +1932,7 @@
       value: '{{ trigger.from_state.state }}'
   - service: notify.main_echos
     data_template:
-      message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
+      message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.tracys_time_to_home') }} minutes."
 
 - alias: Paul Travel Notice
   trigger:
@@ -2018,8 +2018,10 @@
           At the moment, your commute to AVIS will take {{ states('sensor.time_to_avis_tracy') }} minutes.  Traffic is {{ states('sensor.tracys_traffic_density_to_avis') }} at the moment.
         {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 7 %}
           The Garage Door is currently {{ states('cover.garage_door_opener') }}.
-        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 8 %}
-          nothing to see here
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 9 %}
+          Based on current traffic, you have 15 minutes to leave if you want to get to work by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }} A M .  Traffic is {{ states('sensor.pauls_traffic_density_to_work') }} today.
+        {% elif (states.light.alexa_virtual.attributes.brightness | int / 255 * 100 ) | round  == 10 %}
+          {{ as_timestamp(now())|timestamp_custom ('%-I %M') }} and then {{ as_timestamp(now())|timestamp_custom ('%H %M') }} and one more {{ as_timestamp(now())|timestamp_custom ('%I %M') }}  and lastly {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }}
         {% else %}
          {{ states('light.alexa_virtual.attributes.brightness') }}
         {% endif %}
@@ -2400,3 +2402,49 @@
   action:
   - service: script.turn_on
     entity_id: script.car_lock_car_doors
+
+#############################################
+## Play Music When I get home              ##
+#############################################
+- alias: Play Music When I get Home
+  trigger:
+  - platform: state
+    entity_id:
+      - input_boolean.paul_present
+    to: 'on'
+    for:
+      minutes: 1
+  - platform: state
+    entity_id:
+      - device_tracker.paul_all
+      - device_tracker.pauls_iphone_2
+    to: 'home'
+    for:
+      minutes: 1
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: state
+    entity_id: media_player.living_room
+    state: 'Paused'
+  - condition: state
+    entity_id: binary_sensor.tracy_presence
+    state: 'off'
+  action:
+  - service: media_player.select_source
+    data_template:
+      entity_id:
+        - media_player.living_room
+      source: Discover Weekly
+
+#- alias: "volume setting"
+#  trigger:
+#  - platform: state
+#    entity_id: light.alexa_virtual
+#    to: 'on'
+#  action:
+#  - service: shell_command.alexa_vol
+#    data_template:
+#      device: office
+#      volume: 30
