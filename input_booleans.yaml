@@ -44,3 +44,6 @@ wheres_paul:
 whats_going_on:
   name: Whats Going On
   icon: mdi:account
+vacation_mode:
+  name: Vacation Mode
+  icon: mdi:account

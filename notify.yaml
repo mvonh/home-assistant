@@ -115,10 +115,6 @@
   - platform: command_line
     name: 'frog'
     command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d 'frog'"
-
-#  - platform: command_line
-#    name: 'lastecho'
-#    command: "/home/homeassistant/.homeassistant/alexa_wrapper.sh -d '{{ states('sensor.last_used_echo') }}'"
     
   - platform: command_line
     name: 'All Alexas'

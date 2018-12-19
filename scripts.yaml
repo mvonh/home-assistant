@@ -342,10 +342,10 @@ mockupancy:
     # Wait until it is after 6pm and dark to start the routine
     - wait_template: "{{ states.sensor.time.state >= '18:00' and is_state('binary_sensor.dark_outside' , 'on') }}"
 
-    # Check that it Extended Away mode is still on
+    # Check that it Vacation mode is still on
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
 
     # Pick a random bedtime between 10pm and midnight.
     - service: input_datetime.set_time
@@ -426,10 +426,10 @@ mockupancy:
 # A further script for if it is still dark in the morning
 morning_mockupancy:
   sequence:
-    # Check that it Extended Away mode is still on
+    # Check that it Vacation mode is still on
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
 
     # Wait a random nmber of minutes between 1 and 30 and switch on the morning lights
     - delay: "00:{{ (range(1, 30)|random|int) }}:00"
@@ -480,10 +480,10 @@ random_ashleys_room:
 # Randomising rooms we're in and out off
 random_master_bedroom:
   sequence:
-    # Check that it Extended Away mode is still on
+    # Check that it Vacation mode is still on
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
 
     # Wait a random nmber of minutes between 15 and 90 and switch on
     - delay: "00:{{ (range(15, 90)|random|int) }}:00"
@@ -503,10 +503,10 @@ random_master_bedroom:
 
 random_kitchen:
   sequence:
-    # Check that it Extended Away mode is still on
+    # Check that it Vacation mode is still on
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
 
     # Wait a random nmber of minutes between 15 and 90 and switch on
     - delay: "00:{{ (range(15, 90)|random|int) }}:00"
@@ -534,10 +534,10 @@ mockupancy_loop:
         - script.mockupancy
     - delay: 00:05:00
 
-    # Check that it Extended Away mode is still on and restart the script for a new day
+    # Check that it Vacation mode is still on and restart the script for a new day
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
     - service: script.mockupancy
 
 random_master_bedroom_loop:
@@ -547,10 +547,10 @@ random_master_bedroom_loop:
       entity_id: script.random_master_bedroom
     - delay: 00:05:00
 
-    # Check that Extended Away mode is on and restart the script
+    # Check that Vacation mode is on and restart the script
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
     - service: script.random_master_bedroom
 
 random_kitchen_loop:
@@ -560,8 +560,8 @@ random_kitchen_loop:
       entity_id: script.random_kitchen
     - delay: 00:05:00
 
-    # Check that Extended Away mode is on and restart the script
+    # Check that Vacation mode is on and restart the script
     - condition: state
-      entity_id: input_select.house_mode
-      state: 'Extended Away'
+      entity_id: input_boolean.vacation_mode
+      state: 'on'
     - service: script.random_kitchen

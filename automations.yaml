@@ -58,18 +58,16 @@
     data:
       option: 'Disarmed'
 
-#- alias: Mark house as extended away
-#  trigger:
-#  - platform: state
-#    entity_id: binary_sensor.people_home
-#    to: 'off'
-#    for:
-#      hours: 24
-#  action:
-#  - service: input_select.select_option
-#    entity_id: input_select.house_mode
-#    data:
-#      option: 'Extended Away'
+- alias: Mark house as extended away
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.people_home
+    to: 'off'
+    for:
+      hours: 24
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.vacation_mode
 
 ##########################################
 ## Just Arrived timers used for stuff   ##
@@ -177,22 +175,10 @@
       - group.goodbye_lights_and_switches
   - service: lock.lock
     entity_id: group.all_locks
-  - service: remote.send_command
-    data:
-      entity_id: remote.living_room_harmony_hub
-      command:
-         - PowerOff
-# sony TV
-      device: 48350995
-      delay_secs: 0.6
-  - service: remote.send_command
-    data:
-      entity_id: remote.living_room_harmony_hub
-      command:
-         - Off
-# sonos
-      device: 54465379
-      delay_secs: 0.6
+  - service: media_player.turn_off
+    entity_id: media_player.living_room_tv
+  - service: media_player.media_pause
+    entity_id: media_player.living_room
   - service: automation.turn_on
     entity_id:
       - automation.cameras_back_gate_picture
@@ -246,8 +232,6 @@
     for:
       minutes: 1
   action:
-  - service: script.turn_on
-    entity_id: script.ecobee_sleep_mode
   - service: light.turn_on
     entity_id: group.downstairs_color_hue_lights
     data:
@@ -284,12 +268,17 @@
       - automation.cameras_drive_way_1_picture
       - automation.cameras_drive_way_2_picture
       - automation.camera_side_yard_picture
-  - condition: state
-    entity_id: remote.theater_room_harmony_hub
-    state: 'off'
+#  - condition: state
+#    entity_id: remote.theater_room_harmony_hub
+#    state: 'off'
   - service: homeassistant.turn_off
     entity_id:
       - group.upstairs_frog
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.ecobee_sleep_mode
 
 - alias: 'Automatic Goodnight'
   trigger:
@@ -355,10 +344,6 @@
   action:
   - service: scene.turn_on
     entity_id: scene.morning_lighting
-  - service: script.turn_on
-    entity_id: script.ecobee_resume_mode
-  - service: lock.unlock
-    entity_id: lock.lock_garage_door_lock
   - service: input_select.select_option
     data_template:
       entity_id: input_select.security_system
@@ -370,6 +355,13 @@
   - service: input_boolean.turn_off
     entity_id:
       - input_boolean.goodmorning_switch
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'off'
+  - service: script.turn_on
+    entity_id: script.ecobee_resume_mode
+  - service: lock.unlock
+    entity_id: lock.lock_garage_door_lock
 
 ##########################################
 ## Lighting Based on states Automations ##
@@ -511,12 +503,12 @@
 
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
-  - platform: state
-    entity_id: remote.theater_room_harmony_hub
-    to: 'on'
+#  - platform: state
+#    entity_id: remote.theater_room_harmony_hub
+#    to: 'on'
   - platform: state
     entity_id: media_player.theater_room_tv_control
-    from: 'off'
+    to: 'on'
   condition:
   - condition: state
     entity_id: timer.frog_tv_reset
@@ -536,9 +528,9 @@
   - platform: state
     entity_id: media_player.theater_room_tv_control
     to: 'off'
-  - platform: state
-    entity_id: remote.theater_room_harmony_hub
-    to: 'off'
+#  - platform: state
+#    entity_id: remote.theater_room_harmony_hub
+#    to: 'off'
   condition:
   - condition: state
     entity_id: timer.frog_tv_reset
@@ -556,11 +548,11 @@
 
 - alias: Reset Theater Room
   trigger:
-  - platform: state
-    entity_id: remote.theater_room_harmony_hub
-    to: 'off'
-    for:
-      minutes: 1
+#  - platform: state
+#    entity_id: remote.theater_room_harmony_hub
+#    to: 'off'
+#    for:
+#      minutes: 1
   - platform: state
     entity_id: media_player.theater_room_tv_control
     to: 'off'
@@ -591,7 +583,7 @@
 - alias: Theater Room fan on if warm
   trigger:
   - platform: state
-    entity_id: remote.theater_room_harmony_hub
+    entity_id: media_player.theater_room_tv_control
     to: 'on'
   condition:
   - condition: numeric_state
@@ -610,7 +602,7 @@
   trigger:
   - platform: state
     entity_id: media_player.bedroom_tv_control
-    from: 'off'
+    to: 'on'
   condition:
   action:
   - service: light.turn_on
@@ -661,12 +653,11 @@
   - platform: template
     value_template: "{{ states.sun.sun.attributes.elevation < 4 }}"
   - platform: state
-    entity_id: remote.living_room_harmony_hub
-    from: 'off'
+    entity_id: media_player.living_room_tv
     to: 'on'
   condition:
   - condition: state
-    entity_id: remote.living_room_harmony_hub
+    entity_id: media_player.living_room_tv
     state: 'on'
   - condition: numeric_state
     entity_id: sun.sun
@@ -687,8 +678,9 @@
     value_template: "{{ states.sun.sun.attributes.elevation < 4 }}"
   condition:
   - condition: state
-    entity_id: remote.living_room_harmony_hub
+    entity_id: media_player.living_room_tv
     state: 'off'
+#add an or for sonos on
   - condition: state
     entity_id: input_select.house_mode
     state: 'Home'
@@ -704,8 +696,7 @@
 - alias: TV Evening Lighting after turning TV Off
   trigger:
   - platform: state
-    entity_id: remote.living_room_harmony_hub
-    from: 'on'
+    entity_id: media_player.living_room_tv
     to: 'off'
   condition:
   - condition: sun
@@ -898,8 +889,6 @@
     value_template: "{{ states('sensor.front_door_report').lower().startswith('keypad unlock') }}"
   - platform: template
     value_template: "{{ states('sensor.back_door_report').lower().startswith('keypad unlock') }}"
-  - platform: template
-    value_template: "{{ states('sensor.garage_door_report').lower().startswith('keypad unlock') }}"
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -911,22 +900,23 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.guests_present
   - delay:
-      seconds: 2
+      seconds: 5
   - service: notify.pushbullet_notifications
     data_template:
       target:
       - !secret pauls_secret_email
       - !secret tracys_secret_email
       title: >
-        {{ trigger.to_state.attributes.friendly_name }} - {{ trigger.to_state.state }}
+        {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
+                          'sensor.back_door_report' : 'sensor.backdoor_code' } %}
+        {{ trigger.to_state.attributes.friendly_name }} unlocked by {{ states(mapper[trigger.entity_id]) }}
       message: "At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
   - service: input_text.set_value
     data_template:
       entity_id: input_text.last_person_to_unlock
       value: >
         {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
-                          'sensor.back_door_report' : 'sensor.backdoor_code',
-                          'sensor.garage_door_report' : 'sensor.garagedoor_code' } %}
+                          'sensor.back_door_report' : 'sensor.backdoor_code' } %}
         {{ states(mapper[trigger.entity_id]) }}
 
 - alias: Notify who locked door with timestamp
@@ -1186,8 +1176,8 @@
     after: '22:30:00'
     before: '05:00:00'
   action:
-  - service: remote.turn_off
-    entity_id: remote.living_room_harmony_hub
+  - service: media_player.turn_off
+    entity_id: media_player.living_room_tv
 
 ##########################################
 ## Alerts for offline devices           ##
@@ -1618,7 +1608,7 @@
       title: "Front Door Motion"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
-        file: "/tmp/driveway1.jpg"
+        file: '/tmp/frontdoor.jpg'
   - condition: state
     entity_id: sun.sun
     state: 'below_horizon'

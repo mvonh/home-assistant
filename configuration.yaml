@@ -176,20 +176,28 @@ ios:
           - identifier: 'OPEN_GARAGE_WHEN_I_GET_HOME'
             title: 'Yes'
 
+asuswrt:
+  #- platform: asuswrt
+    host: !secret router_ip
+    username: !secret router_user
+    password: !secret router_password
+    protocol: ssh
+#    port: 23
+
 # Device Trackers
 device_tracker:
   - platform: google_maps
     username: !secret notificationemail
     password: !secret gmailpassword
     max_gps_accuracy: 150
-  - platform: asuswrt
-    host: !secret router_ip
-    username: !secret router_user
-    password: !secret router_password
-    protocol: ssh
-    interval_seconds: 15
-    consider_home: 30
-    track_new_devices: yes
+#  - platform: asuswrt
+#    host: !secret router_ip
+#    username: !secret router_user
+#    password: !secret router_password
+#    protocol: ssh
+#    interval_seconds: 15
+#    consider_home: 30
+#    track_new_devices: yes
   - platform: life360
     username: !secret life360_user
     password: !secret life360_password
@@ -293,6 +301,13 @@ media_player:
     host: 192.168.1.84
     access_token: Zbo7pxfs55
     name: Bedroom TV Control
+  - platform: braviatv_psk
+    name: Living Room TV
+    host: 192.168.1.80
+    psk: 1234
+    mac: 04:5D:4B:AA:70:89
+    amp: True
+    android: True
     
 # View all events in a logbook
 logbook: !include logbook.yaml
