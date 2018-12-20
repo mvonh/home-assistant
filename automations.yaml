@@ -189,7 +189,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
       title: "Goodbye Routine has ran"
       message: "All lights have been turned off. Garage door has closed and locks have been locked"
@@ -262,7 +262,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
       title: "Good Night Routine Ran"
       message: "Lights off, doors locked, garage closed"
@@ -869,10 +869,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: Doors left unlocked
       message: >
@@ -891,10 +891,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: Zigbee Devices Offline
       message: >
@@ -923,10 +923,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: >
         {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
@@ -962,10 +962,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: >
         {{ trigger.to_state.attributes.friendly_name }} locked by {{ states('input_text.last_person_to_unlock') }}
@@ -999,10 +999,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and no one is home"
@@ -1025,10 +1025,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Indoor Motion Alert"
       message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
@@ -1058,10 +1058,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and security system is armed"
@@ -1158,10 +1158,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Garage Door Status"
       message: "Garage Door has Closed"
@@ -1248,7 +1248,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
       title: "Device Offline" 
       message: "{{ trigger.to_state.attributes.friendly_name }} is offline"
@@ -1322,7 +1322,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Traffic is heavier than usual!"
       message: "Based on current traffic, you have about 10 minutes to leave if you want to be to work by 7:30am"
@@ -1504,7 +1504,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
       title: "Commute Logged"
       message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul_all') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
@@ -1537,7 +1537,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
       title: "Location Alert"
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
@@ -1560,7 +1560,7 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
       title: "Location Alert"
       message: "Tracy arrived at {{ states('device_tracker.tracy_all') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
@@ -1656,10 +1656,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Front Door Motion"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
@@ -1698,10 +1698,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Gate Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
@@ -1725,10 +1725,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Side Yard Line Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
@@ -1803,10 +1803,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       title: "Door or Window Left Open"
       message: "The {{ trigger.to_state.attributes.friendly_name }} is open"
@@ -1833,10 +1833,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       message: >-
         The {{ trigger.to_state.name }} 
@@ -1873,10 +1873,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       message: >-
         The {{ trigger.to_state.name }} 
@@ -1917,10 +1917,10 @@
     data_template:
       target: >
         {% if states('input_boolean.notify_paul') == 'on' %}
-       - !secret pauls_secret_email
+         - !secret pauls_secret_email
         {% endif %}
         {% if states('input_boolean.notify_tracy') == 'on' %}
-       - !secret tracys_secret_email
+         - !secret tracys_secret_email
         {% endif %}
       message: >-
         The {{ trigger.to_state.name }} 
