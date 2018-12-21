@@ -187,10 +187,8 @@
       - automation.camera_side_yard_picture
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: "Goodbye Routine has ran"
       message: "All lights have been turned off. Garage door has closed and locks have been locked"
   - condition: numeric_state
@@ -260,10 +258,8 @@
       option: Night
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: "Good Night Routine Ran"
       message: "Lights off, doors locked, garage closed"
   - service: automation.turn_on
@@ -320,7 +316,10 @@
         - light.hallway_light
       brightness: 20
   - condition: state
-    entity_id: binary_sensor.master_bedroom_occupancy
+    entity_id: input_boolean.paul_in_bed
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.tracy_in_bed
     state: 'off'
   - service: light.turn_on
     data:
@@ -665,9 +664,15 @@
   - platform: state
     entity_id: media_player.living_room_tv
     to: 'on'
+  - platform: state
+    entity_id: remote.living_room_harmony_hub
+    to: 'on'
   condition:
   - condition: state
     entity_id: media_player.living_room_tv
+    state: 'on'
+  - condition: state
+    entity_id: remote.living_room_harmony_hub
     state: 'on'
   - condition: numeric_state
     entity_id: sun.sun
@@ -679,8 +684,6 @@
   action:
   - service: scene.turn_on
     entity_id: scene.tv_lights
-  - service: switch.turn_on
-    entity_id: switch.sconce_light
 
 - alias: Lighting after sunset if TV is turned off
   trigger:
@@ -700,13 +703,14 @@
   action:
   - service: scene.turn_on
     entity_id: scene.casual_lighting
-  - service: switch.turn_on
-    entity_id: switch.sconce_light
 
 - alias: TV Evening Lighting after turning TV Off
   trigger:
   - platform: state
     entity_id: media_player.living_room_tv
+    to: 'off'
+  - platform: state
+    entity_id: remote.living_room_harmony_hub
     to: 'off'
   condition:
   - condition: sun
@@ -733,9 +737,7 @@
     below: 4.0  
   action:
   - service: scene.turn_on
-    entity_id: scene.casual_lighting
-  - service: switch.turn_on
-    entity_id: switch.sconce_light
+    entity_id: scene.evening_lighting
 
 ##########################################
 ## Door Locking and Unlocking           ##
@@ -867,13 +869,9 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: Doors left unlocked
       message: >
           {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
@@ -889,13 +887,8 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: Zigbee Devices Offline
       message: >
           {% set offline = states | selectattr('entity_id', 'in', state_attr('group.all_zigbee','entity_id')) | selectattr('state','eq','offline') | map(attribute='name') | join(', ') %}
@@ -921,13 +914,9 @@
       seconds: 5
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: >
         {% set mapper = { 'sensor.front_door_report' : 'sensor.frontdoor_code',
                           'sensor.back_door_report' : 'sensor.backdoor_code' } %}
@@ -960,13 +949,9 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: >
         {{ trigger.to_state.attributes.friendly_name }} locked by {{ states('input_text.last_person_to_unlock') }}
       message: "At {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}" 
@@ -997,13 +982,9 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and no one is home"
 
@@ -1023,13 +1004,9 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Indoor Motion Alert"
       message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
 
@@ -1056,13 +1033,9 @@
       message: "The {{ trigger.to_state.attributes.friendly_name }} has been opened, and the security system is armed."
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and security system is armed"
 
@@ -1156,13 +1129,9 @@
     entity_id: input_boolean.garage_changed_with_ha
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Garage Door Status"
       message: "Garage Door has Closed"
       
@@ -1206,8 +1175,12 @@
   trigger:
   - platform: state
     entity_id: group.indoor_motion_sensors
-    from: 'on'
     to: 'off'
+    for:
+      minutes: 30
+  - platform: state
+    entity_id: group.indoor_motion_sensors
+    to: 'on'
     for:
       minutes: 30
   condition:
@@ -1218,8 +1191,8 @@
     after: '22:30:00'
     before: '05:00:00'
   action:
-  - service: media_player.turn_off
-    entity_id: media_player.living_room_tv
+  - service: remote.turn_off
+    entity_id: remote.living_room_harmony_hub
 
 ##########################################
 ## Alerts for offline devices           ##
@@ -1246,10 +1219,8 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: "Device Offline" 
       message: "{{ trigger.to_state.attributes.friendly_name }} is offline"
 
@@ -1320,10 +1291,8 @@
   action:
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret tracys_secret_email
       title: "Traffic is heavier than usual!"
       message: "Based on current traffic, you have about 10 minutes to leave if you want to be to work by 7:30am"
 
@@ -1502,10 +1471,8 @@
       value3: '{{ ((as_timestamp(now()) - (states("input_number.commute_start_time")|int))/60)|round }}'
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: "Commute Logged"
       message: "Your commute from {{ states('input_text.commute_start_zone') }} to {{ states('device_tracker.paul_all') }} took {{ ((as_timestamp(now()) - (states('input_number.commute_start_time')|int))/60)|round }} minutes"
 
@@ -1535,10 +1502,8 @@
     value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 2 }}"
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: "Location Alert"
       message: "Tracy left {{ states('input_text.commute_start_zone_tracy') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
 
@@ -1558,10 +1523,8 @@
     value_template: "{{ states('sensor.time_to_get_to_soul_mate')| int > 2 }}"
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
       title: "Location Alert"
       message: "Tracy arrived at {{ states('device_tracker.tracy_all') }} at {{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }}"
 
@@ -1654,13 +1617,9 @@
       filename: '/tmp/frontdoor.jpg'
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Front Door Motion"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
@@ -1696,13 +1655,9 @@
       filename: '/tmp/backgate.jpg'
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Gate Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
@@ -1723,13 +1678,9 @@
       filename: '/tmp/sideyard.jpg'
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Side Yard Line Crossing"
       message: "{{ as_timestamp (now()) | timestamp_custom('%I:%M %p') }} on {{ now().strftime('%d %b %Y') }}"
       data:
@@ -1801,13 +1752,9 @@
     state: 'off'
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       title: "Door or Window Left Open"
       message: "The {{ trigger.to_state.attributes.friendly_name }} is open"
 
@@ -1831,13 +1778,9 @@
           {%- endif %}
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['on', 'off'] -%}
@@ -1871,13 +1814,9 @@
           {%- endif %}
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
@@ -1915,13 +1854,9 @@
           {%- endif %}
   - service: notify.pushbullet_notifications
     data_template:
-      target: >
-        {% if states('input_boolean.notify_paul') == 'on' %}
-         - !secret pauls_secret_email
-        {% endif %}
-        {% if states('input_boolean.notify_tracy') == 'on' %}
-         - !secret tracys_secret_email
-        {% endif %}
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
       message: >-
         The {{ trigger.to_state.name }} 
           {%- if trigger.to_state.state in ['warning', 'emergency', 'Ok' ] -%}
@@ -2440,15 +2375,8 @@
   trigger:
   - platform: state
     entity_id:
-      - input_boolean.paul_present
+      - binary_sensor.paul_presence
     to: 'on'
-    for:
-      minutes: 1
-  - platform: state
-    entity_id:
-      - device_tracker.paul_all
-      - device_tracker.pauls_iphone_2
-    to: 'home'
     for:
       minutes: 1
   condition:

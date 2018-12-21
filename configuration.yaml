@@ -265,6 +265,15 @@ light:
         turn_on:
         turn_off:
         set_level:
+  - platform: switch
+    name: Sconce Light
+    entity_id: switch.sconce_light
+  - platform: switch
+    name: Stairwell Lighgt
+    entity_id: switch.stairwell_light
+  - platform: switch
+    name: Christmas Tree
+    entity_id: switch.living_room_plug_two
 
 #shell_command:
 #  snapshot_frontdoor_gif: /home/homeassistant/.homeassistant/www/tmp/gif.sh

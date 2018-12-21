@@ -38,6 +38,12 @@
         brightness: 150
         color_temp: 444
 
+      light.sconce_light:
+        state: on
+
+      light.christmas_tree:
+        state: on
+
   - name: Evening Lighting
     entities:
       light.kitchen_cabinet_bottoms:
@@ -77,6 +83,12 @@
         state: on
         brightness: 150
         color_temp: 444
+
+      light.sconce_light:
+        state: on
+
+      light.christmas_tree:
+        state: on
 
   - name: Morning Lighting
     entities:
@@ -151,6 +163,12 @@
         state: on
         brightness: 150
         color_temp: 444
+
+      light.sconce_light:
+        state: on
+
+      light.christmas_tree:
+        state: on
 
   - name: Downstairs Color Loop
     entities:
