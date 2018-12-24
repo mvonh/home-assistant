@@ -575,7 +575,7 @@ household_routines:
   view: no
   entities:    
     - automation.good_morning_routine
-    - automation.good_night_routine
+    - automation.goodnight_routine
     - automation.goodbye_routine
     - automation.welcome_back_routine
 

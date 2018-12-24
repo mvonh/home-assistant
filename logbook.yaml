@@ -61,8 +61,10 @@
       - light.bedroom_ceiling_light
       - light.bedroom_lamp_one
       - light.bedroom_lamp_two
+      - light.bedroom_tv_lights
       - light.frog_ceiling_light
       - light.frog_fan_light
+      - light.frog_couch_backlight
       - light.guest_bedroom_lamp
       - light.guest_room
       - light.kitchen_cabinet_bottoms
@@ -81,6 +83,8 @@
 #      - lock.lock_back_door_lock
 #      - lock.lock_front_door_lock
       - lock.lock_garage_door_lock
+      - media_player.bedroom_tv_control
+      - media_player.theater_room_tv_control
       - remote.living_room_harmony_hub
       - remote.theater_room_harmony_hub
       - sensor.house_mode
