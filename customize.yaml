@@ -2,8 +2,6 @@ group.all_automations:
   hidden: false
 group.all_scripts:
   hidden: false
-#binary_sensor.motion_sensor_front_door_sensor:
-#  hidden: true
 binary_sensor.motion_sensor_office_motion:
   friendly_name: "Motion Sensor (Office)"
 binary_sensor.motion_sensor_kitchen_motion:
@@ -30,6 +28,7 @@ light.zigbee_plug_one:
 sensor.temp_garage_fridge:
   friendly_name:  "Garage Fridge Temp"
 switch.fireplace:
+  emulated_hue_hidden: false
   friendly_name: Fireplace
   icon: mdi:fire
 cover.garage_door_opener:
@@ -296,9 +295,11 @@ light.guest_bedroom_lamp:
 light.living_room_lamp_one:
   friendly_name: Living Room Lamp One
   icon: mdi:lamp
+  emulated_hue_hidden: false
 light.living_room_lamp_two:
   friendly_name: Living Room Lamp Two
   icon: mdi:lamp
+  emulated_hue_hidden: false
 light.hallway_light:
   friendly_name: Hallway Lights
   icon: mdi:wall-sconce-flat
@@ -317,12 +318,15 @@ light.kitchen_cabinet_bottoms:
 light.left_shelf_lights:
   friendly_name: Left Shelf Lights
   icon: mdi:drag-vertical
+  emulated_hue_hidden: false
 light.tv_backlights:
   friendly_name: TV Backlights
   icon: mdi:crop-landscape
+  emulated_hue_hidden: false
 light.right_shelf_lights:
   friendly_name: Right Shelf Lights
   icon: mdi:drag-vertical
+  emulated_hue_hidden: false
 media_player.vizio_smartcast:
   friendly_name: Bedroom TV
   icon: mdi:television

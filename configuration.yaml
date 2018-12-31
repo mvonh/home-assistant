@@ -132,6 +132,10 @@ duckdns:
   domain: !secret ha_domain_name
   access_token: !secret duckdns_access_token
 
+emulated_hue:
+  host_ip: 192.168.1.15
+  expose_by_default: false
+
 # Discover some devices automatically
 #discovery:
 #  ignore:

@@ -461,6 +461,9 @@
   - condition: state
     entity_id: group.upstairs_frog
     state: 'off'
+  - condition: state
+    entity_id: remote.theater_room_harmony_hub
+    state: 'off'
   action:
   - service: light.turn_on
     data:
@@ -568,9 +571,9 @@
 
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
-#  - platform: state
-#    entity_id: remote.theater_room_harmony_hub
-#    to: 'on'
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'on'
   - platform: state
     entity_id: media_player.theater_room_tv_control
     to: 'on'
@@ -593,9 +596,9 @@
   - platform: state
     entity_id: media_player.theater_room_tv_control
     to: 'off'
-#  - platform: state
-#    entity_id: remote.theater_room_harmony_hub
-#    to: 'off'
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'off'
   condition:
   - condition: state
     entity_id: timer.frog_tv_reset
@@ -613,11 +616,11 @@
 
 - alias: Reset Theater Room
   trigger:
-#  - platform: state
-#    entity_id: remote.theater_room_harmony_hub
-#    to: 'off'
-#    for:
-#      minutes: 1
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'off'
+    for:
+      minutes: 1
   - platform: state
     entity_id: media_player.theater_room_tv_control
     to: 'off'
@@ -2469,6 +2472,31 @@
     data_template:
       entity_id: media_player.living_room
       source: Discover Weekly
+- alias: 'Turn Off Lamps when we get into bed'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.paul_in_bed
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.tracy_in_bed
+    to: 'on'
+  condition:
+  - condition: time
+    after: '22:00:00'
+    before: '03:00:00'
+  - condition: template
+    value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.motion_sensor_hallway_motion.last_changed)) < 600 }}"
+  action:
+  - service: light.turn_off
+    data_template:
+      entity_id: >-
+        {% if trigger.entity_id == 'input_boolean.paul_in_bed' %}
+          light.bedroom_lamp_two
+        {% elif trigger.entity_id == 'input_boolean.tracy_in_bed'%}
+          light.bedroom_lamp_one
+        {% else %}
+          light.bedroom_lamp_two
+        {% endif %}
 
 #- alias: "volume setting"
 #  trigger:
