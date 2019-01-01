@@ -1,3 +1,5 @@
+
+
 ##########################################
 ## Setting House Mode based on Presence ##
 ##########################################
@@ -14,7 +16,7 @@
     above: 1
   - condition: state
     entity_id: input_select.house_mode
-    state: 'Home'   
+    state: 'Home'
   action:
   - service: input_select.select_option
     entity_id: input_select.house_mode
@@ -58,7 +60,7 @@
     data:
       option: 'Disarmed'
 
-- alias: Mark house as extended away
+- alias: Mark house as Vacation Mode
   trigger:
   - platform: state
     entity_id: binary_sensor.people_home
@@ -72,35 +74,48 @@
 ##########################################
 ## Just Arrived timers used for stuff   ##
 ##########################################
-- alias: Paul Just Arrived Timer
+- alias: Paul or Tracy Just Arrived Timer
   trigger:
   - platform: state
     entity_id:
       - input_boolean.paul_present
+      - input_boolean.tracy_present
     to: 'on'
   - platform: state
     entity_id:
       - device_tracker.paul_all
       - device_tracker.pauls_iphone_2
+      - device_tracker.tracy_all
+      - device_tracker.tracys_iphone_2
     to: 'home'
   action:
   - service: timer.start
     entity_id: timer.paul_just_arrived
-
-- alias: Tracy just Arrived Timer
-  trigger:
-  - platform: state
-    entity_id:
-      - input_boolean.tracy_present
-    to: 'on'
-  - platform: state
-    entity_id:
-      - device_tracker.tracy_all
-      - device_tracker.tracy_iphone_2
-    to: 'home'
-  action:
   - service: timer.start
-    entity_id: timer.tracy_just_arrived
+    data_template:
+      entity_id: >-
+        {% if trigger.entity_id == 'input_boolean.paul_present' or trigger.entity_id == 'device_tracker.paul_all' or trigger.entity_id == 'device_tracker.pauls_iphone_2' %}
+          timer.paul_just_arrived
+        {% elif trigger.entity_id == 'input_boolean.tracy_present' or trigger.entity_id == 'device_tracker.tracy_all' or trigger.entity_id == 'device_tracker.tracys_iphone_2' %}
+          timer.tracy_just_arrived
+        {% else %}
+          timer.guests_just_arrived
+        {% endif %}
+
+#- alias: Tracy just Arrived Timer
+#  trigger:
+#  - platform: state
+#    entity_id:
+#      - input_boolean.tracy_present
+#    to: 'on'
+#  - platform: state
+#    entity_id:
+#      - device_tracker.tracy_all
+#      - device_tracker.tracys_iphone_2
+#    to: 'home'
+#  action:
+#  - service: timer.start
+#    entity_id: timer.tracy_just_arrived
 
 - alias: Guests Just Arrived Timer
   trigger:
@@ -211,7 +226,7 @@
   action:
   - service: lock.unlock
     entity_id: lock.lock_garage_door_lock
-  - service: homeassistant.turn_on
+  - service: switch.turn_on
     entity_id: switch.bedroom_fan
   - service: automation.turn_off
     entity_id:
@@ -242,7 +257,7 @@
       - group.good_night_lights
       - input_boolean.goodnight_switch
       - input_boolean.goodmorning_switch
-  - service: homeassistant.turn_on
+  - service: switch.turn_on
     entity_id: switch.back_porch_light    
   - service: lock.lock
     entity_id: group.all_locks
@@ -287,11 +302,6 @@
     to: 'off'
     for:
       minutes: 60
-  - platform: state
-    entity_id: group.indoor_motion_sensors
-    to: 'on'
-    for:
-      minutes: 60
   condition:
   - condition: state
     entity_id: input_select.house_mode
@@ -300,8 +310,8 @@
     after: '22:30:00'
     before: '05:00:00'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.goodnight_switch
+  - service: automation.trigger
+    entity_id: automation.goodnight_routine
 
 - alias: 'Automatic Goodnight when we get into bed'
   trigger:
@@ -399,6 +409,9 @@
     entity_id: script.ecobee_resume_mode
   - service: lock.unlock
     entity_id: lock.lock_garage_door_lock
+  - service: automation.turn_off
+    entity_id:
+      - automation.cameras_back_gate_picture
 
 ##########################################
 ## Lighting Based on states Automations ##
@@ -455,7 +468,6 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.motion_sensor_frog
-    from: 'off'
     to: 'on'
   condition:
   - condition: state
@@ -476,17 +488,12 @@
     entity_id: group.upstairs_frog
     state: 'on'
   - service: light.turn_off
-    data:
-      entity_id:
-        - light.frog_ceiling_light
-        - light.frog_fan_light
-      brightness: 255
+    entity_id: light.frog_ceiling_light,light.frog_fan_light
 
 - alias: 'Motion Lighting Garage turn light on'
   trigger:
   - platform: state
     entity_id: binary_sensor.open_close_sensor_garage_door
-    from: 'off'
     to: 'on'
   - platform: state
     entity_id: binary_sensor.motion_sensor_garage_motion
@@ -537,7 +544,7 @@
     from: 'on'
     to: 'off'
     for:
-      minutes: 1
+      seconds: 30
   action:
   - service: switch.turn_off
     entity_id: switch.closet_light
@@ -556,9 +563,9 @@
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
-  - condition: state
-    entity_id: input_select.house_mode
-    state: 'Night'
+#  - condition: state
+#    entity_id: input_select.house_mode
+#    state: 'Night'
   action:
   - service: light.turn_on
     data:
@@ -581,9 +588,6 @@
   - condition: state
     entity_id: timer.frog_tv_reset
     state: 'idle'
-#  - condition: state
-#    entity_id: input_select.house_mode
-#    state: 'Home' 
   action:
   - service: switch.turn_on
     data:
@@ -603,9 +607,6 @@
   - condition: state
     entity_id: timer.frog_tv_reset
     state: 'idle'
-#  - condition: state
-#    entity_id: input_select.house_mode
-#    state: 'Home' 
   action:
   - service: light.turn_on
     data:
@@ -613,41 +614,7 @@
         - light.frog_ceiling_light
         - light.frog_fan_light
       brightness: 140
-
-- alias: Reset Theater Room
-  trigger:
-  - platform: state
-    entity_id: remote.theater_room_harmony_hub
-    to: 'off'
-    for:
-      minutes: 1
-  - platform: state
-    entity_id: media_player.theater_room_tv_control
-    to: 'off'
-    for:
-      minutes: 1
-  condition:
-  - condition: state
-    entity_id: timer.frog_tv_reset
-    state: 'idle'
-  action:
-  - delay:
-      seconds: 30
-  - wait_template: "{{ is_state('binary_sensor.motion_delay_frog', 'off') }}"
-  - service: timer.start
-    entity_id: timer.frog_tv_reset
-  - delay:
-      seconds: 60
-  - service: homeassistant.turn_off
-    entity_id:
-      - group.upstairs_frog
-  - service: script.turn_on
-    entity_id: script.theater_room_soundbar_reset
-  - delay:
-      seconds: 60
-  - service: script.turn_on
-    entity_id: script.theater_room_harmony_hub_off
-    
+   
 - alias: Theater Room fan on if warm
   trigger:
   - platform: state
@@ -688,6 +655,32 @@
   action:
   - service: light.turn_off
     entity_id: light.bedroom_tv_lights
+
+- alias: 'Turn Off Lamps when we get into bed'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.paul_in_bed
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.tracy_in_bed
+    to: 'on'
+  condition:
+  - condition: time
+    after: '22:00:00'
+    before: '03:00:00'
+  - condition: template
+    value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.motion_sensor_hallway_motion.last_changed)) < 900 }}"
+  action:
+  - service: light.turn_off
+    data_template:
+      entity_id: >-
+        {% if trigger.entity_id == 'input_boolean.paul_in_bed' %}
+          light.bedroom_lamp_two
+        {% elif trigger.entity_id == 'input_boolean.tracy_in_bed'%}
+          light.bedroom_lamp_one
+        {% else %}
+          light.bedroom_lamp_one
+        {% endif %}
 
 ##########################################
 ## Lighting Based on Sunset/sunrise     ##
@@ -1193,26 +1186,6 @@
       - !secret tracys_secret_email
       title: "Garage Door Status"
       message: "Garage Door has Closed"
-      
-- alias: 'Cancel Garage Alert'
-  trigger:
-    platform: event
-    event_type: ios.notification_action_fired
-    event_data:
-      actionName: CANCEL_GARAGE_ALERT
-  action:
-    service: homeassistant.turn_off
-    entity_id: alert.garage_door
-      
-- alias: 'Close Garage Door'
-  trigger:
-    platform: event
-    event_type: ios.notification_action_fired
-    event_data:
-      actionName: CLOSE_GARAGE
-  action:
-  - service: cover.close_cover
-    entity_id: cover.garage_door_opener
 
 ##########################################
 ## Media Automations                    ##
@@ -1252,6 +1225,40 @@
   action:
   - service: remote.turn_off
     entity_id: remote.living_room_harmony_hub
+
+- alias: Reset Theater Room
+  trigger:
+  - platform: state
+    entity_id: remote.theater_room_harmony_hub
+    to: 'off'
+    for:
+      minutes: 1
+  - platform: state
+    entity_id: media_player.theater_room_tv_control
+    to: 'off'
+    for:
+      minutes: 1
+  condition:
+  - condition: state
+    entity_id: timer.frog_tv_reset
+    state: 'idle'
+  action:
+  - delay:
+      seconds: 30
+  - wait_template: "{{ is_state('binary_sensor.motion_delay_frog', 'off') }}"
+  - service: timer.start
+    entity_id: timer.frog_tv_reset
+  - delay:
+      seconds: 60
+  - service: homeassistant.turn_off
+    entity_id:
+      - group.upstairs_frog
+  - service: script.turn_on
+    entity_id: script.theater_room_soundbar_reset
+  - delay:
+      seconds: 60
+  - service: script.turn_on
+    entity_id: script.theater_room_harmony_hub_off
 
 ##########################################
 ## Alerts for offline devices           ##
@@ -1305,7 +1312,7 @@
     after: '06:00:00'
     before: '10:00:00'
   action:
-  - service: notify.bedroom
+  - service: notify.main_echos
     data_template:
       message: >-
         {% if states('input_select.work_location') == 'Base' %}
@@ -1315,16 +1322,22 @@
         {% else %}
           I'm not sure where you're going today
         {% endif %}
-  - service: notify.kitchen
+  - delay:
+      minutes: 10
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home'
+  - service: notify.main_echos
     data_template:
-      message: >-
-        {% if states('input_select.work_location') == 'Base' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
-        {% elif states('input_select.work_location') == 'CACI' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
-        {% else %}
-          I'm not sure where you're going today
-        {% endif %}
+      message: "You have about 10 minutes to leave if you want to get to work on time"
+  - delay:
+      minutes: 5
+  - condition: state
+    entity_id: input_select.house_mode
+    state: 'Home'
+  - service: notify.main_echos
+    data_template:
+      message: "You are now going to be late.  Get moving"
 
 - alias: "Notify Tracy when its time to leave for work"
   trigger:
@@ -1620,17 +1633,17 @@
 ##########################################
 ## Roku Key Mapping for Harmony         ##
 ##########################################
-- alias: "Roku to turn on and off Fireplace with Harmony"
-  trigger:
-  - platform: event
-    event_type: roku_command
-    event_data:
+#- alias: "Roku to turn on and off Fireplace with Harmony"
+#  trigger:
+#  - platform: event
+#    event_type: roku_command
+#    event_data:
 #      roku_usn: sSMJFc3BXnTfjPAPHiY5gb
-      type: keypress
-      key: Fwd
-  action:
-  - service: homeassistant.toggle
-    entity_id: switch.fireplace
+#      type: keypress
+#      key: Fwd
+#  action:
+#  - service: homeassistant.toggle
+#    entity_id: switch.fireplace
 
 ##########################################
 ## Camera Picture Alerts                ##
@@ -2120,9 +2133,6 @@
   - platform: state
     entity_id: input_select.house_mode
     from: 'Away'
-  - platform: state
-    entity_id: input_select.house_mode
-    from: 'Extended Away'
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -2204,10 +2214,20 @@
       entity_id: zwave.aeotec_minimote_2
   action:
   - service: homeassistant.toggle
-    entity_id: light.guest_bedroom_lamp
+    data_template:
+      entity_id: >
+        {% set map = {1: 'light.guest_bedroom_lamp',
+                      2: 'light.guest_bedroom_lamp',
+                      3: 'light.guest_bedroom_light',
+                      4: 'light.guest_bedroom_light',
+                      5: 'light.guest_bedroom_lamp',
+                      6: 'light.guest_bedroom_lamp',
+                      7: 'light.guest_bedroom_light',
+                      9: 'light.guest_bedroom_light'} %}
+        {{ map[trigger.event.data.scene_id|int] }}
 
 #############################################
-## HA Actions for health, etc              ##
+## HA Actions for health, config, etc      ##
 #############################################
 #- alias: Heal zwave network
 #  trigger:
@@ -2347,6 +2367,9 @@
 #      title: "Testing of iPhone Charging"
 #      message: "Pauls phone is on the charger"
 
+#############################################
+## Automations for Actionable Notification ##
+#############################################
 - alias: Actionable Garage Door Alert
   trigger:
   - platform: state
@@ -2408,6 +2431,16 @@
   action:
     service: cover.close_cover
     entity_id: cover.garage_door_opener
+
+- alias: 'Cancel Garage Alert'
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: CANCEL_GARAGE_ALERT
+  action:
+    service: homeassistant.turn_off
+    entity_id: alert.garage_door
 
 - alias: iOS Actionable Notification to open Garage when Tracy Gets Home
   trigger:
@@ -2472,31 +2505,6 @@
     data_template:
       entity_id: media_player.living_room
       source: Discover Weekly
-- alias: 'Turn Off Lamps when we get into bed'
-  trigger:
-  - platform: state
-    entity_id: input_boolean.paul_in_bed
-    to: 'on'
-  - platform: state
-    entity_id: input_boolean.tracy_in_bed
-    to: 'on'
-  condition:
-  - condition: time
-    after: '22:00:00'
-    before: '03:00:00'
-  - condition: template
-    value_template: "{{ (as_timestamp(now())- as_timestamp(states.binary_sensor.motion_sensor_hallway_motion.last_changed)) < 600 }}"
-  action:
-  - service: light.turn_off
-    data_template:
-      entity_id: >-
-        {% if trigger.entity_id == 'input_boolean.paul_in_bed' %}
-          light.bedroom_lamp_two
-        {% elif trigger.entity_id == 'input_boolean.tracy_in_bed'%}
-          light.bedroom_lamp_one
-        {% else %}
-          light.bedroom_lamp_two
-        {% endif %}
 
 #- alias: "volume setting"
 #  trigger:

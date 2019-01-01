@@ -1,42 +1,44 @@
   include:
     entities:
-      - alert.garage_door
+#      - alert.garage_door
       - alert.garage_fridge_temp
-      - automation.auto_lock_front_door
-      - automation.garage_door_alerts
-      - automation.garage_door_for_paul_when_he_gets_home
-      - automation.garage_door_for_tracy_when_she_gets_home
-      - automation.good_morning_routine
-      - automation.good_night_routine
-      - automation.notify_paul_when_its_time_to_leave_for_work
-      - automation.notify_tracy_when_its_time_to_leave_for_work
-      - automation.outdoor_lights_at_sunset
-      - automation.outdoor_lights_off_at_sunrise
-      - automation.security_system__armed_away
-      - automation.security_system__armed_home
-      - automation.someone_entered_or_left_the_backyard
-      - automation.unlock_back_door_for_paul
-      - automation.unlock_back_door_for_tracy
-      - automation.welcome_back_routine
+#      - automation.auto_lock_front_door
+#      - automation.garage_door_alerts
+#      - automation.garage_door_for_paul_when_he_gets_home
+#      - automation.garage_door_for_tracy_when_she_gets_home
+#      - automation.good_morning_routine
+#      - automation.good_night_routine
+#      - automation.notify_paul_when_its_time_to_leave_for_work
+#      - automation.notify_tracy_when_its_time_to_leave_for_work
+#      - automation.outdoor_lights_at_sunset
+#      - automation.outdoor_lights_off_at_sunrise
+#      - automation.security_system__armed_away
+#      - automation.security_system__armed_home
+#      - automation.someone_entered_or_left_the_backyard
+#      - automation.unlock_back_door_for_paul
+#      - automation.unlock_back_door_for_tracy
+#      - automation.welcome_back_routine
       - binary_sensor.ashleys_room_occupancy
+      - binary_sensor.frog_occupancy
+      - binary_sensor.guest_room_occupancy
+      - binary_sensor.master_bedroom_occupancy
+      - binary_sensor.living_room_occupancy
+      - binary_sensor.office_occupancy
       - binary_sensor.backyard_line_crossing
-      - binary_sensor.motion_sensor_garage_motion
+#      - binary_sensor.motion_sensor_garage_motion
       - binary_sensor.open_close_sensor_front_door
       - binary_sensor.open_close_sensor_garage_door
       - binary_sensor.open_close_sensor_back_door
-      - binary_sensor.motion_sensor_hallway_motion
-      - binary_sensor.driveway_1_line_crossing
-      - binary_sensor.driveway_2_line_crossing
-      - binary_sensor.frog_occupancy
-      - binary_sensor.garage_fridge_cold
-      - binary_sensor.guest_room_occupancy
-      - binary_sensor.master_bedroom_occupancy
-      - binary_sensor.motion_sensor_front_door
-      - binary_sensor.sideyard_line_crossing
-      - binary_sensor.water_sensor_attic
-      - binary_sensor.water_sensor_kitchen
       - binary_sensor.open_close_sensor_office_window
       - binary_sensor.open_close_sensor_living_room_window
+#      - binary_sensor.motion_sensor_hallway_motion
+#      - binary_sensor.driveway_1_line_crossing
+#      - binary_sensor.driveway_2_line_crossing
+#      - binary_sensor.garage_fridge_cold
+#      - binary_sensor.motion_sensor_front_door
+#      - binary_sensor.sideyard_line_crossing
+      - binary_sensor.water_sensor_attic
+      - binary_sensor.water_sensor_kitchen
       - cover.garage_door_opener
       - device_tracker.paul_all
       - device_tracker.paul
@@ -54,8 +56,6 @@
       - binary_sensor.tracy_presence
       - fan.frog_fan
       - fan.living_room_fan
-      - input_boolean.open_garage_for_paul
-      - input_boolean.open_garage_for_tracy
       - light.alcove_light
       - light.ashleys_room_lamp
       - light.bedroom_ceiling_light
@@ -82,7 +82,7 @@
       - light.alexa_virtual
 #      - lock.lock_back_door_lock
 #      - lock.lock_front_door_lock
-      - lock.lock_garage_door_lock
+#      - lock.lock_garage_door_lock
       - media_player.bedroom_tv_control
       - media_player.theater_room_tv_control
       - remote.living_room_harmony_hub
@@ -90,7 +90,7 @@
       - sensor.house_mode
       - sensor.back_door_report
       - sensor.front_door_report
-      - sensor.garagedoor_code
+      - sensor.garage_door_report
       - sensor.security_system_state
       - switch.back_porch_light
       - switch.bedroom_fan
