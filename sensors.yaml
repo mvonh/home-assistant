@@ -104,7 +104,37 @@
     origin: device_tracker.paul_all
     destination: device_tracker.tracy_all
     region: 'US'
-    
+
+  - platform: rest
+    resource: https://api.weather.gov/alerts/active/count
+    name: NWS Alert Count
+    value_template: >
+      {% if value_json.zones.VAZ098 is defined %}
+        {{ value_json.zones.VAZ098 }}
+      {% else %}
+        0
+      {% endif %}
+    headers:
+      User-Agent: Homeassistant
+      Accept: application/ld+json
+    scan_interval: 60
+      
+  - platform: rest
+    resource: https://api.weather.gov/alerts/active?zone=VAZ098
+    name: NWS Alert Event
+    value_template: >
+      {% if value_json.features[0] is defined %}
+        {{ value_json['features'][0]['properties'].event }}
+      {% else %}
+        None
+      {% endif %}
+    json_attributes:
+      - features
+    headers:
+      User-Agent: Homeassistant
+      Accept: application/geo+json
+    scan_interval: 60
+
   - platform: command_line
     name: Last Used Echo
     command: "/home/homeassistant/.homeassistant/alexa_remote_control.sh -lastalexa"
@@ -310,4 +340,4 @@
               {{ statemap[key] if key in statemap.keys() else "Unknown" }}
             friendly_name: 'Downstairs Smoke Alarm'
             entity_id: sensor.smoke_detector_downstairs_alarm_type
-
+ 

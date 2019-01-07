@@ -1,5 +1,3 @@
-
-
 ##########################################
 ## Setting House Mode based on Presence ##
 ##########################################
@@ -89,8 +87,6 @@
       - device_tracker.tracys_iphone_2
     to: 'home'
   action:
-  - service: timer.start
-    entity_id: timer.paul_just_arrived
   - service: timer.start
     data_template:
       entity_id: >-
@@ -2492,7 +2488,7 @@
     above: 1
   - condition: state
     entity_id: media_player.living_room
-    state: 'Paused'
+    state: 'paused'
   - condition: state
     entity_id: binary_sensor.tracy_presence
     state: 'off'

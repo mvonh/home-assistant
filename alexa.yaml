@@ -58,5 +58,6 @@
         - scene.casual_lighting
         - scene.evening_lighting
         - scene.morning_lighting
+        - scene.tv_lights
 #        - scene.downstairs_color_loop
         - scene.downstairs_nightlight
