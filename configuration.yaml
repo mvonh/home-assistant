@@ -295,11 +295,16 @@ remote:
     name: Theater Room Harmony Hub 
 
 emulated_roku:
+  servers:
+    - name: Home Assistant Roku
+      listen_port: 8060
+      
+#emulated_roku:
 #  SN - sSMJFc3BXnTfjPAPHiY5gb 
-  host_ip: 192.168.1.15 # should be set to Home Assistant's address
-  upnp_bind_multicast: True # optional, defaults to True
-  listen_ports:
-    - 8060
+#  host_ip: 192.168.1.15 # should be set to Home Assistant's address
+#  upnp_bind_multicast: True # optional, defaults to True
+#  listen_ports:
+#    - 8060
 
 media_player:
 #  - platform: alexa

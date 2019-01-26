@@ -1,7 +1,7 @@
 ##########################################
 ## Setting House Mode based on Presence ##
 ##########################################
-- alias: Home Mode - Leaving
+- alias: Home Mode Leaving
   trigger:
   - platform: state
     entity_id: binary_sensor.people_home
@@ -25,7 +25,7 @@
     data:
       option: 'Armed (Away)'
 
-- alias: Home Mode - Arriving
+- alias: Home Mode Arriving
   trigger:
   - platform: state
     entity_id:
@@ -1009,7 +1009,7 @@
 ##########################################
 ## Security Alerts                      ##
 ##########################################
-- alias: 'Security System - Armed Away Door Opened'
+- alias: 'Security System Armed Away Door Opened'
   trigger:
   - platform: state
     entity_id:
@@ -1036,7 +1036,7 @@
       title: "Security Alert"
       message: "The {{ trigger.to_state.attributes.friendly_name }} just opened and no one is home"
 
-- alias: 'Security System - Armed Away Motion Detected'
+- alias: 'Security System Armed Away Motion Detected'
   trigger:
   - platform: state
     entity_id:
@@ -1058,7 +1058,7 @@
       title: "Indoor Motion Alert"
       message: "Motion Detected by {{ trigger.to_state.attributes.friendly_name }} and no one is home"
 
-- alias: Security System - Armed Home Door Opened
+- alias: Security System Armed Home Door Opened
   trigger:
   - platform: state
     entity_id:
@@ -2307,7 +2307,7 @@
 
 - alias: Battery Alert Clear
   trigger:
-    - platform: time
+    - platform: time_pattern
       minutes: '/30'
       seconds: 00
   condition:
