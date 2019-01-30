@@ -647,10 +647,9 @@ all_zigbee:
     - zha.motion_sensor_office
     - zha.motion_sensor_sensor_living_room
     - zha.open_close_sensor_back_door
-    - zha.open_close_sensor_front_door
     - zha.open_close_sensor_garage_door
     - zha.open_close_sensor_garage_fridge
-    - zha.open_close_sensor_mailbox
+    - zha.open_close_sensor_livingroom_window_front
     - zha.water_sensor_kitchen
     - zha.zigbee_zwave_repeater_1
     - zha.zigbee_zwave_repeater_2

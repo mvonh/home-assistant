@@ -38,10 +38,13 @@ lock.lock_back_door_lock:
 lock.lock_front_door_lock:
   friendly_name: Front Door Lock
 binary_sensor.open_close_sensor_office_window:
-  friendly_name: Office Window (Open-Close)
+  friendly_name: Office Window
   icon: mdi:window-closed
-binary_sensor.open_close_sensor_living_room_window:
-  friendly_name: Living Room Window (Open-Close)
+binary_sensor.open_close_sensor_livingroom_window_back:
+  friendly_name: Living Room Back Window
+  icon: mdi:window-closed
+binary_sensor.open_close_sensor_livingroom_window_front:
+  friendly_name: Living Room Front Window
   icon: mdi:window-closed
 binary_sensor.water_sensor_attic:
   friendly_name: Attic Water Leak Sensor

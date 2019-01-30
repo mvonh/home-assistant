@@ -25,12 +25,12 @@
       - binary_sensor.living_room_occupancy
       - binary_sensor.office_occupancy
       - binary_sensor.backyard_line_crossing
-#      - binary_sensor.motion_sensor_garage_motion
+      - binary_sensor.open_close_sensor_back_door
       - binary_sensor.open_close_sensor_front_door
       - binary_sensor.open_close_sensor_garage_door
-      - binary_sensor.open_close_sensor_back_door
+      - binary_sensor.open_close_sensor_livingroom_window_back
+      - binary_sensor.open_close_sensor_livingroom_window_front
       - binary_sensor.open_close_sensor_office_window
-      - binary_sensor.open_close_sensor_living_room_window
 #      - binary_sensor.motion_sensor_hallway_motion
 #      - binary_sensor.driveway_1_line_crossing
 #      - binary_sensor.driveway_2_line_crossing

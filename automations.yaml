@@ -57,6 +57,8 @@
     entity_id: input_select.security_system
     data:
       option: 'Disarmed'
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.vacation_mode
 
 - alias: Mark house as Vacation Mode
   trigger:

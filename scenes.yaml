@@ -10,10 +10,13 @@
         brightness: 191
         rgb_color: [164, 234, 255]
       
-      light.living_room_lamp_two:
+      light.living_room_lamp_one:
         state: on
         brightness: 190
         rgb_color: [255, 207, 120]
+
+      light.living_room_lamp_two:
+        state: off
       
       light.left_shelf_lights:
         state: on
@@ -29,10 +32,7 @@
         state: on
         brightness: 71
         rgb_color: [246, 255, 254]
-      
-      light.living_room_lamp_one:
-        state: off
-      
+           
       light.alcove_light:
         state: on
         brightness: 150
@@ -41,8 +41,8 @@
       light.sconce_light:
         state: on
 
-      light.christmas_tree:
-        state: on
+#      light.christmas_tree:
+#        state: on
 
   - name: Evening Lighting
     entities:
@@ -87,8 +87,8 @@
       light.sconce_light:
         state: on
 
-      light.christmas_tree:
-        state: on
+#      light.christmas_tree:
+#        state: on
 
   - name: Morning Lighting
     entities:
@@ -167,8 +167,8 @@
       light.sconce_light:
         state: on
 
-      light.christmas_tree:
-        state: on
+#      light.christmas_tree:
+#        state: on
 
   - name: Downstairs Color Loop
     entities:

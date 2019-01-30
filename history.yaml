@@ -5,11 +5,12 @@
       - binary_sensor.water_sensor_attic
       - binary_sensor.water_sensor_kitchen
 #open Close Sensors
+      - binary_sensor.open_close_sensor_back_door
       - binary_sensor.open_close_sensor_front_door
       - binary_sensor.open_close_sensor_garage_door
-      - binary_sensor.open_close_sensor_back_door
+      - binary_sensor.open_close_sensor_livingroom_window_back
+      - binary_sensor.open_close_sensor_livingroom_window_front
       - binary_sensor.open_close_sensor_office_window
-      - binary_sensor.open_close_sensor_living_room_window
 #garage Door Opener
       - binary_sensor.garage_door_opener
 #door Locks

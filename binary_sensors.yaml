@@ -155,7 +155,7 @@
        
  - platform: template
    sensors:
-     office_window_open_close:
+     open_close_sensor_office_window:
        value_template: "{{ is_state('sensor.office_window_sensor_alarm_level', '255') }}"
        friendly_name: "Office Window"
        device_class: window
@@ -163,9 +163,9 @@
 
  - platform: template
    sensors:
-     living_room_window_open_close:
+     open_close_sensor_livingroom_window_back:
        value_template: "{{ is_state('sensor.living_room_window_sensor_alarm_level', '255') }}"
-       friendly_name: "Living Room Window"
+       friendly_name: "Living Room Back Window"
        device_class: window
        entity_id: sensor.living_room_window_sensor_alarm_level
 

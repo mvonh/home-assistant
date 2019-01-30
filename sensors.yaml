@@ -28,6 +28,9 @@
       - 'date_time'
       - 'time_date'
 
+  - platform: illuminance
+    entity_id: sensor.dark_sky_icon
+
   # Pauls commute to home
   - platform: google_travel_time
     name: Pauls Time to Home
@@ -233,7 +236,7 @@
 #        entity_id: sensor.time
         
       battery_attic_water_sensor:
-        friendly_name: "Attic Water Detector Battery Level"
+        friendly_name: "Attic Water Detector Battery"
         value_template: "{% if states.zwave.water_sensor_attic %}
             {{ states.zwave.water_sensor_attic.attributes.battery_level }}
           {% else %}
@@ -257,7 +260,7 @@
 #        entity_id: sensor.time
 
       battery_smoke_detector:
-        friendly_name: "Attic Smoke Detector Battery Level"
+        friendly_name: "Attic Smoke Detector Battery"
         value_template: "{% if states.zwave.smoke_detector_attic %}
             {{ states.zwave.smoke_detector_attic.attributes.battery_level }}
           {% else %}
@@ -280,8 +283,8 @@
           {% endif %}      
 #        entity_id: sensor.time
 
-      battery_living_room_window_open_close:
-        friendly_name: "Living Room Window Open Close Sensor Battery Level"
+      open_close_sensor_livingroom_window_back_battery:
+        friendly_name: "Living Room Back Window Open Close Sensor Battery"
         value_template: "{% if states.zwave.open_close_living_room_window %}
             {{ states.zwave.open_close_living_room_window.attributes.battery_level }}
           {% else %}
@@ -304,8 +307,8 @@
           {% endif %}
 #        entity_id: sensor.time
 
-      battery_office_window_open_close:
-        friendly_name: "Office Window Open Close Sensor Battery Level"
+      open_close_sensor_office_window_battery:
+        friendly_name: "Office Window Open Close Sensor Battery"
         value_template: "{% if states.zwave.open_close_office_window %}
             {{ states.zwave.open_close_office_window.attributes.battery_level }}
           {% else %}

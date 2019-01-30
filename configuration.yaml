@@ -156,10 +156,10 @@ sun:
 # Text to speech
 tts:
   - platform: google
-  - platform: voicerss
-    api_key: 0baf593ad6bf4792afe6c258b4494ce7
-    codec: mp3
-    format: '44khz_16bit_stereo'
+#  - platform: voicerss
+#    api_key: 0baf593ad6bf4792afe6c258b4494ce7
+#    codec: mp3
+#    format: '44khz_16bit_stereo'
 
 # iOS Additions
 ios:
