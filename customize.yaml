@@ -2,76 +2,15 @@ group.all_automations:
   hidden: false
 group.all_scripts:
   hidden: false
-binary_sensor.motion_sensor_office_motion:
-  friendly_name: "Motion Sensor (Office)"
-binary_sensor.motion_sensor_kitchen_motion:
-  friendly_name: "Motion Sensor (Kitchen)"
-binary_sensor.motion_sensor_garage_motion:
-  friendly_name: "Motion Sensor (Garage)"
-binary_sensor.motion_sensor_hallway_motion:
-  friendly_name: "Motion Sensor (Hallway)"
-binary_sensor.motion_sensor_living_room_motion:
-  friendly_name: "Motion Sensor (Living Room)"
-binary_sensor.open_close_sensor_garage_door:
-  friendly_name: "Door to the Garage"
-  icon: mdi:door  
-binary_sensor.open_close_sensor_front_door:
-  friendly_name: "Front Door"
-  icon: mdi:door
-binary_sensor.open_close_sensor_back_door:
-  friendly_name: "Back Door"
-  icon: mdi:door
-binary_sensor.open_close_sensor_garage_fridge_temp:
-  friendly_name:  "Garage Fridge Sensor"
-light.zigbee_plug_one:
-  friendly_name:  "Zigbee Repeater Switch"
-sensor.temp_garage_fridge:
-  friendly_name:  "Garage Fridge Temp"
-switch.fireplace:
-  emulated_hue_hidden: false
-  friendly_name: Fireplace
-  icon: mdi:fire
-cover.garage_door_opener:
-  friendly_name: Garage Door
-lock.lock_back_door_lock:
-  friendly_name: Back Door Lock
-lock.lock_front_door_lock:
-  friendly_name: Front Door Lock
-binary_sensor.open_close_sensor_office_window:
-  friendly_name: Office Window
-  icon: mdi:window-closed
-binary_sensor.open_close_sensor_livingroom_window_back:
-  friendly_name: Living Room Back Window
-  icon: mdi:window-closed
-binary_sensor.open_close_sensor_livingroom_window_front:
-  friendly_name: Living Room Front Window
-  icon: mdi:window-closed
 binary_sensor.water_sensor_attic:
   friendly_name: Attic Water Leak Sensor
   icon: mdi:water
 binary_sensor.water_sensor_kitchen:
-  friendly_name: Kitchen Sink Water Leak Sensor
   icon: mdi:water
 sensor.downstairs_temperature:
   friendly_name: Downstairs Thermostat Temperature
 sensor.upstairs_temperature:
   friendly_name: Upstairs Hallway Thermostat Temperature
-sensor.motion_sensor_garage_temp:
-  friendly_name: Garage Temperature
-sensor.open_close_sensor_front_door_temp:
-  friendly_name: Front Door Temperature
-sensor.open_close_sensor_garage_door_temp:
-  friendly_name: Garage Door Temperature
-sensor.open_close_sensor_back_door_temp:
-  friendly_name: Back Door Temperature
-sensor.motion_sensor_hallway_temp:
-  friendly_name: Hallway Temperature
-sensor.motion_sensor_office_temp:
-  friendly_name: Office Temperature
-sensor.motion_sensor_living_room_temp:
-  friendly_name: Living Room Temperature
-sensor.motion_sensor_kitchen_temp:
-  friendly_name: Kitchen Temperature
 device_tracker.pauls_iphone:
   friendly_name: Paul Presence (App)
 device_tracker.pauls_iphone_2:
@@ -100,86 +39,8 @@ binary_sensor.tracy_presence:
   friendly_name: Tracy Presence (Bayesian)
 device_tracker.tracy_all:
   friendly_name: Tracy
-light.bedroom_ceiling_light:
-  friendly_name: Bedroom Ceiling Light
-  icon: mdi:wall-sconce-flat
-light.living_room_fan_light:
-  friendly_name: Living Room Fan Light
-  icon: mdi:wall-sconce-variant
-light.frog_ceiling_light:
-  friendly_name: Frog Ceiling Light
-  icon: mdi:wall-sconce-flat
-light.frog_fan_light:
-  friendly_name: Frog Fan Light
-  icon: mdi:wall-sconce-variant
-fan.frog_fan:
-  friendly_name: Frog Fan
-light.ashleys_room_lamp:
-  friendly_name: Ashleys Room Lamp
-  icon: mdi:lamp
-light.kitchen_counter_light:
-  friendly_name: Kitchen Counter Light
-  icon: mdi:wall-sconce-flat
-light.kitchen_island_light:
-  friendly_name: Kitchen Island Light
-  icon: mdi:wall-sconce-flat
-lock.lock_garage_door_lock:
-  friendly_name: Garage Door Lock
 sensor.lock_garage_door_lock_alarm_level:
   friendly_name: Garage Door Lock
-fan.living_room_fan:
-  friendly_name: Living Room Fan
-light.living_room_ceiling_light:
-  friendly_name: Living Ceiling Light
-  icon: mdi:wall-sconce-flat
-switch.office_lamp_one:
-  friendly_name: Office Lamp One
-  icon: mdi:lamp 
-switch.bedroom_fan:
-  friendly_name: Bedroom Fan
-  icon: mdi:fan
-switch.closet_light:
-  friendly_name: Closet Light
-  icon: mdi:lightbulb
-switch.garage_light_indoor:
-  friendly_name: Garage Light (Indoor)
-  icon: mdi:lightbulb
-switch.garage_light_outdoor: 
-  friendly_name: Garage Light (Outdoor)
-  icon: mdi:wall-sconce
-switch.rope_lights:
-  friendly_name: Rope Lights
-  icon: mdi:ceiling-light
-switch.back_porch_light:
-  friendly_name: Back Porch Light
-  icon: mdi:wall-sconce
-switch.front_porch_light:
-  friendly_name: Front Porch Light
-  icon: mdi:wall-sconce
-switch.lamp_post:
-  friendly_name: Lamp Post
-  icon: mdi:floor-lamp
-switch.living_room_plug_one:
-  friendly_name: Living Room Plug One
-  icon: mdi:power-socket-us
-switch.living_room_plug_two:
-  friendly_name: Living Room Plug Two
-  icon: mdi:power-socket-us
-switch.living_room_plug_three:
-  friendly_name: Living Room Plug Three
-  icon: mdi:power-socket-us
-switch.stairwell_light:
-  friendly_name: Stairwell Light
-  icon: mdi:ceiling-light
-switch.sconce_light:
-  friendly_name: Sconce Light
-  icon: mdi:wall-sconce
-switch.lava_lamp_two:
-  friendly_name: Lava Lamp Two
-  icon: mdi:lava-lamp
-switch.lava_lamp_plug:
-  friendly_name: Lava Lamp One
-  icon: mdi:lava-lamp
 sensor.motion_sensor_front_door_alarm_level:
   hidden: true
 sensor.motion_sensor_front_door_alarm_type:
@@ -258,24 +119,6 @@ group.motion_sensor_attic:
   group:
     group.motion_sensors:
       friendly_name: Attic Alarm
-sensor.open_close_sensor_front_door_battery:
-  friendly_name: Front Door Open Close Sensor Battery
-sensor.open_close_sensor_garage_door_battery:
-  friendly_name: Garage Door Open Close Sensor Battery
-sensor.open_close_sensor_back_door_battery:
-  friendly_name: Back Door Open Close Sensor Battery
-sensor.motion_sensor_hallway_battery:
-  friendly_name: Hallway Motion Sensor Battery
-sensor.motion_sensor_office_battery:
-  friendly_name: Office Motion Sensor Battery
-sensor.motion_sensor_living_room_battery:
-  friendly_name: Living Room Motion Sensor Battery
-sensor.motion_sensor_kitchen_battery:
-  friendly_name: Kitchen Motion Sensor Battery
-sensor.motion_sensor_garage_battery:
-  friendly_name: Garage Motion Sensor Battery
-sensor.open_close_sensor_garage_fridge_battery:
-  friendly_name: Garage Fridge Temp Sensor Battery
 sensor.dark_sky_minutely_summary:
   friendly_name: Hourly Weather
 sensor.dark_sky_hourly_summary:
@@ -286,53 +129,121 @@ sensor.dark_sky_apparent_temperature:
   friendly_name: Current Real Feel Temp
 sensor.dark_sky_wind_speed:
   friendly_name: Wind Speed
+sensor.motion_sensor_living_room_battery:
+  icon: mdi:battery
+sensor.motion_sensor_office_battery:
+  icon: mdi:battery
+sensor.motion_sensor_kitchen_battery:
+  icon: mdi:battery
+sensor.motion_sensor_garage_battery:
+  icon: mdi:battery
+sensor.motion_sensor_hallway_battery:
+  icon: mdi:battery
+sensor.motion_sensor_closet_battery:
+  icon: mdi:battery
+sensor.open_close_livingroom_window_front_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_front_door_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_garage_door_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_back_door_battery:
+  icon: mdi:battery
+sensor.open_close_sensor_garage_fridge_battery:
+  icon: mdi:battery
+sensor.water_sensor_kitchen_battery:
+  icon: mdi:battery
+binary_sensor.open_close_sensor_garage_door:
+  icon: mdi:door  
+binary_sensor.open_close_sensor_front_door:
+  icon: mdi:door
+binary_sensor.open_close_sensor_back_door:
+  icon: mdi:door
+binary_sensor.open_close_sensor_office_window:
+  icon: mdi:window-closed
+binary_sensor.open_close_sensor_livingroom_window_back:
+  icon: mdi:window-closed
+binary_sensor.open_close_sensor_livingroom_window_front:
+  icon: mdi:window-closed
 light.bedroom_lamp_one:
-  friendly_name: Bedroom Lamp One
   icon: mdi:lamp
 light.bedroom_lamp_two:
-  friendly_name: Bedroom Lamp Two
   icon: mdi:lamp
+light.bedroom_ceiling_light:
+  icon: mdi:wall-sconce-flat
 light.guest_bedroom_lamp:
-  friendly_name: Guest Bedroom Lamp
   icon: mdi:lamp
+light.living_room_fan_light:
+  icon: mdi:wall-sconce-variant
+light.frog_ceiling_light:
+  icon: mdi:wall-sconce-flat
+light.frog_fan_light:
+  icon: mdi:wall-sconce-variant
+light.ashleys_room_lamp:
+  icon: mdi:lamp
+light.kitchen_counter_light:
+  icon: mdi:wall-sconce-flat
+light.kitchen_island_light:
+  icon: mdi:wall-sconce-flat
+light.living_room_ceiling_light:
+  icon: mdi:wall-sconce-flat
+light.hallway_light:
+  icon: mdi:wall-sconce-flat
+light.alcove_light:
+  icon: mdi:wall-sconce-flat
+light.office_lamp_two:
+  icon: mdi:lamp
+light.kitchen_cabinet_tops:
+  icon: mdi:led-strip
+light.kitchen_cabinet_bottoms:
+  icon: mdi:led-strip
+switch.office_lamp_one:
+  icon: mdi:lamp 
+switch.bedroom_fan:
+  icon: mdi:fan
+switch.closet_light:
+  icon: mdi:lightbulb
+switch.garage_light_indoor:
+  icon: mdi:lightbulb
+switch.garage_light_outdoor: 
+  icon: mdi:wall-sconce
+switch.rope_lights:
+  icon: mdi:ceiling-light
+switch.back_porch_light:
+  icon: mdi:wall-sconce
+switch.front_porch_light:
+  icon: mdi:wall-sconce
+switch.lamp_post:
+  icon: mdi:floor-lamp
+switch.living_room_plug_one:
+  icon: mdi:power-socket-us
+switch.living_room_plug_two:
+  icon: mdi:power-socket-us
+switch.living_room_plug_three:
+  icon: mdi:power-socket-us
+switch.stairwell_light:
+  icon: mdi:ceiling-light
+switch.sconce_light:
+  icon: mdi:wall-sconce
+switch.lava_lamp_two:
+  icon: mdi:lava-lamp
+switch.lava_lamp_plug:
+  icon: mdi:lava-lamp
+switch.fireplace:
+  emulated_hue_hidden: false
+  icon: mdi:fire
 light.living_room_lamp_one:
-  friendly_name: Living Room Lamp One
   icon: mdi:lamp
   emulated_hue_hidden: false
 light.living_room_lamp_two:
-  friendly_name: Living Room Lamp Two
   icon: mdi:lamp
   emulated_hue_hidden: false
-light.hallway_light:
-  friendly_name: Hallway Lights
-  icon: mdi:wall-sconce-flat
-light.alcove_light:
-  friendly_name: Alcove Light
-  icon: mdi:wall-sconce-flat
-light.office_lamp_two:
-  friendly_name: Office Lamp Two
-  icon: mdi:lamp
-light.kitchen_cabinet_tops:
-  friendly_name: Kitchen Cabinet Tops
-  icon: mdi:led-strip
-light.kitchen_cabinet_bottoms:
-  friendly_name: Kitchen Cabinet Bottoms
-  icon: mdi:led-strip
 light.left_shelf_lights:
-  friendly_name: Left Shelf Lights
   icon: mdi:drag-vertical
   emulated_hue_hidden: false
 light.tv_backlights:
-  friendly_name: TV Backlights
   icon: mdi:crop-landscape
   emulated_hue_hidden: false
 light.right_shelf_lights:
-  friendly_name: Right Shelf Lights
   icon: mdi:drag-vertical
   emulated_hue_hidden: false
-media_player.vizio_smartcast:
-  friendly_name: Bedroom TV
-  icon: mdi:television
-media_player.vizio_smartcast_2:
-  friendly_name: Theater Room TV
-  icon: mdi:television

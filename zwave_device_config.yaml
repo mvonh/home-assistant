@@ -91,3 +91,33 @@ binary_sensor.vision_zp3111_multisensor_4in1_sensor_2:
 sensor.motion_sensor_attic_emergency:
   ignored: true
   polling_intensity: 0
+sensor.garage_door_opener_remote_controller_access_control:
+  ignored: true
+  polling_intensity: 0
+sensor.garage_door_opener_remote_controller_alarm_level:
+  ignored: true
+  polling_intensity: 0
+sensor.garage_door_opener_remote_controller_alarm_type:
+  ignored: true
+  polling_intensity: 0
+sensor.garage_door_opener_remote_controller_burglar:
+  ignored: true
+  polling_intensity: 0
+binary_sensor.garage_door_opener_remote_controller_sensor:
+  ignored: true
+  polling_intensity: 0
+sensor.garage_door_opener_remote_controller_sourcenodeid:
+  ignored: true
+  polling_intensity: 0
+sensor.vision_zp3111_multisensor_4in1_alarm_level:
+  ignored: true
+  polling_intensity: 0
+sensor.vision_zp3111_multisensor_4in1_alarm_type:
+  ignored: true
+  polling_intensity: 0
+sensor.water_sensor_attic_flood:
+  ignored: true
+  polling_intensity: 0
+sensor.water_sensor_attic_sourcenodeid:
+  ignored: true
+  polling_intensity: 0

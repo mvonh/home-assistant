@@ -273,7 +273,7 @@ light:
     name: Sconce Light
     entity_id: switch.sconce_light
   - platform: switch
-    name: Stairwell Lighgt
+    name: Stairwell Light
     entity_id: switch.stairwell_light
   - platform: switch
     name: Christmas Tree
