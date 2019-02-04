@@ -9,14 +9,14 @@
         state: on
         brightness: 191
         rgb_color: [164, 234, 255]
+
+      light.living_room_lamp_two:
+        state: off
       
       light.living_room_lamp_one:
         state: on
         brightness: 190
         rgb_color: [255, 207, 120]
-
-      light.living_room_lamp_two:
-        state: off
       
       light.left_shelf_lights:
         state: on

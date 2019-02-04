@@ -10,6 +10,7 @@
         - light.frog_fan_light
         - light.frog_couch_backlight
         - light.guest_bedroom_light
+        - light.ashleys_room_ceiling_light
         - light.hallway_light
         - light.kitchen_counter_light
         - light.kitchen_island_light

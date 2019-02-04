@@ -1291,7 +1291,66 @@
 #####################################################
 ## Work alerts and notifications based on Traffic  ##
 #####################################################
-- alias: "Notify Paul when its time to leave for work"
+- alias: "Notify Paul when its time to leave for work 15 minute warning"
+  trigger:
+  - platform: template
+    value_template: >
+      {{ is_state('sensor.time_to_leave_for_base_15', 'True') and
+         is_state('input_select.work_location', 'Base')  or
+         is_state('sensor.time_to_leave_for_caci_15', 'True') and
+         is_state('input_select.work_location', 'CACI')  }}
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: time
+    after: '06:00:00'
+    before: '10:00:00'
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
+  action:
+  - service: notify.main_echos
+    data_template:
+      message: >-
+        {% if states('input_select.work_location') == 'Base' %}
+          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
+        {% elif states('input_select.work_location') == 'CACI' %}
+          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
+        {% else %}
+          I'm not sure where you're going today
+        {% endif %}
+
+- alias: "Notify Paul when its time to leave for work 10 Minute Warning"
+  trigger:
+  - platform: template
+    value_template: >
+      {{ is_state('sensor.time_to_leave_for_base_10', 'True') and
+         is_state('input_select.work_location', 'Base')  or
+         is_state('sensor.time_to_leave_for_caci_10', 'True') and
+         is_state('input_select.work_location', 'CACI')  }}
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1    
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: time
+    after: '06:00:00'
+    before: '10:00:00'
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
+  action:
+  - service: notify.main_echos
+    data_template:
+      message: "You have about 10 minutes to leave if you want to get to work on time"
+
+- alias: "Notify Paul when its time to leave for work now"
   trigger:
   - platform: template
     value_template: >
@@ -1309,33 +1368,13 @@
   - condition: time
     after: '06:00:00'
     before: '10:00:00'
+  - condition: state
+    entity_id: binary_sensor.paul_presence
+    state: 'on'
   action:
   - service: notify.main_echos
     data_template:
-      message: >-
-        {% if states('input_select.work_location') == 'Base' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to the Navy Base by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_base') }} today.
-        {% elif states('input_select.work_location') == 'CACI' %}
-          Based on current traffic, you have 15 minutes to leave if you want to get to khaki by {{ states.input_datetime.work_time_paul.attributes.hour }} {{ states.input_datetime.work_time_paul.attributes.minute }}.  Traffic is {{ states('sensor.pauls_traffic_density_to_caci') }} today.
-        {% else %}
-          I'm not sure where you're going today
-        {% endif %}
-  - delay:
-      minutes: 10
-  - condition: state
-    entity_id: input_select.house_mode
-    state: 'Home'
-  - service: notify.main_echos
-    data_template:
-      message: "You have about 10 minutes to leave if you want to get to work on time"
-  - delay:
-      minutes: 5
-  - condition: state
-    entity_id: input_select.house_mode
-    state: 'Home'
-  - service: notify.main_echos
-    data_template:
-      message: "You are now going to be late.  Get moving"
+      message: "You need to leave right now, if you want to get to work on time"
 
 - alias: "Notify Tracy when its time to leave for work"
   trigger:

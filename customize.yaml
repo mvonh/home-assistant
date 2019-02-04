@@ -129,7 +129,7 @@ sensor.dark_sky_apparent_temperature:
   friendly_name: Current Real Feel Temp
 sensor.dark_sky_wind_speed:
   friendly_name: Wind Speed
-sensor.motion_sensor_living_room_battery:
+sensor.motion_sensor_frog_battery:
   icon: mdi:battery
 sensor.motion_sensor_office_battery:
   icon: mdi:battery

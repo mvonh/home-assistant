@@ -178,14 +178,38 @@
       time_to_leave_for_caci:
         value_template: >
           {% set t = strptime(states.sensor.time.state,'%H:%M') %}
-          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - 0.25 - states.sensor.time_to_caci.state | int / 60) }}
+          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - states.sensor.time_to_caci.state | int / 60) }}
         friendly_name: 'Time to Leave for CACI'
+
+      time_to_leave_for_caci_10:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - 0.167 - states.sensor.time_to_caci.state | int / 60) }}
+        friendly_name: 'Time to Leave for CACI 10'
+
+      time_to_leave_for_caci_15:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - 0.25 - states.sensor.time_to_caci.state | int / 60) }}
+        friendly_name: 'Time to Leave for CACI 15'
 
       time_to_leave_for_base:
         value_template: >
           {% set t = strptime(states.sensor.time.state,'%H:%M') %}
-          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - 0.25 - states.sensor.time_to_base.state | int / 60) }}
+          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - states.sensor.time_to_base.state | int / 60) }}
         friendly_name: 'Time to leave for Base'
+
+      time_to_leave_for_base_10:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - 0.167 - states.sensor.time_to_base.state | int / 60) }}
+        friendly_name: 'Time to leave for Base 10'
+
+      time_to_leave_for_base_15:
+        value_template: >
+          {% set t = strptime(states.sensor.time.state,'%H:%M') %}
+          {{ ( t.hour + t.minute / 60 ) > ( state_attr('input_datetime.work_time_paul', 'timestamp')/3600 - 0.25 - states.sensor.time_to_base.state | int / 60) }}
+        friendly_name: 'Time to leave for Base 15'
 
       time_to_leave_for_avis:
         value_template: >
