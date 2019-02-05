@@ -31,19 +31,19 @@
   - platform: illuminance
     entity_id: sensor.dark_sky_icon
 
-  # Pauls commute to home
-  - platform: google_travel_time
-    name: Pauls Time to Home
-    api_key: !secret google_maps_api_key
-    origin: device_tracker.paul_all
-    destination: zone.home
-  
-  # Tracys commute to Home
-  - platform: google_travel_time
-    name: Tracys Time to Home
-    api_key: !secret google_maps_api_key
-    origin: device_tracker.tracy_all
-    destination: zone.home 
+#  # Pauls commute to home
+#  - platform: google_travel_time
+#    name: Pauls Time to Home
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.paul_all
+#    destination: zone.home
+#  
+#  # Tracys commute to Home
+#  - platform: google_travel_time
+#    name: Tracys Time to Home
+#    api_key: !secret google_maps_api_key
+#    origin: device_tracker.tracy_all
+#    destination: zone.home 
 #  
 #  # Commute to CACI
 #  - platform: google_travel_time
@@ -66,19 +66,19 @@
 #    origin: device_tracker.tracy
 #    destination: zone.avis
 #
-#  # Pauls commute to home
-#  - platform: waze_travel_time
-#    name: Pauls Time to Home
-#    origin: device_tracker.paul
-#    destination: zone.home
-#    region: 'US'
-#  
-#  # Tracys commute to Home
-#  - platform: waze_travel_time
-#    name: Tracy's Time to Home
-#    origin: device_tracker.tracy
-#    destination: zone.home 
-#    region: 'US'
+  # Pauls commute to home
+  - platform: waze_travel_time
+    name: Pauls Time to Home
+    origin: device_tracker.paul_all
+    destination: zone.home
+    region: 'US'
+  
+  # Tracys commute to Home
+  - platform: waze_travel_time
+    name: Tracys Time to Home
+    origin: device_tracker.tracy_all
+    destination: zone.home 
+    region: 'US'
   
   # Commute to CACI
   - platform: waze_travel_time
@@ -355,7 +355,7 @@
           {% endif %}            
         entity_id: sensor.time
 
-      downstairs_smoke_detector:
+      attic_smoke_detector:
             value_template: >
               {% set statemap = { 
                 "0" : "Idle",
@@ -363,8 +363,8 @@
                 "2" : "C02",
                 "12" : "Testing",
                 "13" : "Idle" } %}
-              {% set key = states("sensor.smoke_detector_downstairs_alarm_type") %}
+              {% set key = states("sensor.smoke_detector_attic_alarm_type") %}
               {{ statemap[key] if key in statemap.keys() else "Unknown" }}
-            friendly_name: 'Downstairs Smoke Alarm'
-            entity_id: sensor.smoke_detector_downstairs_alarm_type
+            friendly_name: 'Attic Smoke Alarm'
+            entity_id: sensor.smoke_detector_attic_alarm_type
  

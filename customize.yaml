@@ -173,6 +173,8 @@ light.bedroom_ceiling_light:
   icon: mdi:wall-sconce-flat
 light.guest_bedroom_lamp:
   icon: mdi:lamp
+light.guest_bedroom_light:
+  icon: mdi:wall-sconce-variant
 light.living_room_fan_light:
   icon: mdi:wall-sconce-variant
 light.frog_ceiling_light:
@@ -181,6 +183,8 @@ light.frog_fan_light:
   icon: mdi:wall-sconce-variant
 light.ashleys_room_lamp:
   icon: mdi:lamp
+light.ashleys_room_ceiling_light:
+  icon: mdi:wall-sconce-variant
 light.kitchen_counter_light:
   icon: mdi:wall-sconce-flat
 light.kitchen_island_light:
@@ -202,7 +206,7 @@ switch.office_lamp_one:
 switch.bedroom_fan:
   icon: mdi:fan
 switch.closet_light:
-  icon: mdi:lightbulb
+  icon: mdi:wall-sconce-flat
 switch.garage_light_indoor:
   icon: mdi:lightbulb
 switch.garage_light_outdoor: 
