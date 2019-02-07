@@ -100,21 +100,6 @@
           timer.guests_just_arrived
         {% endif %}
 
-#- alias: Tracy just Arrived Timer
-#  trigger:
-#  - platform: state
-#    entity_id:
-#      - input_boolean.tracy_present
-#    to: 'on'
-#  - platform: state
-#    entity_id:
-#      - device_tracker.tracy_all
-#      - device_tracker.tracys_iphone_2
-#    to: 'home'
-#  action:
-#  - service: timer.start
-#    entity_id: timer.tracy_just_arrived
-
 - alias: Guests Just Arrived Timer
   trigger:
    - platform: state
@@ -154,9 +139,9 @@
     data_template:
       entity_id: >-
         {% if trigger.entity_id == 'binary_sensor.paul_presence' or trigger.entity_id == 'device_tracker.paul_all' %}
-          input_boolean.paul_present,input_boolean.back_door_opened_for_paul,input_boolean.open_garage_for_paul
+          input_boolean.paul_present,input_boolean.back_door_opened_for_paul,input_boolean.open_garage_for_paul,input_boolean.paul_in_bed
         {% elif trigger.entity_id == 'binary_sensor.tracy_presence' or trigger.entity_id == 'device_tracker.tracy_all'%}
-          input_boolean.tracy_present,input_boolean.back_door_opened_for_tracy,input_boolean.open_garage_for_tracy
+          input_boolean.tracy_present,input_boolean.back_door_opened_for_tracy,input_boolean.open_garage_for_tracy,input_boolean.tracy_in_bed
         {% else %}
           input_boolean.back_door_opened_for_guests
         {% endif %}
@@ -175,7 +160,10 @@
     above: 1
   action:
   - service: light.turn_on
-    entity_id: group.downstairs_color_hue_lights
+    entity_id: 
+      - group.color_hue_lights
+      - light.bedroom_lamp_one
+      - light.bedroom_lamp_two
     data:
       brightness: 254
       rgb_color: [255,200,118]
@@ -188,16 +176,18 @@
       - group.goodbye_lights_and_switches
   - service: lock.lock
     entity_id: group.all_locks
-  - service: media_player.turn_off
-    entity_id: media_player.living_room_tv
-  - service: media_player.media_pause
-    entity_id: media_player.living_room
+#  - service: media_player.turn_off
+#    entity_id: media_player.living_room_tv
+#  - service: media_player.media_pause
+#    entity_id: media_player.living_room
   - service: automation.turn_on
     entity_id:
       - automation.cameras_back_gate_picture
       - automation.cameras_drive_way_1_picture
       - automation.cameras_drive_way_2_picture
       - automation.camera_side_yard_picture
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.goodmorning_switch
   - service: notify.pushbullet_notifications
     data_template:
       target:
@@ -246,7 +236,7 @@
       minutes: 1
   action:
   - service: light.turn_on
-    entity_id: group.downstairs_color_hue_lights
+    entity_id: group.color_hue_lights
     data:
       brightness: 254
       rgb_color: [255,200,118]
@@ -286,7 +276,7 @@
     state: 'off'
   - service: homeassistant.turn_off
     entity_id:
-      - group.upstairs_frog
+      - group.theater_room
   - condition: state
     entity_id: input_boolean.vacation_mode
     state: 'off'
@@ -469,7 +459,7 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: group.upstairs_frog
+    entity_id: group.theater_room
     state: 'off'
   - condition: state
     entity_id: remote.theater_room_harmony_hub
@@ -483,7 +473,7 @@
       brightness: 255
   - wait_template: "{{ is_state('binary_sensor.motion_delay_frog', 'off') }}"
   - condition: state
-    entity_id: group.upstairs_frog
+    entity_id: group.theater_room
     state: 'on'
   - service: light.turn_off
     entity_id: light.frog_ceiling_light,light.frog_fan_light
@@ -561,9 +551,6 @@
   - condition: state
     entity_id: light.hallway_light
     state: 'off'
-#  - condition: state
-#    entity_id: input_select.house_mode
-#    state: 'Night'
   action:
   - service: light.turn_on
     data:
@@ -1018,8 +1005,9 @@
       - binary_sensor.open_close_sensor_back_door
       - binary_sensor.open_close_sensor_front_door
       - binary_sensor.open_close_sensor_garage_door
-      - binary_sensor.living_room_window_open_close
-      - binary_sensor.office_window_open_close
+      - binary_sensor.open_close_sensor_livingroom_window_back
+      - binary_sensor.open_close_sensor_livingroom_window_front
+      - binary_sensor.open_close_sensor_office_window
     from: 'off'
     to: 'on'
   - platform: state
@@ -1046,7 +1034,9 @@
       - binary_sensor.motion_sensor_office_motion
       - binary_sensor.motion_sensor_living_room_motion
       - binary_sensor.motion_sensor_kitchen_motion
-    to: 'on'  
+      - binary_sensor.motion_sensor_front_door_motion
+    from: 'off'
+    to: 'on'
   condition:
   - condition: state
     entity_id: input_select.security_system
@@ -1250,7 +1240,7 @@
       seconds: 60
   - service: homeassistant.turn_off
     entity_id:
-      - group.upstairs_frog
+      - group.theater_room
   - service: script.turn_on
     entity_id: script.theater_room_soundbar_reset
   - delay:
@@ -1265,8 +1255,14 @@
   trigger:
     - platform: state
       entity_id:
+        - device_tracker.amazon_dot_ashleys_room
+        - device_tracker.amazon_dot_bedroom
+        - device_tracker.amazon_dot_living_room
+        - device_tracker.amazon_dot_office
+        - device_tracker.appletv
         - device_tracker.ecobee_downstairs
         - device_tracker.ecobee_upstairs
+        - device_tracker.fire_tv_theater_room
         - device_tracker.front_doorbell_camera
         - device_tracker.harmony_hub_living_room
         - device_tracker.harmonyhub_frog
@@ -1274,10 +1270,14 @@
         - device_tracker.office_pc
         - device_tracker.plexserver
         - device_tracker.slingbox
+        - device_tracker.sonos_playbar_living_room
         - device_tracker.sonos_sub_living_room
-        - device_tracker.sonosplaybar_living_room
         - device_tracker.sony_tv_living_room
+        - device_tracker.tivomini_bedroom
         - device_tracker.tivomini_theater_room
+        - device_tracker.vizio_tv_bedroom_lan
+        - device_tracker.vizio_tv_cast_bedroom_wireless
+        - device_tracker.vizio_tv_theater_room_lan
       from: 'home'
       to: 'not_home'
   action:
@@ -1446,94 +1446,6 @@
           white
         {% endif %}
 
-- alias: Travel time increases to Base
-  trigger:
-  - platform: state
-    entity_id: sensor.time_to_base
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1    
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: state
-    entity_id: input_select.work_location
-    state: 'Base'
-  - condition: state
-    entity_id: sensor.time_to_leave_for_base
-    state: 'true'
-  - condition: state
-    entity_id: binary_sensor.paul_presence
-    state: 'on'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.notify_paul_when_its_time_to_leave_for_work.attributes.last_triggered) | int < 1800 }}' 
-  - condition: template
-    value_template: >
-      {{ trigger.to_state is not none and trigger.from_state is not none and
-         trigger.to_state.state|int > trigger.from_state.state|int }}
-  action:
-  - service: notify.main_echos
-    data_template:
-      message: "Traffic to the Navy Base just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_base') }} minutes."
-
-- alias: Travel time increases to CACI
-  trigger:
-  - platform: state
-    entity_id: sensor.time_to_caci
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ha_runtime_in_minutes
-    above: 1    
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: state
-    entity_id: input_select.work_location
-    state: 'CACI'
-  - condition: state
-    entity_id: sensor.time_to_leave_for_caci
-    state: 'true'
-  - condition: template
-    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.notify_paul_when_its_time_to_leave_for_work.attributes.last_triggered) | int < 1800 }}' 
-  - condition: template
-    value_template: >
-      {{ trigger.to_state is not none and trigger.from_state is not none and
-         trigger.to_state.state|int > trigger.from_state.state|int }}
-  action:
-  - service: notify.main_echos
-    data_template:
-      message: "Traffic to khaki just got worse. Your estimated time in traffic is now {{ states('sensor.time_to_caci') }} minutes."
-
-#- alias: Set alcove light color based on Traffic to AVIS
-#  trigger:
-#  - platform: state
-#    entity_id: input_select.house_mode
-#    from: 'Night'
-#  - platform: state
-#    entity_id: sensor.tracys_traffic_density_to_avis
-#  - platform: time
-#    at: '06:35:00'
-#  condition:
-#  - condition: state
-#    entity_id: binary_sensor.workday_sensor
-#    state: 'on'
-#  - condition: state
-#    entity_id: input_select.house_mode
-#    state: Home
-#  - condition: time
-#    after: '06:35:00'
-#    before: '07:34:00'
-#  action:
-#  - service: light.turn_on
-#    data_template:
-#      entity_id: light.alcove_light
-#      brightness_pct: 100
-#      color_name: >
-#        {% set map = {'Normal': 'green', 'Moderate': 'orange', 'Heavy': 'red'} %}
-#        {% set state = states('sensor.tracys_traffic_density_to_avis') %}
-#        {{ map[state] if state in map else 'white' }}
-#
 ##########################################
 ## Commute Time Logger                  ##
 ##########################################
@@ -1666,21 +1578,6 @@
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.notify_tracy
-
-##########################################
-## Roku Key Mapping for Harmony         ##
-##########################################
-#- alias: "Roku to turn on and off Fireplace with Harmony"
-#  trigger:
-#  - platform: event
-#    event_type: roku_command
-#    event_data:
-#      roku_usn: sSMJFc3BXnTfjPAPHiY5gb
-#      type: keypress
-#      key: Fwd
-#  action:
-#  - service: homeassistant.toggle
-#    entity_id: switch.fireplace
 
 ##########################################
 ## Camera Picture Alerts                ##
@@ -1855,8 +1752,9 @@
       - binary_sensor.open_close_sensor_back_door
       - binary_sensor.open_close_sensor_front_door
       - binary_sensor.open_close_sensor_garage_door
-      - binary_sensor.living_room_window_open_close
-      - binary_sensor.office_window_open_close
+      - binary_sensor.open_close_sensor_livingroom_window_back
+      - binary_sensor.open_close_sensor_livingroom_window_front
+      - binary_sensor.open_close_sensor_office_window
     to: 'on'
     for:
       minutes: 3
@@ -2376,22 +2274,6 @@
 #############################################
 ## Misc Automations for future use         ##
 #############################################
-#- alias: Turn Hue Lights to Normal
-#  trigger:
-#  - platform: state
-#    entity_id: light.all_hue_lights
-#    to: 'on'
-#  condition:
-#  - condition: template
-#    value_template: "{{ states.light.all_hue_lights.attributes.rgb_color != '(255,200,118)' }}"
-#  action:
-#  - delay: 00:00:10
-#  - service: light.turn_on
-#    entity_id: light.all_hue_lights
-#    data:
-#      brightness: 254
-#      rgb_color: [255,200,118]
-
 #- alias: 'Phone Charging Test'
 #  trigger:
 #    - platform: template
@@ -2542,14 +2424,3 @@
     data_template:
       entity_id: media_player.living_room
       source: Discover Weekly
-
-#- alias: "volume setting"
-#  trigger:
-#  - platform: state
-#    entity_id: light.alexa_virtual
-#    to: 'on'
-#  action:
-#  - service: shell_command.alexa_vol
-#    data_template:
-#      device: office
-#      volume: 30

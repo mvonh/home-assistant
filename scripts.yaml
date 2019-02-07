@@ -5,7 +5,7 @@ downstairs_colorloop:
   alias: Downstairs Color Loop
   sequence:
     - service: light.turn_on
-      entity_id: group.downstairs_color_hue_lights
+      entity_id: group.color_hue_lights
       data_template:
         hs_color:
           - "{{ range(360)|random }}"
@@ -13,7 +13,7 @@ downstairs_colorloop:
         brightness_pct: 100
     - delay: '00:00:02'
     - service: light.turn_on
-      entity_id: group.downstairs_color_hue_lights
+      entity_id: group.color_hue_lights
       data_template:
         effect: colorloop
         brightness: 190
@@ -23,7 +23,7 @@ reset_downstairs_lighting:
   alias: Reset Downstairs Lighting
   sequence:
     - service: light.turn_on
-      entity_id: group.downstairs_color_hue_lights
+      entity_id: group.color_hue_lights
       data:
         brightness: 150
         rgb_color: [255,200,118]

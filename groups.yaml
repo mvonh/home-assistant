@@ -1,253 +1,120 @@
-default_view:
-  name: Lights and Switches
-  view: yes
-  icon: mdi:lightbulb-outline
-  entities:
-    - group.livingroom
-    - group.kitchen
-    - group.office_lights
-    - group.master_bedroom
-    - group.upstairs_rooms
-    - group.outdoor
-    - group.livingroom_plugs
-    
-door_ui:
-  name: Door Locks and Garage Door
-  view: Yes
-  icon: mdi:lock-outline
-  entities:
-#    - sensor.house_mode
-#    - sensor.security_system_state
-    - group.door_lock_information
-    - group.garage_door
-    - group.door_open_close_sensors
-#    - group.garage_door_automation_status
-    - group.home_mode_and_security_monitor
-
-CCTV:
-  view: Yes
-  icon: mdi:cctv
-  entities:
-    - camera.front_door
-    - camera.back_gate
-    - camera.driveway_one
-    - camera.driveway_two
-    - camera.side_yard
-#    - automation.camera_side_yard_picture
-#    - automation.cameras_back_gate_picture
-#    - automation.cameras_drive_way_1_picture
-#    - automation.cameras_drive_way_2_picture
-#    - group.cameras_view
-    
-home_mode_and_presence:
-  name: Presence and Alerts
-  view: Yes
-  icon: mdi:account
-  entities:
-#    - device_tracker.paul_all
-#    - device_tracker.tracy_all
-#    - device_tracker.carolsiphone
-#    - device_tracker.jimsiphone
-    - sensor.pauls_time_to_home
-    - sensor.tracys_time_to_home
-    - sensor.time_to_avis_tracy
-    - sensor.time_to_caci
-    - sensor.time_to_base
-    - sensor.time_to_get_to_soul_mate
-    - group.alerts
-    - group.house_presence
-    - group.work_location
-    - group.notify_selection
-
-weather_forcast:
-  name: Weather Informatiom
-  view: Yes
-  icon: mdi:weather-partlycloudy
-  entities:
-    - group.local_conditions
-    - group.weather_card_forecast
-    
-house_climate_info:
-  name: House Climate Info
-  view: Yes
-  icon: mdi:home-circle
-  entities:
-    - group.thermostats
-    - group.downstairs_climate_info
-    - group.upstairs_climate_info
-#    - group.zigbee_sensors_temp_output
-#    - group.room_occupancy_sensors
-
-automation_view:
-  name: Automation
-  view: Yes
-  icon: mdi:home-automation
-  entities:
-    - group.household_routines
-    - group.all_presence_sensors
-    - group.indoor_motion_sensors
-#    - group.motion_sensor_front_door
-#    - group.motion_sensor_attic
-    - group.batteries
-    - group.all_automations
-    - group.all_scripts
-
-local_conditions:
-  name: Local Conditions
-  view: no
-  icon: mdi:sun
-  entities:
-    - sensor.dark_sky_apparent_temperature
-    - sensor.dark_sky_wind_speed
-    - sensor.dark_sky_minutely_summary
-    - sensor.dark_sky_hourly_summary
-    - sensor.dark_sky_daily_summary
-    - sensor.current_uv_level
-    - sensor.virgia_beach_surf_report_forecast
-    - sensor.noaa_tides
-
-Batteries:
-  view: no
-  icon: mdi:battery
-  entities:
-    - sensor.door_lock_batteries_back_door
-    - sensor.door_lock_batteries_front_door
-    - sensor.door_lock_batteries_garage_door
-    - sensor.motion_sensor_attic_battery
-    - sensor.motion_sensor_front_door_battery
-    - sensor.motion_sensor_hallway_battery
-    - sensor.motion_sensor_living_room_battery
-    - sensor.motion_sensor_office_battery
-    - sensor.motion_sensor_kitchen_battery
-    - sensor.motion_sensor_garage_battery
-    - sensor.battery_living_room_window_open_close
-    - sensor.battery_office_window_open_close
-    - sensor.open_close_sensor_front_door_battery
-    - sensor.open_close_sensor_garage_door_battery
-    - sensor.open_close_sensor_back_door_battery
-    - sensor.open_close_sensor_garage_fridge_battery
-    - sensor.battery_smoke_detector
-    - sensor.battery_attic_water_sensor
-    - sensor.water_sensor_kitchen_battery
-
-garage_door:
-  name: Garage Door
-  view: No
-  icon: mdi:garage
-  entities:
-    - cover.garage_door_opener
-
-garage_door_automation_status:
-  name: Garage Door Automation
-  view: No
-  icon: mdi:garage-open
-  entities:
-    - input_boolean.open_garage_for_paul
-    - input_boolean.open_garage_for_tracy
-
-media_devices:
-  name: Entertainment Devices
-  view: no
-  icon: mdi:television
-  entities:
-    - remote.living_room_harmony_hub
-    - remote.theater_room_harmony_hub
-    - media_player.living_room
-    - media_player.xbr65x900e
-#    - media_player.microsoft_edge
-#    - media_player.theater_room_tv
-#    - group.router_connections
-
-alerts:
-  name: System Alerts
-  view: No
-  entities:
-    - alert.garage_door
-    - alert.garage_fridge_temp
-    - alert.water_leak_attic
-    - alert.water_leak_kitchen
-    - alert.smoke_detector_smoke
-    - alert.smoke_detector_co2
-    - alert.smoke_detector_test
-    - alert.front_door
-    - alert.back_door
-    - alert.garage_door_door
-
-home_mode_and_security_monitor:
-  name: House Mode and Security Monitor
-  view: no
-  entities:
-    - input_select.security_system
-    - input_select.house_mode
-
 livingroom:
   name: Living Room
   view: no
   control: hidden
   entities:
-    - light.living_room_lamp_one
-    - light.living_room_lamp_two
     - light.left_shelf_lights
-    - light.tv_backlights
-    - light.right_shelf_lights
     - light.living_room_ceiling_light
     - light.living_room_fan_light
-    - fan.living_room_fan
-    - switch.stairwell_light
-    - switch.sconce_light
-    - switch.fireplace
-
-livingroom_hue_lights:
-  name: Living Room Hue Lights
-  view: no
-  control: hidden
-  entities:
     - light.living_room_lamp_one
     - light.living_room_lamp_two
-    - light.left_shelf_lights
-    - light.tv_backlights
     - light.right_shelf_lights
-
-livingroom_zwave_devices:
-  name: Living Room Zwave Devices
-  view: no
-  control: hidden
-  entities:
-    - light.living_room_ceiling_light
-    - light.living_room_fan_light
+    - light.tv_backlights
     - fan.living_room_fan
-    - switch.stairwell_light
-    - switch.sconce_light
     - switch.fireplace
-    - switch.office_lamp_one
-
-livingroom_plugs:
-  name: Living Room Plugs
-  view: no
-  control: hidden
-  entities:
     - switch.living_room_plug_one
-    - switch.living_room_plug_two
     - switch.living_room_plug_three
+    - switch.living_room_plug_two
+    - switch.sconce_light
+    - switch.zigbee_zwave_repeater_2
+    - switch.stairwell_light
+    - media_player.living_room
+    - media_player.living_room_tv
+    - remote.living_room_harmony_hub
 
-kitchen:
-  name: Kitchen
+kitchen_office:
+  name: Kitchen and Office
   view: no
+  control: hidden
   entities:
     - light.alcove_light
-    - light.kitchen_cabinet_tops
     - light.kitchen_cabinet_bottoms
+    - light.kitchen_cabinet_tops
     - light.kitchen_counter_light
     - light.kitchen_island_light
+    - light.office_lamp_two
+    - switch.office_lamp_one
 
-kitchen_hue_lights:
-  name: Kitchen Hue
+master_bedroom:
+  name: Master Bedroom
+  view: no
+  control: hidden
+  entities:
+    - light.bedroom_ceiling_light
+    - light.bedroom_lamp_one
+    - light.bedroom_lamp_two
+    - light.bedroom_tv_lights
+    - switch.bedroom_fan
+    - switch.closet_light
+    - media_player.bedroom_tv_control
+
+guest_rooms:
+  name: Master Bedroom
+  view: no
+  control: hidden
+  entities:
+    - light.ashleys_room_ceiling_light
+    - light.ashleys_room_lamp
+    - light.guest_bedroom_lamp
+    - light.guest_bedroom_light
+    - light.hallway_light
+    - light.zigbee_zwave_repeater_1
+
+theater_room:
+  name: Theater Room
+  view: no
+  control: hidden
+  entities:
+    - light.frog_ceiling_light
+    - light.frog_couch_backlight
+    - light.frog_fan_light
+    - fan.frog_fan
+    - switch.lava_lamp_plug
+    - switch.lava_lamp_two
+    - media_player.theater_room_tv_cast
+    - media_player.theater_room_tv_control
+    - remote.theater_room_harmony_hub
+
+outdoor:
+  name: Outdoors
+  view: no
+  control: hidden
+  entities:
+    - switch.back_porch_light
+    - switch.front_porch_light
+    - switch.garage_light_indoor
+    - switch.garage_light_outdoor
+    - switch.lamp_post
+    - switch.rope_lights
+
+outdoor_lights_sunset:
+  name: Outdoor Lights for sunset
   view: no
   entities:
-    - light.office_lamp_two
-    - light.alcove_light
-    - light.kitchen_cabinet_tops
-    - light.kitchen_cabinet_bottoms
+    - switch.rope_lights
+    - switch.front_porch_light
+    - switch.garage_light_outdoor
+    - switch.lamp_post
+
+goodbye_lights_and_switches:
+  name: Turn off everything except outdoor lights
+  view: no
+  icon: mdi:lightbulb-outline
+  entities:
+    - group.livingroom
+    - group.kitchen_office
+    - group.master_bedroom
+    - group.guest_rooms
+    - group.theater_room
+
+good_night_lights:
+  view: no
+  icon: mdi:home-automation
+  entities:
+    - group.livingroom
+    - group.kitchen_office
+    - group.guest_rooms
+    - switch.rope_lights
 
 kitchen_zwave_lights:
   name: Kitchen Dimmers
@@ -257,14 +124,15 @@ kitchen_zwave_lights:
     - light.kitchen_island_light
 
 office_lights:
-  name: Office Lights
+  name: Office
   view: no
+  control: hidden
   entities:
     - light.office_lamp_two
     - switch.office_lamp_one
 
-downstairs_color_hue_lights:
-  name: Downstairs Color Hue Lights
+color_hue_lights:
+  name: Color Hue Lights
   view: no
   control: hidden
   entities:
@@ -277,124 +145,17 @@ downstairs_color_hue_lights:
     - light.living_room_lamp_two
     - light.alcove_light
 
-master_bedroom:
-  name: Master Bedroom
-  view: no
-  entities:
-    - light.bedroom_lamp_one
-    - light.bedroom_lamp_two
-    - light.bedroom_ceiling_light
-    - light.bedroom_tv_lights
-    - switch.closet_light
-    - switch.bedroom_fan
-
-upstairs_rooms:
-  name: Upstairs Rooms
+indoor_motion_sensors:
+  name: Motion Sensors
   view: no
   control: hidden
   entities:
-    - light.hallway_light
-    - light.frog_ceiling_light
-    - light.frog_fan_light
-    - fan.frog_fan
-    - switch.lava_lamp_plug
-    - switch.lava_lamp_two
-    - light.frog_couch_backlight
-    - light.guest_bedroom_light
-    - light.guest_bedroom_lamp
-    - light.ashleys_room_lamp
-    - light.ashleys_room_ceiling_light
-
-upstairs_hue_lights:
-  name: Upstairs Hue Lights
-  view: no
-  control: hidden
-  entities:
-    - light.bedroom_lamp_one
-    - light.bedroom_lamp_two
-    - light.guest_bedroom_lamp
-    - light.ashleys_room_lamp
-
-upstairs_zwave_devices:
-  name: Upstairs Zwave Devices
-  view: no
-  control: hidden
-  entities:
-    - light.frog_ceiling_light
-    - light.frog_fan_light
-    - light.bedroom_ceiling_light
-    - light.hallway_light
-    - light.guest_bedroom_light
-    - light.ashleys_room_ceiling_light
-    - switch.lava_lamp_plug
-    - switch.lava_lamp_two
-    - switch.bedroom_fan
-    - fan.frog_fan
-
-upstairs_lights:
-  name: Upstairs Lights
-  view: no
-  control: hidden
-  entities:
-    - light.hallway_light
-    - light.guest_bedroom_lamp
-    - light.ashleys_room_lamp
-    - light.guest_bedroom_light
-    - light.ashleys_room_ceiling_light
-    - light.frog_ceiling_light
-    - light.frog_fan_light
-    - light.frog_couch_backlight
-    
-upstairs_frog:
-  name: Upstairs Frog Lights
-  view: no
-  control: hidden
-  entities:
-    - light.frog_ceiling_light
-    - light.frog_fan_light
-    - fan.frog_fan
-    - switch.lava_lamp_plug
-    - switch.lava_lamp_two
-
-outdoor:
-  name: Outdoor Lights
-  view: no
-  control: hidden
-  entities:
-    - switch.rope_lights
-    - switch.back_porch_light
-    - switch.garage_light_indoor
-    - switch.front_porch_light
-    - switch.garage_light_outdoor  
-    - switch.lamp_post
-
-thermostats:
-  name: Thermostats
-  view: no
-  entities:
-    - climate.downstairs
-    - climate.upstairs
-
-house_presence:
-  name: People Locator
-  icon: mdi:account-multiple
-  view: no
-  entities:
-#    - binary_sensor.people_home
-    - device_tracker.paul_all
-    - device_tracker.tracy_all
-    - device_tracker.carolsiphone
-    - device_tracker.jimsiphone
-    - input_boolean.guests_present
-
-# Add guests here who are staying over
-extra_device_trackers:
-  name: Guest Presence Sensors
-  icon: mdi:account-multiple
-  view: no
-  entities:
-    - device_tracker.carolsiphone
-    - device_tracker.jimsiphone
+    - binary_sensor.motion_sensor_frog
+    - binary_sensor.motion_sensor_front_door_motion
+    - binary_sensor.motion_sensor_garage_motion
+    - binary_sensor.motion_sensor_hallway_motion
+    - binary_sensor.motion_sensor_living_room_motion
+    - binary_sensor.motion_sensor_office_motion
 
 # Only for Primary People (aka Paul and Tracy)
 primary_presence:
@@ -405,29 +166,14 @@ primary_presence:
     - binary_sensor.paul_presence
     - binary_sensor.tracy_presence
 
-downstairs_climate_info:
-  name: Downstairs Climate Info
+# Add guests here who are staying over
+extra_device_trackers:
+  name: Guest Presence Sensors
+  icon: mdi:account-multiple
   view: no
   entities:
-    - sensor.downstairs_temperature
-    - sensor.living_room_temperature
-    - sensor.office_temperature
-    - sensor.motion_sensor_garage_temp
-    - sensor.temp_garage_fridge
-    - sensor.downstairs_humidity
-
-upstairs_climate_info:
-  name: Upstairs Climate Info
-  view: no
-  entities:
-    - sensor.upstairs_temperature
-    - sensor.master_bedroom_temperature
-    - sensor.ashleys_room_temperature
-    - sensor.guest_room_temperature
-    - sensor.frog_temperature
-    - sensor.motion_sensor_attic_temperature
-    - sensor.motion_sensor_attic_relative_humidity
-    - sensor.upstairs_humidity
+    - device_tracker.carolsiphone
+    - device_tracker.jimsiphone
 
 router_connections:
   name: Things on the Network
@@ -449,197 +195,6 @@ router_connections:
     - device_tracker.sonos_playbar_living_room
     - device_tracker.sony_tv_living_room
 
-cameras_view:
-  name: Security Cameras
-  view: no
-  icon: mdi:cctv
-  entities:
-    - binary_sensor.backyard_line_crossing
-    - binary_sensor.backyard_motion
-    - binary_sensor.backyard_field_detection
-    - binary_sensor.driveway_1_line_crossing
-    - binary_sensor.driveway_1_motion
-    - binary_sensor.driveway_1_field_detection
-    - binary_sensor.driveway_2_line_crossing
-    - binary_sensor.driveway_2_motion
-    - binary_sensor.driveway_2_field_detection
-    - binary_sensor.sideyard_line_crossing
-    - binary_sensor.sideyard_motion
-    - binary_sensor.sideyard_field_detection
-
-indoor_motion_sensors:
-  name: Motion Sensors
-  view: no
-#  icon: mdi:cctv
-  entities:
-    - binary_sensor.motion_sensor_garage_motion
-    - binary_sensor.motion_sensor_hallway_motion
-    - binary_sensor.motion_sensor_office_motion
-    - binary_sensor.motion_sensor_living_room_motion
-    - binary_sensor.motion_sensor_kitchen_motion
-    - binary_sensor.motion_sensor_front_door_motion
-    - binary_sensor.motion_sensor_closet
-    - binary_sensor.motion_sensor_frog
-
-downstairs_motion_sensors:
-  name: Motion Sensors
-  view: no
-  entities:
-    - binary_sensor.motion_sensor_garage_motion
-    - binary_sensor.motion_sensor_office_motion
-    - binary_sensor.motion_sensor_living_room_motion
-    - binary_sensor.motion_sensor_kitchen_motion
-    - binary_sensor.motion_sensor_front_door_motion
-
-upstairs_motion_sensors:
-  name: Motion Sensors
-  view: no
-  entities:
-    - binary_sensor.motion_sensor_hallway_motion
-    - binary_sensor.motion_sensor_attic_motion
-
-room_occupancy_sensors:
-  name: Room Occupancy Sensors
-  view: no
-  entities:
-# Ecobee Sensors   
-   - binary_sensor.master_bedroom_occupancy
-   - binary_sensor.ashleys_room_occupancy
-   - binary_sensor.guest_room_occupancy   
-   - binary_sensor.frog_occupancy
-   - binary_sensor.living_room_occupancy
-   - binary_sensor.office_occupancy
-
-door_open_close_sensors:
-  name: Doors and Windows
-  view: no
-  entities:
-  - binary_sensor.open_close_sensor_front_door
-  - binary_sensor.open_close_sensor_garage_door
-  - binary_sensor.open_close_sensor_back_door
-  - binary_sensor.office_window_open_close
-  - binary_sensor.living_room_window_open_close
-
-good_night_lights:
-  view: no
-  icon: mdi:home-automation
-  entities:
-    - group.livingroom_hue_lights
-    - group.kitchen_hue_lights
-    - group.kitchen_zwave_lights
-    - group.livingroom_zwave_devices
-    - group.livingroom_plugs
-    - group.upstairs_lights
-    - switch.rope_lights
-
-outdoor_lights_sunset:
-  name: Outdoor Lights for sunset
-  view: no
-  entities:
-    - switch.rope_lights
-    - switch.front_porch_light
-    - switch.garage_light_outdoor
-    - switch.lamp_post
-
-outdoor_to_turn_off:
-  name: Outdoor Lights
-  view: no
-  entities:
-    - switch.garage_light_indoor
-#    - switch.garage_light_outdoor  
-
-goodbye_lights_and_switches:
-  name: Lights and switches not including Outdoor Night lights
-  view: no
-  icon: mdi:lightbulb-outline
-  entities:
-    - group.livingroom_hue_lights
-    - group.kitchen_hue_lights
-    - group.kitchen_zwave_lights
-    - group.livingroom_zwave_devices
-    - group.livingroom_plugs
-    - group.upstairs_hue_lights
-    - group.upstairs_zwave_devices
-    - group.outdoor_to_turn_off
-    - group.all_remotes
-
-zigbee_sensors_temp_output:
-  name: Temp info from Sensors
-  view: no
-  entities:
-#    - sensor.temp_garage_fridge
-#    - sensor.motion_sensor_garage_temp
-#    - sensor.open_close_sensor_front_door_temp
-#    - sensor.open_close_sensor_garage_door_temp
-#    - sensor.open_close_sensor_back_door_temp
-#    - sensor.motion_sensor_hallway_temp
-#    - sensor.motion_sensor_office_temp
-#    - sensor.motion_sensor_living_room_temp
-#    - sensor.motion_sensor_kitchen_temp
-
-household_routines:
-  name: House Routines
-  view: no
-  entities:    
-    - automation.good_morning_routine
-    - automation.goodnight_routine
-    - automation.goodbye_routine
-    - automation.welcome_back_routine
-
-notify_selection:
-  name: Enable Notification
-  view: no
-  entities:    
-    - input_boolean.notify_paul
-    - input_boolean.notify_tracy
-
-work_location:
-  name: Work Details for Paul
-  view: no
-  entities:  
-    - input_select.work_location
-    - input_datetime.work_time_paul
-
-all_presence_sensors:
-  name: Presence and status
-  icon: mdi:account-multiple
-  view: no
-  entities:
-    - binary_sensor.people_home
-    - device_tracker.paul_all
-    - device_tracker.paul
-    - device_tracker.google_maps_118013912887885302155
-    - device_tracker.pauls_iphone
-    - device_tracker.pauls_iphone_2
-    - binary_sensor.homekit_presence_paul
-    - binary_sensor.paul_presence
-    - device_tracker.tracy_all
-    - device_tracker.tracy
-    - device_tracker.google_maps_116112519745623760034
-    - device_tracker.tracys_iphone
-    - device_tracker.tracys_iphone_2
-    - binary_sensor.homekit_presence_tracy
-    - binary_sensor.tracy_presence
-    - input_boolean.guests_present
-
-tracy_iphone_presence:
-  name: Tracys Iphone Presence
-  icon: mdi:account-multiple
-  view: no
-  entities:
-    - device_tracker.tracy
-    - device_tracker.tracys_iphone
-    - device_tracker.tracys_iphone_2
-
-paul_iphone_presence:
-  name: Pauls Iphone Presence
-  icon: mdi:account-multiple
-  view: no
-  entities:
-    - device_tracker.paul
-    - device_tracker.pauls_iphone
-    - device_tracker.pauls_iphone_2
-
 all_zigbee:
   name: Zigbee Devices
   view: no
@@ -654,9 +209,27 @@ all_zigbee:
     - zha.motion_sensor_office
     - zha.motion_sensor_sensor_living_room
     - zha.open_close_sensor_back_door
+    - zha.open_close_sensor_front_door
     - zha.open_close_sensor_garage_door
     - zha.open_close_sensor_garage_fridge
     - zha.open_close_sensor_livingroom_window_front
     - zha.water_sensor_kitchen
     - zha.zigbee_zwave_repeater_1
     - zha.zigbee_zwave_repeater_2
+
+locks_doors:
+  name: Locks and Doors
+  view: No
+  icon: mdi:garage
+  entities:
+    - lock.lock_back_door_lock
+    - lock.lock_front_door_lock
+    - lock.lock_garage_door_lock
+
+thermostats:
+  name: Thermostats
+  view: No
+  icon: mdi:garage
+  entities:
+    - device_tracker.ecobee_downstairs
+    - device_tracker.ecobee_upstairs
