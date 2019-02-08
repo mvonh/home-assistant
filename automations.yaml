@@ -219,12 +219,14 @@
   - service: automation.turn_off
     entity_id:
       - automation.cameras_back_gate_picture
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    above: 4.0
   - service: scene.turn_on
-    entity_id: scene.morning_lighting
+    data_template:
+      entity_id: >
+        {% if (states.sun.sun.attributes.elevation) <= 4 %}
+          scene.evening_lighting
+        {%- else -%}
+          scene.morning_lighting
+        {% endif %}
 
 - alias: 'Goodnight Routine'
   trigger:
@@ -561,6 +563,25 @@
   - service: light.turn_off
     entity_id: light.hallway_light
 
+- alias: Motion Lighting in the Living Room After Dark
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_living_room_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: time
+    before: '04:00:00'
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Home)'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.downstairs_nightlight
+  - wait_template: "{{ is_state('binary_sensor.motion_delay_living_room', 'off') }}"
+  - service: scene.turn_on
+    entity_id: scene.downstairs_all_off
+
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
   - platform: state
@@ -579,6 +600,13 @@
       entity_id:
         - switch.lava_lamp_plug
         - switch.lava_lamp_two
+  - condition: numeric_state
+    entity_id: sensor.frog_temperature
+    above: 73.0
+  - service: fan.set_speed
+    entity_id: fan.frog_fan
+    data:
+      speed: low
 
 - alias: Turn on Lights in FROG after TV turns off
   trigger:
@@ -599,24 +627,6 @@
         - light.frog_ceiling_light
         - light.frog_fan_light
       brightness: 140
-   
-- alias: Theater Room fan on if warm
-  trigger:
-  - platform: state
-    entity_id: media_player.theater_room_tv_control
-    to: 'on'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.frog_temperature
-    above: 73.0
-  - condition: state
-    entity_id: timer.frog_tv_reset
-    state: 'idle'
-  action:
-  - service: fan.set_speed
-    entity_id: fan.frog_fan
-    data:
-      speed: low
 
 - alias: Turn on TV Backlights in Bedroom
   trigger:
@@ -759,23 +769,6 @@
   - service: scene.turn_on
     entity_id: scene.casual_lighting
 
-- alias: Turn on lights upon Arrival after sunset
-  trigger:
-  - platform: state
-    entity_id: input_select.house_mode
-    from: 'Away'
-  - platform: state
-    entity_id: input_select.house_mode
-    from: 'Extended Away'
-  condition:
-  - condition: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: 4.0  
-  action:
-  - service: scene.turn_on
-    entity_id: scene.evening_lighting
-
 ##########################################
 ## Door Locking and Unlocking           ##
 ##########################################
@@ -911,8 +904,23 @@
       - !secret tracys_secret_email
       title: Doors left unlocked
       message: >
-          {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
-          The following locks are unlocked: {{ unlocked }}
+        {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
+        The following locks are still unlocked: {{ unlocked }}.  Attempting to lock again in 15 seconds.   If the lock attempt is succussful, you will not receive a follow up message.
+  - service: lock.lock
+    entity_id: group.all_locks
+  - delay:
+      seconds: 15
+  - condition: state
+    entity_id: binary_sensor.doors_unlocked
+    state: 'on'
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: Doors failed to Lock
+      message: >
+          The following locks failed to lock: {{ unlocked }}.  Please lock using the app.
 
 - alias: Zigbee Device Offline
   trigger:
@@ -928,8 +936,8 @@
       - !secret pauls_secret_email
       title: Zigbee Devices Offline
       message: >
-          {% set offline = states | selectattr('entity_id', 'in', state_attr('group.all_zigbee','entity_id')) | selectattr('state','eq','offline') | map(attribute='name') | join(', ') %}
-          The following zigbee devices are offline: {{ offline }}
+        {% set offline = states.zha | selectattr('state','eq','offline') | map(attribute='name') | join(', ') %}
+        The following zigbee devices are offline: {{ offline }}
 
 - alias: Notify who unlocked door with timestamp
   trigger:
@@ -1809,7 +1817,7 @@
           {%- endif %}    
       title: "Leak Alert"
 
-- alias: Smoke Detected
+- alias: Smoke Detected Downstairs
   trigger:
   - platform: state
     entity_id: sensor.downstairs_nest_protect_smoke_status
@@ -1853,7 +1861,7 @@
     entity_id:
       - group.all_lights
 
-- alias: CO2 Detected
+- alias: CO2 Detected Downstairs
   trigger:
   - platform: state
     entity_id: sensor.downstairs_nest_protect_co_status
@@ -1893,6 +1901,87 @@
     entity_id:
       - group.all_lights
 
+- alias: Smoke Detected in Attic
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.attic_smoke_detector_smoke
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: shell_command.alexa_vol
+    data_template:
+      device: ALL
+      volume: 100
+  - service: notify.all_alexas
+    data_template:
+      message: The Attic Smoke Detector is reporting a smoke warning.
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      message: The Attic Smoke Detector is reporting a smoke warning.
+      title: "Smoke Alert"
+  - service: lock.unlock
+    entity_id: group.all_locks
+  - service: homeassistant.turn_on
+    entity_id:
+      - group.all_lights
+      - group.all_switches
+
+- alias: CO2 Detected in Attic
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.attic_smoke_detector_co2
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: shell_command.alexa_vol
+    data_template:
+      device: ALL
+      volume: 100
+  - service: notify.all_alexas
+    data_template:
+      message: The Attic Smoke Detector is reporting a C O 2 warning.
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      message: The Attic Smoke Detector is reporting a C O 2 warning.
+      title: "CO2 Alert"
+
+- alias: Smoke Detected in Attic Testing Only
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.attic_smoke_detector_testing
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  action:
+  - service: shell_command.alexa_vol
+    data_template:
+      device: ALL
+      volume: 100
+  - service: notify.all_alexas
+    data_template:
+      message: Test Test Test.  The Attic Smoke Detector is reporting a smoke warning. This is only a test
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      message: Test Test Test.  The Attic Smoke Detector is reporting a smoke warning. This is only a test
+      title: "Smoke Testing"
+
 - alias: Tracy Travel Notice
   trigger:
   - platform: state
@@ -1920,6 +2009,31 @@
 
 - alias: Paul Travel Notice
   trigger:
+  - platform: state
+    entity_id: device_tracker.paul_all
+    to: 'not_home'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ha_runtime_in_minutes
+    above: 1
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.paul_travel_notice.attributes.last_triggered) | int > 120 }}'
+  - condition: state
+    entity_id: binary_sensor.tracy_presence
+    state: 'on'
+  - condition: template
+    value_template: "{{ trigger.from_state.state != 'home' }}"
+  action:
+  - service: input_text.set_value
+    data_template:
+      entity_id: input_text.commute_start_zone
+      value: '{{ trigger.from_state.state }}'
+  - service: notify.main_echos
+    data_template:
+      message: "Paul left {{ states('input_text.commute_start_zone') }} at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
+
+- alias: Paul Travel Notice nearing Home
+  trigger:
   - platform: template
     value_template: "{{ states('sensor.pauls_time_to_home')| int < 11 }}"
   condition:
@@ -1944,7 +2058,7 @@
 - alias: Tracy Travel Notice nearing Home
   trigger:
   - platform: template
-    value_template: "{{ states('sensor.tracys_time_to_home')| int < 8 }}"
+    value_template: "{{ states('sensor.tracys_time_to_home')| int < 10 }}"
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
@@ -2071,7 +2185,11 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.ha_runtime_in_minutes
-    above: 1  
+    above: 1
+  - condition: template
+    value_template: '{{states.climate.downstairs.climate_mode == "Away"}}'
+  - condition: template
+    value_template: '{{states.climate.upstairs.climate_mode == "Away"}}'
   action:
   - service: climate.set_hold_mode
     entity_id: climate.downstairs, climate.upstairs

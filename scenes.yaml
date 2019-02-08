@@ -251,3 +251,29 @@
         state: on
         brightness: 25
         color_temp: 444
+
+  - name: Downstairs All Off
+    entities:
+      light.kitchen_cabinet_bottoms:
+        state: off
+       
+      light.kitchen_cabinet_tops:
+        state: off
+      
+      light.living_room_lamp_one:
+        state: off
+      
+      light.living_room_lamp_two:
+        state: off
+      
+      light.left_shelf_lights:
+        state: off
+      
+      light.tv_backlights:
+        state: off
+      
+      light.right_shelf_lights:
+        state: off
+      
+      light.alcove_light:
+        state: off
