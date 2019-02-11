@@ -922,6 +922,31 @@
       message: >
           The following locks failed to lock: {{ unlocked }}.  Please lock using the app.
 
+- alias: Door alert follow up
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.doors_unlocked
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Home)'
+    for:
+      minutes: 3
+  - condition: state
+    entity_id: input_select.security_system
+    state: 'Armed (Away)'
+    for:
+      minutes: 3
+  action:
+  - service: notify.pushbullet_notifications
+    data_template:
+      target:
+      - !secret pauls_secret_email
+      - !secret tracys_secret_email
+      title: Doors lock attempt two
+      message: The doors were successfully locked on the second attempt.  No Action is necessary
+
 - alias: Zigbee Device Offline
   trigger:
   - platform: state
@@ -1660,7 +1685,21 @@
       data:
         file:
           path: /tmp/frontdoor.jpg
-
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.security_system
+      state: 'Armed (Home)'
+    - condition: state
+      entity_id: input_select.security_system
+      state: 'Armed (Away)'
+  - service: switch.turn_on
+    entity_id: switch.front_door_entry
+  - delay:
+      minutes: 1
+  - service: switch.turn_off
+    entity_id: switch.front_door_entry
+    
 - alias: 'Cameras Back Gate Picture'
   trigger:
   - platform: state

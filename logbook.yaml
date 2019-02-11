@@ -96,6 +96,7 @@
       - switch.bedroom_fan
       - switch.fireplace
       - switch.front_porch_light
+      - switch.front_door_entry
       - switch.garage_light_indoor
       - switch.garage_light_outdoor
       - switch.lamp_post

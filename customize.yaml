@@ -41,45 +41,6 @@ device_tracker.tracy_all:
   friendly_name: Tracy
 sensor.lock_garage_door_lock_alarm_level:
   friendly_name: Garage Door Lock
-sensor.motion_sensor_front_door_alarm_level:
-  hidden: true
-sensor.motion_sensor_front_door_alarm_type:
-  hidden: true
-sensor.motion_sensor_front_door_burglar:
-  hidden: true
-sensor.motion_sensor_front_door_clock:
-  hidden: true
-sensor.motion_sensor_front_door_sourcenodeid:
-  hidden: true
-binary_sensor.motion_sensor_front_door_sensor:
-  hidden: true
-sensor.motion_sensor_front_door_system:
-  hidden: true
-sensor.motion_sensor_front_door_emergency:
-  hidden: true
-sensor.motion_sensor_front_door_power_management:
-  hidden: true
-sensor.motion_sensor_front_door_homehealth:
-  hidden: true
-sensor.motion_sensor_front_door_luminance:
-  friendly_name: Luminance
-  icon: mdi:brightness-5
-sensor.motion_sensor_front_door_relative_humidity:
-  friendly_name: Humidity
-  icon: mdi:water-percent
-sensor.motion_sensor_front_door_temperature:
-  friendly_name: Temperature
-  icon: mdi:temperature-fahrenheit
-sensor.motion_sensor_front_door_battery:
-  friendly_name: Front Door Multisensor Battery
-binary_sensor.motion_sensor_front_door_tamper:
-  friendly_name: Tamper
-binary_sensor.motion_sensor_front_door_motion:
-  friendly_name: Motion Sensor (Front Door)
-group.motion_sensor_front_door:
-  group:
-    group.motion_sensors:
-      friendly_name: Front Door Alarm
 sensor.motion_sensor_attic_alarm_level:
   hidden: true
 sensor.motion_sensor_attic_alarm_type:
@@ -226,6 +187,8 @@ switch.living_room_plug_two:
 switch.living_room_plug_three:
   icon: mdi:power-socket-us
 switch.stairwell_light:
+  icon: mdi:ceiling-light
+switch.front_door_entry:
   icon: mdi:ceiling-light
 switch.sconce_light:
   icon: mdi:wall-sconce

@@ -115,7 +115,7 @@ homekit:
       - input_boolean.paul_present
       - input_boolean.tracy_present
 
-
+system_health:
 # Enables the frontend
 frontend:
 
@@ -123,7 +123,7 @@ frontend:
 config:
 
 http:
-  api_password: !secret http_password
+#  api_password: !secret http_password
   ssl_certificate: !secret ssl_certificate_path
   ssl_key: !secret ssl_certificate_key_path
   base_url: !secret base_ha_url

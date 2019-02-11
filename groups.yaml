@@ -34,6 +34,7 @@ kitchen_office:
     - light.kitchen_island_light
     - light.office_lamp_two
     - switch.office_lamp_one
+    - switch.front_door_entry
 
 master_bedroom:
   name: Master Bedroom
