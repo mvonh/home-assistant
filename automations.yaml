@@ -928,15 +928,17 @@
     entity_id: binary_sensor.doors_unlocked
     to: 'off'
   condition:
-  - condition: state
-    entity_id: input_select.security_system
-    state: 'Armed (Home)'
-    for:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.security_system
+      state: 'Armed (Home)'
+          for:
       minutes: 3
-  - condition: state
-    entity_id: input_select.security_system
-    state: 'Armed (Away)'
-    for:
+    - condition: state
+      entity_id: input_select.security_system
+      state: 'Armed (Away)'
+          for:
       minutes: 3
   action:
   - service: notify.pushbullet_notifications
