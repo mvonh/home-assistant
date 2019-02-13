@@ -112,10 +112,43 @@ good_night_lights:
   view: no
   icon: mdi:home-automation
   entities:
-    - group.livingroom
-    - group.kitchen_office
-    - group.guest_rooms
+#    - group.livingroom
+#    - group.kitchen_office
+#    - group.guest_rooms
+#    - switch.rope_lights
+    - light.left_shelf_lights
+    - light.living_room_lamp_one
+    - light.living_room_lamp_two
+    - light.right_shelf_lights
+    - light.tv_backlights
+    - light.alcove_light
+    - light.kitchen_cabinet_bottoms
+    - light.kitchen_cabinet_tops
+    - light.office_lamp_two
+    - light.ashleys_room_lamp
+    - light.guest_bedroom_lamp
+    - light.living_room_ceiling_light
+    - light.living_room_fan_light
+    - light.kitchen_counter_light
+    - light.kitchen_island_light
+    - light.ashleys_room_ceiling_light
+    - light.guest_bedroom_light
+    - light.hallway_light
+    - switch.fireplace
+    - switch.living_room_plug_one
+    - switch.living_room_plug_three
+    - switch.living_room_plug_two
+    - switch.sconce_light
+    - switch.stairwell_light
+    - switch.office_lamp_one
+    - switch.front_door_entry
     - switch.rope_lights
+    - fan.living_room_fan
+    - switch.zigbee_zwave_repeater_2
+    - light.zigbee_zwave_repeater_1
+    - media_player.living_room
+    - media_player.living_room_tv
+    - remote.living_room_harmony_hub
 
 kitchen_zwave_lights:
   name: Kitchen Dimmers

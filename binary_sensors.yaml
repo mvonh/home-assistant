@@ -22,13 +22,13 @@
    ssl: False
    username: hass
    password: !secret camera_nvr_password
-# - platform: hikvision
-#   host: 192.168.1.101
-#   port: 80
-#   ssl: False
-#   name: doorbell camera
-#   username: admin
-#   password: !secret camera_nvr_password
+ - platform: hikvision
+   host: 192.168.1.101
+   port: 80
+   ssl: False
+   name: doorbell camera
+   username: admin
+   password: !secret camera_nvr_password
 
  - platform: template
    sensors:

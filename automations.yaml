@@ -159,6 +159,10 @@
     entity_id: sensor.ha_runtime_in_minutes
     above: 1
   action:
+  - service: lock.lock
+    entity_id: group.all_locks
+  - delay:
+      seconds: 1
   - service: light.turn_on
     entity_id: 
       - group.color_hue_lights
@@ -167,15 +171,11 @@
     data:
       brightness: 254
       rgb_color: [255,200,118]
-  - delay:
-      seconds: 1
   - service: cover.close_cover
     entity_id: cover.garage_door_opener
   - service: homeassistant.turn_off
     entity_id:
       - group.goodbye_lights_and_switches
-  - service: lock.lock
-    entity_id: group.all_locks
 #  - service: media_player.turn_off
 #    entity_id: media_player.living_room_tv
 #  - service: media_player.media_pause
@@ -237,11 +237,19 @@
     for:
       minutes: 1
   action:
+  - service: lock.lock
+    entity_id: group.all_locks
+  - delay:
+      seconds: 1
   - service: light.turn_on
     entity_id: group.color_hue_lights
     data:
       brightness: 254
       rgb_color: [255,200,118]
+  - service: cover.close_cover
+    entity_id: cover.garage_door_opener
+  - delay:
+      seconds: 1
   - service: homeassistant.turn_off
     entity_id:
       - group.good_night_lights
@@ -249,10 +257,6 @@
       - input_boolean.goodmorning_switch
   - service: switch.turn_on
     entity_id: switch.back_porch_light    
-  - service: lock.lock
-    entity_id: group.all_locks
-  - service: cover.close_cover
-    entity_id: cover.garage_door_opener
   - service: input_select.select_option
     data_template:
       entity_id: input_select.security_system
@@ -897,15 +901,6 @@
     entity_id: binary_sensor.doors_unlocked
     state: 'on'
   action:
-  - service: notify.pushbullet_notifications
-    data_template:
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
-      title: Doors left unlocked
-      message: >
-        {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
-        The following locks are still unlocked: {{ unlocked }}.  Attempting to lock again in 15 seconds.   If the lock attempt is succussful, you will not receive a follow up message.
   - service: lock.lock
     entity_id: group.all_locks
   - delay:
@@ -920,34 +915,8 @@
       - !secret tracys_secret_email
       title: Doors failed to Lock
       message: >
-          The following locks failed to lock: {{ unlocked }}.  Please lock using the app.
-
-- alias: Door alert follow up
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.doors_unlocked
-    to: 'off'
-  condition:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: input_select.security_system
-      state: 'Armed (Home)'
-          for:
-      minutes: 3
-    - condition: state
-      entity_id: input_select.security_system
-      state: 'Armed (Away)'
-          for:
-      minutes: 3
-  action:
-  - service: notify.pushbullet_notifications
-    data_template:
-      target:
-      - !secret pauls_secret_email
-      - !secret tracys_secret_email
-      title: Doors lock attempt two
-      message: The doors were successfully locked on the second attempt.  No Action is necessary
+        {% set unlocked = states | selectattr('entity_id', 'in', state_attr('group.all_locks','entity_id')) | selectattr('state','eq','unlocked') | map(attribute='name') | join(', ') %}
+          The following locks failed to lock: {{ unlocked }}.  This was the second attempt.  Please lock using the app.
 
 - alias: Zigbee Device Offline
   trigger:
@@ -2071,7 +2040,12 @@
       value: '{{ trigger.from_state.state }}'
   - service: notify.main_echos
     data_template:
-      message: "Paul left {{ states('input_text.commute_start_zone') }} at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
+      message: >-
+        {% if states('input_text.commute_start_zone') == 'CACI' %}
+          "Paul left khaki at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
+        {% else %}
+          "Paul left {{ states('input_text.commute_start_zone') }} at {{ as_timestamp (now()) | timestamp_custom('%-I %-M %p') }} and should be home in approximately {{ states('sensor.pauls_time_to_home') }} minutes."
+        {% endif %}
 
 - alias: Paul Travel Notice nearing Home
   trigger:
