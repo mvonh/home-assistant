@@ -582,9 +582,13 @@
   action:
   - service: scene.turn_on
     entity_id: scene.downstairs_nightlight
+  - service: automation.turn_off
+    entity_id: automation.motion_lighting_in_the_kitchen
   - wait_template: "{{ is_state('binary_sensor.motion_delay_living_room', 'off') }}"
   - service: scene.turn_on
     entity_id: scene.downstairs_all_off
+  - service: automation.turn_on
+    entity_id: automation.motion_lighting_in_the_kitchen
 
 - alias: Turn on Lava Lamps in FROG after TV turns On
   trigger:
